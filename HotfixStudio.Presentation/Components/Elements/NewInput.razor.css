@@ -1,0 +1,12 @@
+.input-component {
+    position: relative;
+    z-index: 1;
+}
+
+    .input-component.focus {
+        z-index: 4;
+    }
+
+    .input-component.hover {
+        z-index: 3;
+    }

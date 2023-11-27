@@ -1,0 +1,73 @@
+﻿@typeparam T
+
+<div class="base-input-component @GetStatusClassString()">
+    <div class="base-input-label" @onclick="(() => _input.Value.FocusAsync())">
+        @Label
+    </div>
+    <div class="base-input-container">
+        <input @ref="_input" @bind="Value" spellcheck="false" type="@(GetInputType())" tabindex="1" @onfocus="@OnFocus" @onblur="OnBlur" @oninput="OnInputInternal" />
+    </div>
+</div>
+
+
+
+@code {
+    [CascadingParameter]
+    public StackingContext? StackingContext { get; set; }
+
+    [Parameter]
+    public T Value { get; set; }
+
+    [Parameter]
+    public EventCallback<T> ValueChanged { get; set; }
+
+    [Parameter]
+    public string Label { get; set; } = "Label";
+
+    [Parameter]
+    public ElementStatus Status { get; set; } = ElementStatus.NONE;
+
+    [Parameter]
+    public EventCallback OnFocus { get; set; }
+
+    [Parameter]
+    public EventCallback OnBlur { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnInputChanged { get; set; }
+
+    int _onInputDelayInMs = 500;
+    Timer? _debounceTimer;
+    string _lastInputValue = "";
+    ElementReference? _input;
+
+    string GetInputType()
+    {
+        return typeof(T) == typeof(string) ? "text" : "number";
+    }
+
+    void OnInputInternal(ChangeEventArgs args)
+    {
+        var newValue = args.Value?.ToString() ?? "";
+        if (OnInputChanged.HasDelegate)
+        {
+            _debounceTimer?.Dispose();
+            _debounceTimer = new Timer(_ =>
+            {
+                if (newValue == _lastInputValue)
+                {
+                    InvokeAsync(() =>
+                    {
+                        OnInputChanged.InvokeAsync(newValue);
+                    });
+                }
+            }, null, _onInputDelayInMs, Timeout.Infinite);
+            _lastInputValue = newValue;
+        }
+    }
+
+    string GetStatusClassString()
+    {
+        return Status == ElementStatus.NONE ? "" : Status.ToString().ToLower();
+    }
+}

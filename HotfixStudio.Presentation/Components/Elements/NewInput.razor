@@ -1,0 +1,57 @@
+﻿@using HotfixStudio.Presentation.Components.BaseElements
+
+@typeparam T
+
+<div class="input-component @GetStatusClassString()" @onmouseenter="(() => isHovering = true)" @onmouseleave="(() => isHovering = false)">
+    <BaseInput T="T" Status="@GetStatusClass()" OnInputChanged="OnInputChanged" OnFocus="OnInputBaseFocus" OnBlur="OnInputBaseBlur" Label="@Label" />
+</div>
+
+
+
+@code {
+    [CascadingParameter]
+    public StackingContext? StackingContext { get; set; }
+
+    [Parameter]
+    public T Value { get; set; }
+
+    [Parameter]
+    public EventCallback<T> ValueChanged { get; set; }
+
+    [Parameter]
+    public string Label { get; set; } = "Label";
+
+    [Parameter]
+    public EventCallback<string> OnInputChanged { get; set; }
+
+    bool isHovering = false;
+    bool isFocused = false;
+
+    void OnInputBaseFocus()
+    {
+        isFocused = true;
+        StackingContext?.DisplayOverlay(EventCallback.Empty);
+    }
+
+    void OnInputBaseBlur()
+    {
+        isFocused = false;
+        StackingContext?.HideOverlay();
+    }
+
+    ElementStatus GetStatusClass()
+    {
+        if (isFocused)
+            return ElementStatus.FOCUS;
+        else if (isHovering)
+            return ElementStatus.HOVER;
+        else
+            return ElementStatus.NONE;
+    }
+
+    string GetStatusClassString()
+    {
+        var statusClass = GetStatusClass();
+        return statusClass == ElementStatus.NONE ? "" : statusClass.ToString().ToLower();
+    }
+}

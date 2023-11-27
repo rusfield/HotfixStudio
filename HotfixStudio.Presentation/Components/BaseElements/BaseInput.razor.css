@@ -1,0 +1,57 @@
+input {
+    width: 100%;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    background-color: transparent;
+    font-size: 1rem;
+    padding: 0px 6px;
+    text-overflow: ellipsis;
+    height: 28px;
+    border-radius: 4px;
+}
+
+.base-input-container {
+    border-radius: 4px;
+    border: 1px solid var(--component-color);
+    outline: 1px solid rgba(0, 0, 0, 0);
+    transition: ease 0.2s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+    background-color: transparent;
+}
+
+.base-input-label {
+    margin-left: 4px;
+    font-weight: bold;
+    font-size: 16px;
+    transition: ease 0.2s;
+    color: var(--component-color);
+    user-select: none;
+}
+
+.base-input-component {
+    --component-color: black;
+}
+
+    .base-input-component.focus {
+        --component-color: red;
+    }
+
+        .base-input-component.focus > .base-input-container {
+            background-color: white;
+            outline: 1px solid var(--component-color);
+            border: 1px solid var(--component-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .base-input-component.focus > .base-input-label {
+            pointer-events: none;
+        }
+
+    .base-input-component.hover {
+    }
+
+        .base-input-component.hover > .base-input-container {
+            outline: 1px solid var(--component-color);
+            background-color: white;
+        }
