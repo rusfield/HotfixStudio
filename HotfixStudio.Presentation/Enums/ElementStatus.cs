@@ -4,6 +4,7 @@
     {
         NONE,
         HOVER,
-        FOCUS
+        FOCUS,
+        LOADING
     }
 }

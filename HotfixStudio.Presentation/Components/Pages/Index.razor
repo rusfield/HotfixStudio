@@ -4,7 +4,7 @@
 
 <div class="index">
     <StackingContext>
-        <BaseSelect T="int" Multiselect="false" GetOptions="GetOptionsAsync" />
+        <BaseSelect @bind-Values="values" T="int" Multiselect="false" GetOptionsAsync="GetOptionsAsync" />
 
 
     </StackingContext>
@@ -13,16 +13,25 @@
 
 @code {
 
-    async Task<OptionResult<int>> GetOptionsAsync()
-    {
-        var result = new OptionResult<int>();
-        result.Options.Add(0, "Value 0");
-        result.Options.Add(1, "Value 1");
-        result.Options.Add(2, "Value 2");
-        result.Options.Add(3, "Value 3");
-        result.Options.Add(4, "Value 4");
+    List<int> values = new() { 1 };
 
-        result.TotalRows = 5;
+    async Task<OptionResult<int>> GetOptionsAsync(OptionSearch<int> optionSearch)
+    {
+        await Task.Delay(2000, optionSearch.CancellationToken);
+
+        var result = new OptionResult<int>();
+        result.Options.Add(0, "Banana");
+        result.Options.Add(1, "Apple");
+        result.Options.Add(2, "Orange Orange Orange OrangeOrange OrangeOrange Orange Orange OrangeOrange OrangeOrangeOrange");
+        result.Options.Add(3, "Mango");
+        result.Options.Add(4, "Pineapple");
+
+        if (!string.IsNullOrWhiteSpace(optionSearch.Search))
+        {
+            result.Options = result.Options.Where(v => v.Value.Contains(optionSearch.Search, StringComparison.OrdinalIgnoreCase)).ToDictionary<int, string>();
+        }
+
+        result.TotalRows = result.Options.Count;
         return result;
     }
 

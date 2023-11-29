@@ -40,7 +40,7 @@
     left: 0;
     right: 0;
     background-color: white;
-    cursor: pointer;
+    user-select: none;
 }
 
 .select-dropdown-message {
@@ -53,7 +53,11 @@
 }
 
 .select-dropdown-option {
-    padding: 4px;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
 }
 
     .select-dropdown-option:hover {
@@ -66,3 +70,17 @@
         .select-dropdown-option.selected:hover {
             background-color: lightcoral;
         }
+
+.select-dropdown-option-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+}
+
+.select-dropdown-option-value {
+    flex-grow: 1;
+    text-align: right;
+    padding-left: 12px;
+    font-weight: bold;
+}

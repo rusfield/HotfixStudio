@@ -4,7 +4,7 @@
 @typeparam T
 
 <div class="select-component @GetStatusClassString()" @onmouseenter="(() => isHovering = true)" @onmouseleave="(() => isHovering = false)">
-    <BaseInput @bind-Value="inputValue" T="string" OnFocus="OnInputBaseFocus" OnInputChanged="OnInputChanged" Status="GetStatusClass()" />
+    <BaseInput @bind-Value="inputValue" T="string" OnFocus="OnInputBaseFocusAsync" OnInputChanged="OnInputChangedAsync" Status="GetStatusClass()" />
     <div class="select-dropdown">
         @if (isLoading)
         {
@@ -12,13 +12,21 @@
                 Loading
             </div>
         }
-        else if (optionResults?.TotalRows > 0)
+        else if (optionResult?.TotalRows > 0)
         {
-            @foreach (var option in optionResults.Options)
+            @foreach (var option in optionResult.Options)
             {
                 string selectedClass = GetSelectedClass(option.Key);
                 <div class="select-dropdown-option @selectedClass" @onclick="(() => SelectValue(option))">
-                    @option.Value
+                    <div class="select-dropdown-option-label">
+                        @option.Value
+                    </div>
+                    @if (displayDbValue)
+                    {
+                        <div class="select-dropdown-option-value">
+                            @option.Key
+                        </div>
+                    }
                 </div>
             }
         }
@@ -36,16 +44,18 @@
     public StackingContext StackingContext { get; set; }
 
     [Parameter]
-    public List<T> Values { get; set; } = new();
+    public List<T> Values { get; set; }
 
     [Parameter]
     public EventCallback<List<T>> ValuesChanged { get; set; }
 
     [Parameter]
-    public Func<Task<OptionResult<T>>> GetOptions { get; set; } 
+    public Func<OptionSearch<T>, Task<OptionResult<T>>> GetOptionsAsync { get; set; }
 
     [Parameter]
     public bool Multiselect { get; set; }
+
+    bool displayDbValue = true;
 
     bool isFocused = false;
     bool isHovering = false;
@@ -53,30 +63,44 @@
     bool readyToOpen = false;
 
     bool isLoading = false;
-    OptionResult<T> optionResults;
+    int pageSize = 50;
+    CancellationTokenSource? searchTokenSource;
+    OptionSearch<T> optionSearch;
+    OptionResult<T> optionResult;
+
+    bool displayDbValueInInput = false;
+    bool isComponentLoading = true;
 
     string inputValue = "";
     string lastVerifiedInputValue = "";
 
-    async void OnInputBaseFocus()
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadComponentAsync();
+        await base.OnInitializedAsync();
+    }
+
+    async Task OnInputBaseFocusAsync()
     {
         if (!isFocused)
         {
             readyToOpen = false;
             isFocused = true;
             isLoading = true;
-            var optionsTask = GetOptions();
+            searchTokenSource = new();
+            optionSearch = new(Values, pageSize, searchTokenSource.Token);
+            var optionsTask = GetOptionsAsync(optionSearch);
             var delay = StackingContext.FocusContext(EventCallback.Factory.Create(this, Close), 200);
             await Task.Delay(delay);
             readyToOpen = true;
             if (optionsTask.IsCompleted)
             {
-                optionResults = optionsTask.Result;
+                optionResult = optionsTask.Result;
             }
             else
             {
                 this.StateHasChanged();
-                optionResults = await optionsTask;
+                optionResult = await optionsTask;
             }
             isLoading = false;
             this.StateHasChanged();
@@ -85,13 +109,37 @@
 
     void Close()
     {
+        searchTokenSource?.Cancel();
         isFocused = false;
         inputValue = lastVerifiedInputValue;
     }
 
-    void OnInputChanged(string input)
+    async Task OnInputChangedAsync(string input)
     {
+        isLoading = true;
+        searchTokenSource?.Cancel();
+        searchTokenSource = new();
+        var currentSearchToken = searchTokenSource.Token;
+        optionSearch.Search = input;
+        optionSearch.CancellationToken = currentSearchToken;
 
+        try
+        {
+            optionResult = await GetOptionsAsync(optionSearch);
+            if (!currentSearchToken.IsCancellationRequested)
+            {
+                isLoading = false;
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // Task cancelled
+        }
+        catch (Exception ex)
+        {
+            isLoading = false;
+            // TODO: Display error
+        }
     }
 
     string GetStatusClassString()
@@ -111,7 +159,9 @@
 
     ElementStatus GetStatusClass()
     {
-        if (isFocused)
+        if (isComponentLoading)
+            return ElementStatus.LOADING;
+        else if (isFocused)
             return ElementStatus.FOCUS;
         else if (isHovering)
             return ElementStatus.HOVER;
@@ -133,11 +183,11 @@
             {
                 Values.Add(value);
             }
-            SetInputTextOnBlur(option);
+            PrepareInputText(option);
         }
         else
         {
-            if(Values.FirstOrDefault()?.Equals(value) ?? false)
+            if (Values.Any() && Values.First().Equals(value))
             {
                 // No change
             }
@@ -146,20 +196,41 @@
                 Values.Clear();
                 Values.Add(value);
             }
-            SetInputTextOnBlur(option);
+            PrepareInputText(option);
             StackingContext.BlurContext();
         }
 
         ValuesChanged.InvokeAsync(Values);
     }
 
-    void SetInputTextOnBlur(KeyValuePair<T, string> option)
+    void PrepareInputText(KeyValuePair<T, string> option)
     {
         if (Values.Count == 0)
+        {
             lastVerifiedInputValue = "None";
+
+        }
         else if (Values.Count == 1)
-            lastVerifiedInputValue = option.Value;
+        {
+            lastVerifiedInputValue =  displayDbValueInInput ? option.Key.ToString() : option.Value;
+        }
         else
+        {
             lastVerifiedInputValue = $"{Values.Count} selected";
+        }
+    }
+
+    async Task LoadComponentAsync()
+    {
+        var tempKeyValuePair = new KeyValuePair<T, string>(default(T), "Temp");
+        if(Values.Count == 1)
+        {
+            var tempOptionSearch = new OptionSearch<T>(Values, 1, CancellationToken.None);
+            var tempOptionResult = await GetOptionsAsync(tempOptionSearch);
+            tempKeyValuePair = tempOptionResult.Options.First();
+        }
+        PrepareInputText(tempKeyValuePair);
+        inputValue = lastVerifiedInputValue;
+        isComponentLoading = false;
     }
 }
