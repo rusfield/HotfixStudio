@@ -30,13 +30,13 @@
     void OnInputBaseFocus()
     {
         isFocused = true;
-        StackingContext?.DisplayOverlay(EventCallback.Empty);
+        StackingContext?.FocusContext(EventCallback.Empty);
     }
 
     void OnInputBaseBlur()
     {
         isFocused = false;
-        StackingContext?.HideOverlay();
+        StackingContext?.BlurContext();
     }
 
     ElementStatus GetStatusClass()

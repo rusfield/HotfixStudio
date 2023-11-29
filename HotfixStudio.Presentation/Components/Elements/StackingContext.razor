@@ -10,50 +10,46 @@
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
-    EventCallback blurElementEventCallback;
-    int blurTimeMs = 0;
+    EventCallback currentBlurElementEventCallback;
+    int currentBlurTimeMs = 0;
 
-    bool overlayVisible = false;
+    bool contextFocused = false;
 
     string GetOverlayVisibilityClass()
     {
-        return overlayVisible ? "visible" : "invisible";
+        return contextFocused ? "visible" : "invisible";
     }
 
     void UnderlayClick()
     {
-        blurElementEventCallback.InvokeAsync();
-        blurElementEventCallback = EventCallback.Empty;
-        blurTimeMs = 0;
-        if (overlayVisible)
-        {
-            overlayVisible = false;
-            this.StateHasChanged();
-        }
+        BlurContext();
     }
 
-    public int DisplayOverlay(EventCallback blurElementEventCallback, int blurTimeMs = 0)
+    public int FocusContext(EventCallback blurElementEventCallback, int blurTimeMs = 0)
     {
-        if (!overlayVisible)
+        if (!contextFocused)
         {
-            overlayVisible = true;
+            contextFocused = true;
             this.StateHasChanged();
         }
         else
         {
-            this.blurElementEventCallback.InvokeAsync();
+            currentBlurElementEventCallback.InvokeAsync();
         }
-        this.blurElementEventCallback = blurElementEventCallback;
-        int oldUnfocusTimeMs = this.blurTimeMs;
-        this.blurTimeMs = blurTimeMs;
-        return oldUnfocusTimeMs;
+        currentBlurElementEventCallback = blurElementEventCallback;
+        int oldBlurTimeMs = this.currentBlurTimeMs;
+        currentBlurTimeMs = blurTimeMs;
+        return oldBlurTimeMs;
     }
 
-    public void HideOverlay()
+    public void BlurContext()
     {
-        if (overlayVisible)
+        currentBlurElementEventCallback.InvokeAsync();
+        currentBlurElementEventCallback = EventCallback.Empty;
+        currentBlurTimeMs = 0;
+        if (contextFocused)
         {
-            overlayVisible = false;
+            contextFocused = false;
             this.StateHasChanged();
         }
     }

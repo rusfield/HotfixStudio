@@ -40,4 +40,29 @@
     left: 0;
     right: 0;
     background-color: white;
+    cursor: pointer;
 }
+
+.select-dropdown-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.select-dropdown-option {
+    padding: 4px;
+}
+
+    .select-dropdown-option:hover {
+        background-color: lightblue;
+    }
+
+    .select-dropdown-option.selected {
+        background-color: coral;
+    }
+        .select-dropdown-option.selected:hover {
+            background-color: lightcoral;
+        }

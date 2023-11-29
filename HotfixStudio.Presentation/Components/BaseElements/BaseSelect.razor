@@ -1,0 +1,165 @@
+﻿@using HotfixStudio.Infrastructure.PresentationData
+@using HotfixStudio.Presentation.Components.BaseElements
+
+@typeparam T
+
+<div class="select-component @GetStatusClassString()" @onmouseenter="(() => isHovering = true)" @onmouseleave="(() => isHovering = false)">
+    <BaseInput @bind-Value="inputValue" T="string" OnFocus="OnInputBaseFocus" OnInputChanged="OnInputChanged" Status="GetStatusClass()" />
+    <div class="select-dropdown">
+        @if (isLoading)
+        {
+            <div class="select-dropdown-message">
+                Loading
+            </div>
+        }
+        else if (optionResults?.TotalRows > 0)
+        {
+            @foreach (var option in optionResults.Options)
+            {
+                string selectedClass = GetSelectedClass(option.Key);
+                <div class="select-dropdown-option @selectedClass" @onclick="(() => SelectValue(option))">
+                    @option.Value
+                </div>
+            }
+        }
+        else
+        {
+            <div class="select-dropdown-message">
+                Nothing to see here
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    public StackingContext StackingContext { get; set; }
+
+    [Parameter]
+    public List<T> Values { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<List<T>> ValuesChanged { get; set; }
+
+    [Parameter]
+    public Func<Task<OptionResult<T>>> GetOptions { get; set; } 
+
+    [Parameter]
+    public bool Multiselect { get; set; }
+
+    bool isFocused = false;
+    bool isHovering = false;
+
+    bool readyToOpen = false;
+
+    bool isLoading = false;
+    OptionResult<T> optionResults;
+
+    string inputValue = "";
+    string lastVerifiedInputValue = "";
+
+    async void OnInputBaseFocus()
+    {
+        if (!isFocused)
+        {
+            readyToOpen = false;
+            isFocused = true;
+            isLoading = true;
+            var optionsTask = GetOptions();
+            var delay = StackingContext.FocusContext(EventCallback.Factory.Create(this, Close), 200);
+            await Task.Delay(delay);
+            readyToOpen = true;
+            if (optionsTask.IsCompleted)
+            {
+                optionResults = optionsTask.Result;
+            }
+            else
+            {
+                this.StateHasChanged();
+                optionResults = await optionsTask;
+            }
+            isLoading = false;
+            this.StateHasChanged();
+        }
+    }
+
+    void Close()
+    {
+        isFocused = false;
+        inputValue = lastVerifiedInputValue;
+    }
+
+    void OnInputChanged(string input)
+    {
+
+    }
+
+    string GetStatusClassString()
+    {
+        if (readyToOpen)
+        {
+            var statusClass = GetStatusClass();
+            return statusClass == ElementStatus.NONE ? "" : statusClass.ToString().ToLower();
+        }
+        return "";
+    }
+
+    string GetSelectedClass(T value)
+    {
+        return Values.Contains(value) ? "selected" : "";
+    }
+
+    ElementStatus GetStatusClass()
+    {
+        if (isFocused)
+            return ElementStatus.FOCUS;
+        else if (isHovering)
+            return ElementStatus.HOVER;
+        else
+            return ElementStatus.NONE;
+    }
+
+    void SelectValue(KeyValuePair<T, string> option)
+    {
+        var value = option.Key;
+
+        if (Multiselect)
+        {
+            if (Values.Contains(value))
+            {
+                Values.Remove(value);
+            }
+            else
+            {
+                Values.Add(value);
+            }
+            SetInputTextOnBlur(option);
+        }
+        else
+        {
+            if(Values.FirstOrDefault()?.Equals(value) ?? false)
+            {
+                // No change
+            }
+            else
+            {
+                Values.Clear();
+                Values.Add(value);
+            }
+            SetInputTextOnBlur(option);
+            StackingContext.BlurContext();
+        }
+
+        ValuesChanged.InvokeAsync(Values);
+    }
+
+    void SetInputTextOnBlur(KeyValuePair<T, string> option)
+    {
+        if (Values.Count == 0)
+            lastVerifiedInputValue = "None";
+        else if (Values.Count == 1)
+            lastVerifiedInputValue = option.Value;
+        else
+            lastVerifiedInputValue = $"{Values.Count} selected";
+    }
+}

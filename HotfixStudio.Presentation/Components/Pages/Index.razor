@@ -1,17 +1,29 @@
 ﻿@page "/"
+@using HotfixStudio.Infrastructure.PresentationData
+@using HotfixStudio.Presentation.Components.BaseElements
 
 <div class="index">
     <StackingContext>
-        <NewInput T="string" Label="New Input"/>
-        <Select T="string" />
+        <BaseSelect T="int" Multiselect="false" GetOptions="GetOptionsAsync" />
 
-        <div style="display: flex; flex-direction: row">
-            <Select T="string" />
-        </div>
+
     </StackingContext>
 
 </div>
 
 @code {
+
+    async Task<OptionResult<int>> GetOptionsAsync()
+    {
+        var result = new OptionResult<int>();
+        result.Options.Add(0, "Value 0");
+        result.Options.Add(1, "Value 1");
+        result.Options.Add(2, "Value 2");
+        result.Options.Add(3, "Value 3");
+        result.Options.Add(4, "Value 4");
+
+        result.TotalRows = 5;
+        return result;
+    }
 
 }
