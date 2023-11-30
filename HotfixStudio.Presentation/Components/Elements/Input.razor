@@ -3,7 +3,7 @@
 @typeparam T
 
 <div class="input-component @GetStatusClassString()" @onmouseenter="(() => isHovering = true)" @onmouseleave="(() => isHovering = false)">
-    <BaseInput Value="Value" ValueChanged="ValueChanged" T="T" Status="@GetStatusClass()" OnInputChanged="OnInputChanged" OnFocus="OnInputBaseFocus" OnBlur="OnInputBaseBlur" Label="@Label" />
+    <BaseInput Value="Value" ValueChanged="ValueChanged" T="T" Status="@GetStatusClass()" OnInputChanged="OnInputChanged" OnFocus="OnInputBaseFocus" Label="@Label" />
 </div>
 
 
@@ -29,14 +29,16 @@
 
     void OnInputBaseFocus()
     {
-        isFocused = true;
-        StackingContext?.FocusContext(EventCallback.Empty);
+        if (!isFocused)
+        {
+            isFocused = true;
+            StackingContext?.FocusContext(EventCallback.Factory.Create(this, BlurInput));
+        }
     }
 
-    void OnInputBaseBlur()
+    void BlurInput()
     {
         isFocused = false;
-        StackingContext?.BlurContext();
     }
 
     ElementStatus GetStatusClass()

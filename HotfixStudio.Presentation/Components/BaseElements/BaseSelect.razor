@@ -182,6 +182,7 @@
         catch (Exception ex)
         {
             isLoading = false;
+            this.StateHasChanged();
             // TODO: Display error
         }
     }
@@ -304,13 +305,22 @@
         {
             if (_useDbValueAsText)
             {
-                tempKeyValuePair = new KeyValuePair<T, string>(default(T), Values.First().ToString());
+                tempKeyValuePair = new (default(T), Values.First().ToString());
             }
             else
             {
                 var tempOptionSearch = new OptionSearch<T>(Values, 1, CancellationToken.None);
                 var tempOptionResult = await GetOptionsAsync(tempOptionSearch);
-                tempKeyValuePair = tempOptionResult.Options.First();
+                if (tempOptionResult.Options.Any())
+                {
+                    tempKeyValuePair = tempOptionResult.Options.First();
+                }
+                else
+                {
+                    // This is an error in backend
+                    // TODO: Display error to user
+                    tempKeyValuePair = new(Values.First(), $"Error {Values.First()}");
+                }
             }
 
         }
