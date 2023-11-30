@@ -4,29 +4,34 @@
 
 <div class="index">
     <StackingContext>
-        <BaseSelect @bind-Values="values" T="int" Multiselect="false" GetOptionsAsync="GetOptionsAsync" />
-
-
+        <Input @bind-Value="val" T="uint" Label="Text" />
+        <SingleSelect @bind-Value="value" T="int" Label="Single" GetOptionsAsync="GetOptionsAsync" />
+        <MultiSelect @bind-Value="values" T="int" Label="Multi" GetOptionsAsync="GetOptionsAsync" />
     </StackingContext>
 
 </div>
 
 @code {
-
-    List<int> values = new() { 1 };
+    uint val = 2;
+    int values = 33;
+    int value = 1;
 
     async Task<OptionResult<int>> GetOptionsAsync(OptionSearch<int> optionSearch)
     {
-        await Task.Delay(2000, optionSearch.CancellationToken);
+        await Task.Delay(1500, optionSearch.CancellationToken);
 
         var result = new OptionResult<int>();
-        result.Options.Add(0, "Banana");
         result.Options.Add(1, "Apple");
         result.Options.Add(2, "Orange Orange Orange OrangeOrange OrangeOrange Orange Orange OrangeOrange OrangeOrangeOrange");
-        result.Options.Add(3, "Mango");
-        result.Options.Add(4, "Pineapple");
+        result.Options.Add(4, "Mango");
+        result.Options.Add(8, "Pineapple");
+        result.Options.Add(16, "Banana");
 
-        if (!string.IsNullOrWhiteSpace(optionSearch.Search))
+        if(optionSearch.PageSize == 1)
+        {
+            result.Options = result.Options.Where(o => o.Key == optionSearch.SelectedValues.First()).ToDictionary<int, string>();
+        }
+        else if (!string.IsNullOrWhiteSpace(optionSearch.Search))
         {
             result.Options = result.Options.Where(v => v.Value.Contains(optionSearch.Search, StringComparison.OrdinalIgnoreCase)).ToDictionary<int, string>();
         }

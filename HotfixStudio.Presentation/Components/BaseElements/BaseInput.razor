@@ -1,4 +1,6 @@
-﻿@typeparam T
+﻿@using HotfixStudio.Infrastructure.Extensions
+
+@typeparam T
 
 <div class="base-input-component @GetStatusClassString()">
     <div class="base-input-label" @onclick="FocusInput">
@@ -13,7 +15,7 @@
         }
         else
         {
-            <input @ref="input" @bind="Value" spellcheck="false" type="@(GetInputType())" tabindex="1" @onfocus="@OnFocus" @onblur="OnBlur" @oninput="OnInputInternal" />
+            <input @ref="input" @bind="inputValue" spellcheck="false" type="@(GetInputType())" tabindex="1" @onfocus="@OnFocusInternal" @onblur="OnBlurInternal" @oninput="OnInputInternal" />
         }
     </div>
 </div>
@@ -45,10 +47,30 @@
     [Parameter]
     public EventCallback<string> OnInputChanged { get; set; }
 
-    int onInputDebounceTime = 200;
+    [Parameter]
+    public int InputDebounceTimeMs { get; set; } = 200;
+
     Timer? debounceTimer;
-    string lastInputValue = "";
+    string inputValue = "";
+    T lastVerifiedValue;
     ElementReference? input;
+
+    protected override void OnInitialized()
+    {
+        inputValue = Value.ToString();
+        lastVerifiedValue = Value;
+        base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (!Value.Equals(lastVerifiedValue))
+        {
+            lastVerifiedValue = Value;
+            inputValue = Value.ToString();
+        }
+        base.OnParametersSet();
+    }
 
     string GetInputType()
     {
@@ -57,22 +79,28 @@
 
     void OnInputInternal(ChangeEventArgs args)
     {
-        var newValue = args.Value?.ToString() ?? "";
         if (OnInputChanged.HasDelegate)
         {
             debounceTimer?.Dispose();
             debounceTimer = new Timer(_ =>
             {
-                if (newValue == lastInputValue)
+                InvokeAsync(() =>
                 {
-                    InvokeAsync(() =>
-                    {
-                        OnInputChanged.InvokeAsync(newValue);
-                    });
-                }
-            }, null, onInputDebounceTime, Timeout.Infinite);
-            lastInputValue = newValue;
+                    OnInputChanged.InvokeAsync(args.Value?.ToString() ?? "");
+                });
+            }, null, InputDebounceTimeMs, Timeout.Infinite);
         }
+    }
+
+    void OnFocusInternal()
+    {
+        OnFocus.InvokeAsync();
+    }
+
+    void OnBlurInternal()
+    {
+        SetValue();
+        OnBlur.InvokeAsync();
     }
 
     string GetStatusClassString()
@@ -84,5 +112,23 @@
     {
         if (input != null)
             input.Value.FocusAsync();
+    }
+
+    void SetValue()
+    {
+        InvokeAsync(() =>
+        {
+            if (typeof(T).TryParseAs<T>(inputValue, out var genericValue))
+            {
+                Value = genericValue;
+                lastVerifiedValue = Value;
+            }
+            else
+            {
+                Value = lastVerifiedValue;
+            }
+            ValueChanged.InvokeAsync(Value);
+            inputValue = Value.ToString();
+        });
     }
 }

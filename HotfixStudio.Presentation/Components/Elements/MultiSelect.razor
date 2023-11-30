@@ -1,0 +1,48 @@
+﻿@using HotfixStudio.Infrastructure.PresentationData
+@using HotfixStudio.Infrastructure.Extensions
+@using HotfixStudio.Presentation.Components.BaseElements
+@typeparam T
+
+<div class="multi-select-component">
+    <BaseSelect T="T" Values="baseValues" ValuesChanged="BaseValuesChanged" DbValueAsString="@dbValueAsString" Multiselect="true" GetOptionsAsync="GetOptionsAsync" Label="@Label" />
+</div>
+
+@code {
+    [Parameter]
+    public T Value { get; set; }
+
+    [Parameter]
+    public EventCallback<T> ValueChanged { get; set; }
+
+    [Parameter]
+    public Func<OptionSearch<T>, Task<OptionResult<T>>> GetOptionsAsync { get; set; }
+
+    [Parameter]
+    public string? Label { get; set; }
+
+    [Parameter]
+    public MultiSelectType Type { get; set; } = MultiSelectType.FLAG;
+
+    List<T> baseValues = new();
+    string dbValueAsString = "0";
+
+    protected override void OnInitialized()
+    {
+        if (Type == MultiSelectType.FLAG)
+            baseValues.GetFlagsByValue(Value);
+
+        dbValueAsString = Value.ToString();
+        base.OnInitialized();
+    }
+
+    void BaseValuesChanged(List<T> newValues)
+    {
+        if (Type == MultiSelectType.FLAG)
+        {
+            Value = newValues.GetValueByFlags();
+        }
+
+        dbValueAsString = Value.ToString();
+        ValueChanged.InvokeAsync(Value);
+    }
+}

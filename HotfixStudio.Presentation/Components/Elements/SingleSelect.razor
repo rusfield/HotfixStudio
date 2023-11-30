@@ -1,0 +1,38 @@
+﻿@using HotfixStudio.Infrastructure.PresentationData
+@using HotfixStudio.Presentation.Components.BaseElements
+@typeparam T
+
+<div class="single-select-component">
+    <BaseSelect T="T" Values="baseValues" ValuesChanged="BaseValuesChanged" DbValueAsString="@dbValueAsString" Multiselect="false" GetOptionsAsync="GetOptionsAsync" Label="@Label" />
+</div>
+
+@code {
+    [Parameter]
+    public T Value { get; set; }
+
+    [Parameter]
+    public EventCallback<T> ValueChanged { get; set; }
+
+    [Parameter]
+    public Func<OptionSearch<T>, Task<OptionResult<T>>> GetOptionsAsync { get; set; }
+
+    [Parameter]
+    public string? Label { get; set; }
+
+    List<T> baseValues = new();
+    string dbValueAsString = "";
+
+    protected override void OnInitialized()
+    {
+        dbValueAsString = Value.ToString();
+        baseValues.Add(Value);
+        base.OnInitialized();
+    }
+
+    void BaseValuesChanged(List<T> newValues)
+    {
+        Value = newValues.FirstOrDefault();
+        dbValueAsString = Value.ToString();
+        ValueChanged.InvokeAsync(Value);
+    }
+}

@@ -3,7 +3,7 @@
 @typeparam T
 
 <div class="input-component @GetStatusClassString()" @onmouseenter="(() => isHovering = true)" @onmouseleave="(() => isHovering = false)">
-    <BaseInput T="T" Status="@GetStatusClass()" OnInputChanged="OnInputChanged" OnFocus="OnInputBaseFocus" OnBlur="OnInputBaseBlur" Label="@Label" />
+    <BaseInput Value="Value" ValueChanged="ValueChanged" T="T" Status="@GetStatusClass()" OnInputChanged="OnInputChanged" OnFocus="OnInputBaseFocus" OnBlur="OnInputBaseBlur" Label="@Label" />
 </div>
 
 

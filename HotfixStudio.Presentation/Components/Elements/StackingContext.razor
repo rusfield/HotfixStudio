@@ -1,6 +1,9 @@
 ﻿<div class="stacking-context-component">
+    <button style="position:relative;z-index:5;" @onclick="ToggleUseDbValueAsText">Swap DB Value @(useDbValueAsText ? "(true)" : "(false)")</button>
     <CascadingValue Value="@this">
-        @ChildContent
+        <CascadingValue Name="UseDbValueAsText" Value="@useDbValueAsText">
+            @ChildContent
+        </CascadingValue>
     </CascadingValue>
     <div class="overlay @GetOverlayVisibilityClass()" />
     <div class="underlay" @onclick="@UnderlayClick" />
@@ -14,6 +17,7 @@
     int currentBlurTimeMs = 0;
 
     bool contextFocused = false;
+    bool useDbValueAsText = true;
 
     string GetOverlayVisibilityClass()
     {
@@ -23,6 +27,12 @@
     void UnderlayClick()
     {
         BlurContext();
+    }
+
+    void ToggleUseDbValueAsText()
+    {
+        useDbValueAsText = !useDbValueAsText;
+        this.StateHasChanged();
     }
 
     public int FocusContext(EventCallback blurElementEventCallback, int blurTimeMs = 0)
