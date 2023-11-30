@@ -3,11 +3,24 @@
 @using HotfixStudio.Presentation.Components.BaseElements
 
 <div class="index">
-    <StackingContext>
-        <Input @bind-Value="val" T="uint" Label="Text" />
-        <SingleSelect @bind-Value="value" T="int" Label="Single" GetOptionsAsync="GetOptionsAsync" />
-        <MultiSelect @bind-Value="values" T="int" Label="Multi" GetOptionsAsync="GetOptionsAsync" />
-    </StackingContext>
+    <Grid>
+        <Logo>
+            Logo
+        </Logo>
+        <Tabs>
+            <MainTabs />
+        </Tabs>
+        <Menu>
+            <MainMenu />
+        </Menu>
+        <Content>
+            <StackingContext>
+                <Input @bind-Value="val" T="uint" Label="Text" />
+                <SingleSelect @bind-Value="value" T="int" Label="Single" GetOptionsAsync="GetOptionsAsync" />
+                <MultiSelect @bind-Value="values" T="int" Label="Multi" GetOptionsAsync="GetOptionsAsync" />
+            </StackingContext>
+        </Content>
+    </Grid>
 
 </div>
 
@@ -27,7 +40,7 @@
         result.Options.Add(8, "Pineapple");
         result.Options.Add(16, "Banana");
 
-        if(optionSearch.PageSize == 1)
+        if (optionSearch.PageSize == 1)
         {
             result.Options = result.Options.Where(o => o.Key == optionSearch.SelectedValues.First()).ToDictionary<int, string>();
         }

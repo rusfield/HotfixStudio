@@ -1,5 +1,5 @@
-.main-tabs-header {
-    height: 20px;
+.main-tabs-component {
     width: 100%;
-    background-color: #CDDEEA;
+    height: 100%;
+    background-color: orange;
 }

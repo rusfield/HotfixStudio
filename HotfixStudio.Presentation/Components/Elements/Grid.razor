@@ -1,0 +1,67 @@
+﻿<div class="grid-component">
+    <div class="grid-header" style="@($"height:{height}px;")">
+        <div class="grid-logo" style="@($"width:{width}px;")">
+            @Logo
+        </div>
+        <div class="grid-tabs">
+            @Tabs
+        </div>
+    </div>
+    <div class="grid-body" style="@($"width:{width}px;")">
+        <div class="grid-menu" style="@($"width:{width}px;")">
+            @Menu
+        </div>
+        <div class="grid-content">
+            @Content
+        </div>
+    </div>
+    <div class="grid-horizontal-bar" style="@($"top:{height - 10}px;left:{width - 10}px;")" @onmousedown="(() => enableResizeHeight = true)" />
+    <div class="grid-vertical-bar" style="@($"left:{width - 10}px;")" @onmousedown="(() => enableResizeWidth = true)" />
+
+    @if (enableResizeHeight || enableResizeWidth)
+    {
+        <div class="grid-resize-overlay @GetCursorClass()" @onmousemove="OnMouseMove" @onmouseup="DisableResize" />
+    }
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment Logo { get; set; }
+
+    [Parameter]
+    public RenderFragment Tabs { get; set; }
+
+    [Parameter]
+    public RenderFragment Menu { get; set; }
+
+    [Parameter]
+    public RenderFragment Content { get; set; }
+
+    double height = 100;
+    double width = 100;
+    bool enableResizeHeight = false;
+    bool enableResizeWidth = false;
+
+    void OnMouseMove(MouseEventArgs e)
+    {
+        if (enableResizeHeight)
+            height = Math.Clamp(e.ClientY, 50, 250);
+        if (enableResizeWidth)
+            width = Math.Clamp(e.ClientX, 100, 500);
+    }
+
+    void DisableResize()
+    {
+        enableResizeHeight = false;
+        enableResizeWidth = false;
+    }
+
+    string GetCursorClass()
+    {
+        if (enableResizeHeight)
+            return "height";
+        else if (enableResizeWidth)
+            return "width";
+        return "";
+    }
+}
