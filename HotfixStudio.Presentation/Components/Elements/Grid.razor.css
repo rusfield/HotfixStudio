@@ -17,7 +17,6 @@
 
 .grid-footer {
     background-color: var(--color-background-light);
-    height: 30px;
 }
 
 .grid-tabs {
@@ -78,12 +77,22 @@
         background-color: var(--color-text);
     }
 
-.grid-horizontal-bar {
+.grid-top-bar {
     height: 4px;
     background-color: transparent;
     cursor: ns-resize;
 }
 
-    .grid-horizontal-bar.resizing {
+    .grid-top-bar.resizing {
+        background-color: var(--color-text);
+    }
+
+.grid-bottom-bar {
+    height: 4px;
+    background-color: transparent;
+    cursor: ns-resize;
+}
+
+    .grid-bottom-bar.resizing {
         background-color: var(--color-text);
     }

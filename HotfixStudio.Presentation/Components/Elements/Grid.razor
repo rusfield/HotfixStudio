@@ -12,20 +12,21 @@
             @Menu
         </div>
         <div class="grid-content">
-            <div class="grid-horizontal-bar @GetResizingClass(0)" @onmousedown="(() => enableResizeHeight = true)" />
+            <div class="grid-top-bar @GetResizingClass(0)" @onmousedown="(() => enableResizeTop = true)" />
             <div class="grid-content-row">
                 <div class="grid-vertical-bar @GetResizingClass(1)" @onmousedown="(() => enableResizeWidth = true)" />
                 <div class="grid-content-page">
                     @Content
                 </div>
             </div>
+            <div class="grid-bottom-bar @GetResizingClass(2)" @onmousedown="@(ResizeBottom)" />
         </div>
     </div>
-    <div class="grid-footer">
+    <div class="grid-footer" style="@($"height:{bottomHeight}px;")">
 
     </div>
 
-    @if (enableResizeHeight || enableResizeWidth)
+    @if (enableResizeTop || enableResizeWidth || enableResizeBottom)
     {
         <div class="grid-resize-overlay @GetCursorClass()" @onmousemove="OnMouseMove" @onmouseup="DisableResize" @onmouseout="DisableResize" />
     }
@@ -46,26 +47,35 @@
 
     double height = 40;
     double width = 160;
-    bool enableResizeHeight = false;
+    double bottomHeight = 30;
+    double bottomStart = 0;
+    double approxHeight = 0;
+    bool enableResizeTop = false;
     bool enableResizeWidth = false;
+    bool enableResizeBottom = false;
 
     void OnMouseMove(MouseEventArgs e)
     {
-        if (enableResizeHeight)
+        if (enableResizeTop)
             height = Math.Clamp(e.ClientY, 30, 200);
-        if (enableResizeWidth)
+        else if (enableResizeWidth)
             width = Math.Clamp(e.ClientX, 30, 400);
+        else if (enableResizeBottom)
+        {
+            bottomHeight = Math.Clamp(approxHeight - e.ClientY, 30, 100);
+        }
     }
 
     void DisableResize()
     {
-        enableResizeHeight = false;
+        enableResizeTop = false;
         enableResizeWidth = false;
+        enableResizeBottom = false;
     }
 
     string GetCursorClass()
     {
-        if (enableResizeHeight)
+        if (enableResizeTop)
             return "height";
         else if (enableResizeWidth)
             return "width";
@@ -74,6 +84,13 @@
 
     string GetResizingClass(int type)
     {
-        return (type == 0 && enableResizeHeight) || (type == 1 && enableResizeWidth) ? "resizing" : "";
+        return (type == 0 && enableResizeTop) || (type == 1 && enableResizeWidth) || (type == 2 && enableResizeBottom) ? "resizing" : "";
+    }
+
+    void ResizeBottom(MouseEventArgs e)
+    {
+        enableResizeBottom = true;
+        bottomStart = e.ClientY;
+        approxHeight = bottomStart + bottomHeight;
     }
 }
