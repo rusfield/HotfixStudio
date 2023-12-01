@@ -15,23 +15,28 @@
     flex-grow: 1;
 }
 
-.grid-logo,
-.grid-menu,
-.grid-tabs,
-.grid-content {
-    display: flex;
-}
-
-.grid-logo,
-.grid-menu {
-    flex-shrink: 0;
-}
-
-.grid-menu,
-.grid-content {
+.grid-tabs {
     flex-grow: 1;
 }
 
+.grid-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.grid-content-row {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.grid-content-page {
+    flex-grow: 1;
+    position: relative;
+    display: flex;
+    padding: 0px 4px 4px 0px;
+}
 
 .grid-resize-overlay {
     position: absolute;
@@ -52,17 +57,13 @@
     }
 
 .grid-vertical-bar {
-    height: 100%;
-    width: 10px;
-    position: absolute;
-    background-color: black;
+    width: 4px;
+    background-color: transparent;
     cursor: ew-resize;
 }
 
 .grid-horizontal-bar {
-    width: 100%;
-    height: 10px;
-    position: absolute;
-    background-color: white;
+    height: 4px;
+    background-color: transparent;
     cursor: ns-resize;
 }

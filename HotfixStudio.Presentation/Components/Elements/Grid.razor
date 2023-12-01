@@ -1,26 +1,30 @@
 ﻿<div class="grid-component">
-    <div class="grid-header" style="@($"height:{height}px;")">
-        <div class="grid-logo" style="@($"width:{width}px;")">
+    <div class="grid-header">
+        <div class="grid-logo" style="@($"width:{width}px;height:{height}px;")">
             @Logo
         </div>
         <div class="grid-tabs">
             @Tabs
         </div>
     </div>
-    <div class="grid-body" style="@($"width:{width}px;")">
+    <div class="grid-body">
         <div class="grid-menu" style="@($"width:{width}px;")">
             @Menu
         </div>
         <div class="grid-content">
-            @Content
+            <div class="grid-horizontal-bar" @onmousedown="(() => enableResizeHeight = true)" />
+            <div class="grid-content-row">
+                <div class="grid-vertical-bar" @onmousedown="(() => enableResizeWidth = true)" />
+                <div class="grid-content-page">
+                    @Content
+                </div>
+            </div>
         </div>
     </div>
-    <div class="grid-horizontal-bar" style="@($"top:{height - 10}px;left:{width - 10}px;")" @onmousedown="(() => enableResizeHeight = true)" />
-    <div class="grid-vertical-bar" style="@($"left:{width - 10}px;")" @onmousedown="(() => enableResizeWidth = true)" />
 
     @if (enableResizeHeight || enableResizeWidth)
     {
-        <div class="grid-resize-overlay @GetCursorClass()" @onmousemove="OnMouseMove" @onmouseup="DisableResize" />
+        <div class="grid-resize-overlay @GetCursorClass()" @onmousemove="OnMouseMove" @onmouseup="DisableResize" @onmouseout="DisableResize" />
     }
 </div>
 
