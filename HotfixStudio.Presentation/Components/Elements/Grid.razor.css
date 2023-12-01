@@ -68,31 +68,36 @@
     }
 
 .grid-vertical-bar {
-    width: 4px;
+    width: 6px;
     background-color: transparent;
-    cursor: ew-resize;
 }
 
     .grid-vertical-bar.resizing {
         background-color: var(--color-text);
     }
 
-.grid-top-bar {
-    height: 4px;
+    .grid-vertical-bar::before {
+        content: '';
+        cursor: ew-resize;
+        width: 4px;
+        display: block;
+        margin-left: 1px;
+        height: 100%;
+    }
+
+.grid-horizontal-bar {
+    height: 6px;
     background-color: transparent;
-    cursor: ns-resize;
 }
 
-    .grid-top-bar.resizing {
+    .grid-horizontal-bar.resizing {
         background-color: var(--color-text);
     }
 
-.grid-bottom-bar {
-    height: 4px;
-    background-color: transparent;
-    cursor: ns-resize;
-}
-
-    .grid-bottom-bar.resizing {
-        background-color: var(--color-text);
+    .grid-horizontal-bar::before {
+        content: '';
+        cursor: ns-resize;
+        height: 4px;
+        display:block;
+        margin-top: 1px;
     }

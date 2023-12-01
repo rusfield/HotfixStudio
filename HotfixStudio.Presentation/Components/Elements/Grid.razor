@@ -12,14 +12,14 @@
             @Menu
         </div>
         <div class="grid-content">
-            <div class="grid-top-bar @GetResizingClass(0)" @onmousedown="(() => enableResizeTop = true)" />
+            <div class="grid-horizontal-bar @GetResizingClass(0)" @onmousedown="(() => enableResizeTop = true)" />
             <div class="grid-content-row">
                 <div class="grid-vertical-bar @GetResizingClass(1)" @onmousedown="(() => enableResizeWidth = true)" />
                 <div class="grid-content-page">
                     @Content
                 </div>
             </div>
-            <div class="grid-bottom-bar @GetResizingClass(2)" @onmousedown="@(ResizeBottom)" />
+            <div class="grid-horizontal-bar @GetResizingClass(2)" @onmousedown="@(ResizeBottom)" />
         </div>
     </div>
     <div class="grid-footer" style="@($"height:{bottomHeight}px;")">
