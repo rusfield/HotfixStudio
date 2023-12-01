@@ -104,6 +104,7 @@
         if (_useDbValueAsText != UseDbValueAsText)
         {
             _useDbValueAsText = UseDbValueAsText;
+            userHasTyped = false;
             await InitInputTextAsync();
         }
         await base.OnParametersSetAsync();

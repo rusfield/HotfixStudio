@@ -12,14 +12,17 @@
             @Menu
         </div>
         <div class="grid-content">
-            <div class="grid-horizontal-bar" @onmousedown="(() => enableResizeHeight = true)" />
+            <div class="grid-horizontal-bar @GetResizingClass(0)" @onmousedown="(() => enableResizeHeight = true)" />
             <div class="grid-content-row">
-                <div class="grid-vertical-bar" @onmousedown="(() => enableResizeWidth = true)" />
+                <div class="grid-vertical-bar @GetResizingClass(1)" @onmousedown="(() => enableResizeWidth = true)" />
                 <div class="grid-content-page">
                     @Content
                 </div>
             </div>
         </div>
+    </div>
+    <div class="grid-footer">
+
     </div>
 
     @if (enableResizeHeight || enableResizeWidth)
@@ -41,17 +44,17 @@
     [Parameter]
     public RenderFragment Content { get; set; }
 
-    double height = 100;
-    double width = 100;
+    double height = 40;
+    double width = 160;
     bool enableResizeHeight = false;
     bool enableResizeWidth = false;
 
     void OnMouseMove(MouseEventArgs e)
     {
         if (enableResizeHeight)
-            height = Math.Clamp(e.ClientY, 50, 250);
+            height = Math.Clamp(e.ClientY, 30, 200);
         if (enableResizeWidth)
-            width = Math.Clamp(e.ClientX, 100, 500);
+            width = Math.Clamp(e.ClientX, 30, 400);
     }
 
     void DisableResize()
@@ -67,5 +70,10 @@
         else if (enableResizeWidth)
             return "width";
         return "";
+    }
+
+    string GetResizingClass(int type)
+    {
+        return (type == 0 && enableResizeHeight) || (type == 1 && enableResizeWidth) ? "resizing" : "";
     }
 }

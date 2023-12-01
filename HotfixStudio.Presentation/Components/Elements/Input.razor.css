@@ -1,12 +1,15 @@
 .input-component {
     position: relative;
     z-index: 1;
+    transition: z-index 0s linear 0.2s;
 }
 
     .input-component.focus {
         z-index: 4;
+        transition-delay: 0s;
     }
 
     .input-component.hover {
         z-index: 3;
+        transition-delay: 0s;
     }

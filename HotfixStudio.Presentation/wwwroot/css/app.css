@@ -1,6 +1,10 @@
-﻿html, body, .app {
+﻿@import url("themes/wotlk.css");
+
+html, body, .app {
     margin: 0;
     padding: 0;
     font-family: 'Open Sans', sans-serif;
     overflow:hidden;
+    background-color: var(--color-background-dark);
+    color: var(--color-text);
 }

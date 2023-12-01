@@ -2,7 +2,6 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    --component-color: red;
     position: relative;
     z-index: 1;
     transition: z-index 0s linear 0.2s;
@@ -20,8 +19,8 @@
 
         .base-select-component.focus > .base-select-dropdown {
             height: 250px;
-            outline: 1px solid var(--component-color);
-            border: 1px solid var(--component-color);
+            outline: 1px solid var(--color-primary);
+            border: 1px solid var(--color-primary);
         }
 
 .base-select-dropdown {
@@ -38,7 +37,7 @@
     top: 100%;
     left: 0;
     right: 0;
-    background-color: white;
+    background-color: var(--color-background);
     user-select: none;
 }
 
@@ -60,14 +59,14 @@
 }
 
     .base-select-dropdown-option:hover {
-        background-color: lightblue;
+        background-color: var(--color-background-light);
     }
 
     .base-select-dropdown-option.selected {
-        background-color: coral;
+        background-color: var(--color-primary);
     }
         .base-select-dropdown-option.selected:hover {
-            background-color: lightcoral;
+            background-color: var(--color-primary-light);
         }
 
 .base-select-dropdown-option-label {
