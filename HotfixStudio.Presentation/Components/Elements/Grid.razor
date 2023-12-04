@@ -3,27 +3,31 @@
         <div class="grid-logo" style="@($"width:{width}px;height:{height}px;")">
             @Logo
         </div>
-        <div class="grid-tabs">
-            @Tabs
+        <div class="grid-tabs-wrapper">
+            <div class="grid-tabs">
+                @Tabs
+            </div>
+            <div class="grid-horizontal-bar @GetResizingClass(0)" @onmousedown="(() => enableResizeTop = true)" />
         </div>
     </div>
     <div class="grid-body">
-        <div class="grid-menu" style="@($"width:{width}px;")">
-            @Menu
+        <div class="grid-menu-wrapper">
+            <div class="grid-menu" style="@($"width:{width}px;")">
+                @Menu
+            </div>
+            <div class="grid-vertical-bar @GetResizingClass(1)" @onmousedown="(() => enableResizeWidth = true)" />
         </div>
+
         <div class="grid-content">
-            <div class="grid-horizontal-bar @GetResizingClass(0)" @onmousedown="(() => enableResizeTop = true)" />
             <div class="grid-content-row">
-                <div class="grid-vertical-bar @GetResizingClass(1)" @onmousedown="(() => enableResizeWidth = true)" />
                 <div class="grid-content-page">
                     @Content
                 </div>
             </div>
-            <div class="grid-horizontal-bar @GetResizingClass(2)" @onmousedown="@(ResizeBottom)" />
         </div>
     </div>
     <div class="grid-footer" style="@($"height:{bottomHeight}px;")">
-
+        <div class="grid-horizontal-bar @GetResizingClass(2)" @onmousedown="@(ResizeBottom)" />
     </div>
 
     @if (enableResizeTop || enableResizeWidth || enableResizeBottom)
