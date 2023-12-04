@@ -1,0 +1,60 @@
+.base-drag-bar-component {
+    position: absolute;
+}
+
+    .base-drag-bar-component.horizontal-top {
+        height: 6px;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .base-drag-bar-component.horizontal-bottom {
+        height: 6px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .base-drag-bar-component.vertical-right {
+        width: 6px;
+        right: 0;
+    }
+
+    .base-drag-bar-component.vertical-left {
+        width: 6px;
+        left: 0;
+    }
+
+    .base-drag-bar-component.resizing {
+        background-color: var(--color-text);
+    }
+
+    .base-drag-bar-component::before {
+        content: '';
+        cursor: ns-resize;
+        height: 4px;
+        display: block;
+        margin-top: 1px;
+    }
+
+.base-drag-bar-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 15;
+    opacity: 0.1;
+    background-size: 10px 10px;
+    background-image: linear-gradient(to right, var(--color-text) 1px, transparent 1px), linear-gradient(to bottom, var(--color-text) 1px, transparent 1px);
+}
+
+    .base-drag-bar-overlay.width {
+        cursor: ew-resize;
+    }
+
+    .base-drag-bar-overlay.height {
+        cursor: ns-resize;
+    }
+

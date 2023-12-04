@@ -5,7 +5,7 @@
 
 <div class="base-select-component @GetStatusClassString()" @onmouseenter="(() => isHovering = true)" @onmouseleave="(() => isHovering = false)">
     <BaseInput @bind-Value="inputValue" T="string" OnFocus="OnInputBaseFocusAsync" OnInputChanged="OnInputChangedAsync" Status="GetStatusClass()" Label="@Label" />
-    <div class="base-select-dropdown">
+    <div class="base-select-dropdown" style="@GetDynamicStyle()">
         @if (isLoading)
         {
             <div class="base-select-dropdown-message">
@@ -40,10 +40,10 @@
                 Nothing to see here
             </div>
         }
-
+        <BaseDragBar @bind-Height="dropdownHeight" Type="DragBarType.HORIZONTAL_BOTTOM" OnResizeStart="ResizeStart" OnResizeEnd="ResizeEnd" />
     </div>
-
 </div>
+
 
 @code {
     [CascadingParameter]
@@ -98,6 +98,9 @@
 
     // If user has typed something, do not automatically update the input.
     bool userHasTyped = false;
+
+    double dropdownHeight = 250;
+    bool isResizing = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -346,5 +349,22 @@
         UpdateInputText(tempKeyValuePair);
         inputValue = lastVerifiedInputValue;
         isComponentLoading = false;
+    }
+
+    string GetDynamicStyle()
+    {
+        string style = isFocused ? $"height:{dropdownHeight}px;" : "";
+        style += isResizing ? "transition-duration:0s;" : "";
+        return style;
+    }
+
+    void ResizeStart()
+    {
+        isResizing = true;
+    }
+
+    void ResizeEnd()
+    {
+        isResizing = false;
     }
 }

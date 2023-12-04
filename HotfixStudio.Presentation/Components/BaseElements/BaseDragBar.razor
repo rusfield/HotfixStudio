@@ -1,0 +1,104 @@
+﻿<div class="base-drag-bar-component @GetTypeClass()" @onmousedown="EnableResizeState">
+    @if (isResizing)
+    {
+        <div class="base-drag-bar-overlay @GetCursorClass()" @onmousemove="OnResize" @onmouseup="DisableResizeState" @onmouseout="OnMouseOut" />
+    }
+</div>
+
+
+@code {
+    [Parameter]
+    public double Height { get; set; }
+
+    [Parameter]
+    public EventCallback<double> HeightChanged { get; set; }
+
+    [Parameter]
+    public double MinHeight { get; set; } = -1;
+
+    [Parameter]
+    public double MaxHeight { get; set; } = -1;
+
+    [Parameter]
+    public EventCallback OnResizeStart { get; set; }
+
+    [Parameter]
+    public EventCallback OnResizeEnd { get; set; }
+
+    [Parameter]
+    public DragBarType Type { get; set; }
+
+    bool isResizing = false;
+
+    double startX = -1;
+    double startY = -1;
+    double startHeight = -1; // Horizontal Bottom
+    double approximateHeight = -1; //Horizontal Top
+
+    void EnableResizeState(MouseEventArgs args)
+    {
+        startX = args.ClientX;
+        startY = args.ClientY;
+        startHeight = Height;
+
+        isResizing = true;
+        OnResizeStart.InvokeAsync();
+    }
+
+    void DisableResizeState()
+    {
+        isResizing = false;
+        OnResizeEnd.InvokeAsync();
+    }
+
+    void OnResize(MouseEventArgs args)
+    {
+        double newHeight = 0;
+        if(Type == DragBarType.HORIZONTAL_BOTTOM)
+        {
+            newHeight = startHeight - startY + args.ClientY;
+        }
+        if (MinHeight >= 0 && MaxHeight > MinHeight)
+            newHeight = Math.Clamp(newHeight, MinHeight, MaxHeight);
+
+        Height = newHeight;
+        HeightChanged.InvokeAsync(Height);
+    }
+
+    void OnMouseOut()
+    {
+        if(Type == DragBarType.HORIZONTAL_TOP)
+        {
+
+        }
+        else if(Type == DragBarType.HORIZONTAL_BOTTOM)
+        {
+            Height -= 20;
+        }
+        else if(Type == DragBarType.VERTICAL_LEFT)
+        {
+
+        }
+        else if(Type == DragBarType.VERTICAL_RIGHT)
+        {
+
+        }
+        HeightChanged.InvokeAsync(Height);
+        DisableResizeState();
+    }
+
+    string GetCursorClass()
+    {
+        if (Type == DragBarType.VERTICAL_LEFT || Type == DragBarType.VERTICAL_RIGHT)
+            return "width";
+        else if (Type == DragBarType.HORIZONTAL_TOP || Type == DragBarType.HORIZONTAL_BOTTOM)
+            return "height";
+        else
+            return "";
+    }
+
+    string GetTypeClass()
+    {
+        return Type.ToString().Replace("_", "-").ToLower();
+    }
+}
