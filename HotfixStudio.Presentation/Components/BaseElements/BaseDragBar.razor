@@ -1,4 +1,4 @@
-﻿<div class="base-drag-bar-component @GetTypeClass()" @onmousedown="EnableResizeState">
+﻿<div class="base-drag-bar-component @GetDynamicClasses()" @onmousedown="EnableResizeState">
     @if (isResizing)
     {
         <div class="base-drag-bar-overlay @GetCursorClass()" @onmousemove="OnResize" @onmouseup="DisableResizeState" @onmouseout="OnMouseOut" />
@@ -97,8 +97,10 @@
             return "";
     }
 
-    string GetTypeClass()
+    string GetDynamicClasses()
     {
-        return Type.ToString().Replace("_", "-").ToLower();
+        string classes = Type.ToString().Replace("_", "-").ToLower();
+        classes += isResizing ? " resizing" : "";
+        return classes;
     }
 }

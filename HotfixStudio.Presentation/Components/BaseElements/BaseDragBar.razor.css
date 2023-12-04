@@ -28,6 +28,7 @@
 
     .base-drag-bar-component.resizing {
         background-color: var(--color-text);
+        border-radius: 6px;
     }
 
     .base-drag-bar-component::before {
