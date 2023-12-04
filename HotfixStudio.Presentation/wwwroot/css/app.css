@@ -4,7 +4,14 @@ html, body, .app {
     margin: 0;
     padding: 0;
     font-family: 'Open Sans', sans-serif;
+    letter-spacing: 1.5px;
+    word-spacing: 2px;
     overflow:hidden;
     background-color: var(--color-background-dark);
     color: var(--color-text);
+}
+
+input {
+    letter-spacing: 1.5px;
+    word-spacing: 2px;
 }
