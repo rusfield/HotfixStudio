@@ -1,12 +1,14 @@
 ﻿<div class="stacking-context-component">
-    <button style="position:relative;z-index:5;" @onclick="ToggleUseDbValueAsText">Swap DB Value @(useDbValueAsText ? "(true)" : "(false)")</button>
+    <div class="controls">
+        <HotfixStudio.Presentation.Components.BaseElements.BaseButton Content="Click" OnClick="ToggleUseDbValueAsText" />
+    </div>
     <CascadingValue Value="@this">
         <CascadingValue Name="UseDbValueAsText" Value="@useDbValueAsText">
             @ChildContent
         </CascadingValue>
     </CascadingValue>
-    <div class="overlay @GetOverlayVisibilityClass()" />
-    <div class="underlay" @onclick="@UnderlayClick" />
+    <div class="overlay @GetVisibilityClass()" />
+    <div class="underlay @GetVisibilityClass()" @onclick="@UnderlayClick" />
 </div>
 
 @code {
@@ -19,7 +21,7 @@
     bool contextFocused = false;
     bool useDbValueAsText = false;
 
-    string GetOverlayVisibilityClass()
+    string GetVisibilityClass()
     {
         return contextFocused ? "visible" : "invisible";
     }

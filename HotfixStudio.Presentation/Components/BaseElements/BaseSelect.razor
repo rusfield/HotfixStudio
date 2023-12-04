@@ -14,21 +14,25 @@
         }
         else if (optionResult?.TotalRows > 0)
         {
-            @foreach (var option in optionResult.Options)
-            {
-                string selectedClass = GetSelectedClass(option.Key);
-                <div class="base-select-dropdown-option @selectedClass" @onclick="(() => SelectValue(option))">
-                    <div class="base-select-dropdown-option-label">
-                        @option.Value
-                    </div>
-                    @if (displayDbValueInOption)
-                    {
-                        <div class="base-select-dropdown-option-value">
-                            @option.Key
+            <div class="base-select-dropdown-results">
+                @foreach (var option in optionResult.Options)
+                {
+                    string selectedClass = GetSelectedClass(option.Key);
+                    <div class="base-select-dropdown-results-option @selectedClass" @onclick="(() => SelectValue(option))">
+                        <div class="base-select-dropdown-results-option-label">
+                            @option.Value
                         </div>
-                    }
-                </div>
-            }
+                        @if (displayDbValueInOption)
+                        {
+                            <div class="base-select-dropdown-results-option-value">
+                                @option.Key
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="base-select-dropdown-controls">
+            </div>
         }
         else
         {
@@ -36,7 +40,9 @@
                 Nothing to see here
             </div>
         }
+
     </div>
+
 </div>
 
 @code {
@@ -76,6 +82,7 @@
     bool isLoading = false;
     int pageSize = 50;
     CancellationTokenSource? searchTokenSource;
+    CancellationTokenSource? displayTextTokenSource;
     OptionSearch<T> optionSearch;
     OptionResult<T> optionResult;
 
@@ -300,28 +307,39 @@
 
     async Task InitInputTextAsync()
     {
+        displayTextTokenSource?.Cancel();
         isComponentLoading = true;
         var tempKeyValuePair = new KeyValuePair<T, string>(default(T), "Temp");
         if (Values.Count == 1)
         {
             if (_useDbValueAsText)
             {
-                tempKeyValuePair = new (default(T), Values.First().ToString());
+                tempKeyValuePair = new(default(T), Values.First().ToString());
             }
             else
             {
-                var tempOptionSearch = new OptionSearch<T>(Values, 1, CancellationToken.None);
-                var tempOptionResult = await GetOptionsAsync(tempOptionSearch);
-                if (tempOptionResult.Options.Any())
+                try
                 {
-                    tempKeyValuePair = tempOptionResult.Options.First();
+                    displayTextTokenSource = new();
+                    var tempOptionSearch = new OptionSearch<T>(Values, 1, displayTextTokenSource.Token);
+                    var tempOptionResult = await GetOptionsAsync(tempOptionSearch);
+                    if (tempOptionResult.Options.Any())
+                    {
+                        tempKeyValuePair = tempOptionResult.Options.First();
+                    }
+                    else
+                    {
+                        // This is an error in backend
+                        // TODO: Display error to user
+                        tempKeyValuePair = new(Values.First(), $"Error {Values.First()}");
+                    }
                 }
-                else
+                catch (OperationCanceledException)
                 {
-                    // This is an error in backend
-                    // TODO: Display error to user
-                    tempKeyValuePair = new(Values.First(), $"Error {Values.First()}");
+                    // Task cancelled
+                    return;
                 }
+
             }
 
         }

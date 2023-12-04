@@ -1,0 +1,12 @@
+﻿<div class="base-button-component">
+    <button @onclick="OnClick">
+        @Content
+    </button>
+</div>
+@code {
+    [Parameter]
+    public string Content { get; set; }
+
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+}
