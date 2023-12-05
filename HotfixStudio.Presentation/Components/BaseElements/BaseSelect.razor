@@ -353,8 +353,12 @@
 
     string GetDynamicStyle()
     {
-        string style = isFocused ? $"height:{dropdownHeight}px;" : "";
-        style += isResizing ? "transition-duration:0s;" : "";
+        string style = "";
+        if (readyToOpen)
+        {
+            style += isFocused ? $"height:{dropdownHeight}px;" : "";
+            style += isResizing ? "transition-duration:0s;" : "";
+        }
         return style;
     }
 
