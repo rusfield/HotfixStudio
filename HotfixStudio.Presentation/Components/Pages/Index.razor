@@ -3,12 +3,12 @@
 @using HotfixStudio.Presentation.Components.BaseElements
 
 <div class="index">
-    <Grid>
+    <BaseIndex>
         <Logo>
             Logo
         </Logo>
         <Tabs>
-            <MainTabs />
+            <MainTabs @bind-Tabs="tabs" @bind-CurrentTab="currentTab" />
         </Tabs>
         <Menu>
             <MainMenu />
@@ -18,9 +18,14 @@
                 <Input @bind-Value="val" T="uint" Label="Text" />
                 <SingleSelect @bind-Value="value" T="int" Label="Single" GetOptionsAsync="GetOptionsAsync" />
                 <MultiSelect @bind-Value="values" T="int" Label="Multi" GetOptionsAsync="GetOptionsAsync" />
+
+                <HotfixStudio.Presentation.Components.BaseElements.BaseButton Content="Click" OnClick="AddTab" />
+
+
+                <BasePagination />
             </StackingContext>
         </Content>
-    </Grid>
+    </BaseIndex>
 
 </div>
 
@@ -28,6 +33,27 @@
     uint val = 2;
     int values = 33;
     int value = 1;
+
+    List<PageTab> tabs = new();
+    PageTab? currentTab;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            tabs.Add(new()
+                {
+                    Label = "Title 1"
+                });
+            tabs.Add(new()
+                {
+                    Label = "Title 2"
+                });
+            currentTab = tabs.First();
+            this.StateHasChanged();
+        }
+        base.OnAfterRender(firstRender);
+    }
 
     async Task<OptionResult<int>> GetOptionsAsync(OptionSearch<int> optionSearch)
     {
@@ -59,6 +85,14 @@
 
         result.TotalRows = result.Options.Count;
         return result;
+    }
+
+    void AddTab()
+    {
+        tabs.Add(new()
+            {
+                Label = "Title " + (tabs.Count + 1)
+            });
     }
 
 }

@@ -1,0 +1,43 @@
+﻿<div class="tab-content-component @GetActiveClass()">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+
+    bool isActive = false;
+    bool isRendered = false;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        isRendered = true;
+        base.OnAfterRender(firstRender);
+    }
+
+
+    string GetActiveClass()
+    {
+        return isActive ? "active" : "inactive";
+    }
+
+    public void SetActive(bool active)
+    {
+        if (isActive != active)
+        {
+            isActive = active;
+            try
+            {
+                if (isRendered)
+                    this.StateHasChanged();
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+    }
+}

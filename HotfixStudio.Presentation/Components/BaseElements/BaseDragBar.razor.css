@@ -2,42 +2,58 @@
     position: absolute;
 }
 
-    .base-drag-bar-component.horizontal-top {
+    .base-drag-bar-component.horizontal {
+        left: 0;
+        right: 0;
         height: 6px;
+    }
+
+        .base-drag-bar-component.horizontal.top {
+            top: 0;
+        }
+
+        .base-drag-bar-component.horizontal.bottom {
+            bottom: 0;
+        }
+
+        .base-drag-bar-component.horizontal::before {
+            content: '';
+            cursor: ns-resize;
+            height: 4px;
+            display: block;
+            margin-top: 1px;
+        }
+
+
+    .base-drag-bar-component.vertical {
         top: 0;
-        left: 0;
-        right: 0;
-    }
-
-    .base-drag-bar-component.horizontal-bottom {
-        height: 6px;
         bottom: 0;
-        left: 0;
-        right: 0;
+        width: 6px;
     }
 
-    .base-drag-bar-component.vertical-right {
-        width: 6px;
-        right: 0;
-    }
+        .base-drag-bar-component.vertical.right {
+            right: 0;
+        }
 
-    .base-drag-bar-component.vertical-left {
-        width: 6px;
-        left: 0;
-    }
+        .base-drag-bar-component.vertical.left {
+            left: 0;
+        }
+
+        .base-drag-bar-component.vertical::before {
+            content: '';
+            cursor: ew-resize;
+            width: 4px;
+            display: block;
+            margin-left: 1px;
+            height: 100%;
+        }
 
     .base-drag-bar-component.resizing {
         background-color: var(--color-text);
         border-radius: 6px;
     }
 
-    .base-drag-bar-component::before {
-        content: '';
-        cursor: ns-resize;
-        height: 4px;
-        display: block;
-        margin-top: 1px;
-    }
+
 
 .base-drag-bar-overlay {
     position: fixed;
@@ -51,11 +67,10 @@
     background-image: linear-gradient(to right, var(--color-text) 1px, transparent 1px), linear-gradient(to bottom, var(--color-text) 1px, transparent 1px);
 }
 
-    .base-drag-bar-overlay.width {
+    .base-drag-bar-overlay.vertical {
         cursor: ew-resize;
     }
 
-    .base-drag-bar-overlay.height {
+    .base-drag-bar-overlay.horizontal {
         cursor: ns-resize;
     }
-

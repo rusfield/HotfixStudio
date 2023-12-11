@@ -1,0 +1,20 @@
+.pagination-container {
+    display: flex;
+    list-style: none;
+    /* Add more styles as needed */
+}
+
+.page-item {
+    margin: 0 2px;
+}
+
+    .page-item.disabled span,
+    .page-item.active span {
+        cursor: default;
+    }
+
+.page-link {
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    cursor: pointer;
+}

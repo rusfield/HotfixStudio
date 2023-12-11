@@ -8,16 +8,16 @@
 
 @code {
     [Parameter]
-    public double Height { get; set; }
+    public double Size { get; set; }
 
     [Parameter]
-    public EventCallback<double> HeightChanged { get; set; }
+    public EventCallback<double> SizeChanged { get; set; }
 
     [Parameter]
-    public double MinHeight { get; set; } = -1;
+    public double MinSize { get; set; } = -1;
 
     [Parameter]
-    public double MaxHeight { get; set; } = -1;
+    public double MaxSize { get; set; } = -1;
 
     [Parameter]
     public EventCallback OnResizeStart { get; set; }
@@ -32,14 +32,14 @@
 
     double startX = -1;
     double startY = -1;
-    double startHeight = -1; // Horizontal Bottom
-    double approximateHeight = -1; //Horizontal Top
+    double startSize = -1; // Horizontal Bottom
+    double approximateSize = -1; //Horizontal Top
 
     void EnableResizeState(MouseEventArgs args)
     {
         startX = args.ClientX;
         startY = args.ClientY;
-        startHeight = Height;
+        startSize = Size;
 
         isResizing = true;
         OnResizeStart.InvokeAsync();
@@ -53,54 +53,64 @@
 
     void OnResize(MouseEventArgs args)
     {
-        double newHeight = 0;
-        if(Type == DragBarType.HORIZONTAL_BOTTOM)
+        double newSize = 0;
+        if(Type == DragBarType.HORIZONTAL_TOP)
         {
-            newHeight = startHeight - startY + args.ClientY;
+            newSize = startSize + startY - args.ClientY;
         }
-        if (MinHeight >= 0 && MaxHeight > MinHeight)
-            newHeight = Math.Clamp(newHeight, MinHeight, MaxHeight);
+        else if(Type == DragBarType.HORIZONTAL_BOTTOM)
+        {
+            newSize = startSize - startY + args.ClientY;
+        }
+        else if(Type == DragBarType.VERTICAL_LEFT)
+        {
+            newSize = startSize + startX - args.ClientX;
+        }
+        else if(Type== DragBarType.VERTICAL_RIGHT)
+        {
+            newSize = startSize - startX + args.ClientX;
+        }
+        if (MinSize >= 0 && MaxSize > MinSize)
+            newSize = Math.Clamp(newSize, MinSize, MaxSize);
 
-        Height = newHeight;
-        HeightChanged.InvokeAsync(Height);
+        Size = newSize;
+        SizeChanged.InvokeAsync(Size);
     }
 
     void OnMouseOut()
     {
         if(Type == DragBarType.HORIZONTAL_TOP)
         {
-
+            Size += 20;
         }
         else if(Type == DragBarType.HORIZONTAL_BOTTOM)
         {
-            Height -= 20;
+            Size -= 20;
         }
         else if(Type == DragBarType.VERTICAL_LEFT)
         {
-
+            Size += 20;
         }
         else if(Type == DragBarType.VERTICAL_RIGHT)
         {
-
+            Size -= 20;
         }
-        HeightChanged.InvokeAsync(Height);
+        SizeChanged.InvokeAsync(Size);
         DisableResizeState();
     }
 
     string GetCursorClass()
     {
-        if (Type == DragBarType.VERTICAL_LEFT || Type == DragBarType.VERTICAL_RIGHT)
-            return "width";
-        else if (Type == DragBarType.HORIZONTAL_TOP || Type == DragBarType.HORIZONTAL_BOTTOM)
-            return "height";
-        else
-            return "";
+        return Type.ToString().Split("_")[0].ToLower();
     }
 
     string GetDynamicClasses()
     {
-        string classes = Type.ToString().Replace("_", "-").ToLower();
-        classes += isResizing ? " resizing" : "";
+        string classes = isResizing ? "resizing " : "";
+
+        var enumClasses = Type.ToString().Split("_");
+        foreach (var enumClass in enumClasses)
+            classes += $"{enumClass.ToLower()} ";
         return classes;
     }
 }

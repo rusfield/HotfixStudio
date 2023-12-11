@@ -1,0 +1,23 @@
+﻿<div class="base-pagination-component">
+
+</div>
+
+@code {
+    [Parameter]
+    public int CurrentPageIndex { get; set; }
+
+    [Parameter]
+    public EventCallback<int> CurrentPageIndexChanged { get; set; }
+
+    [Parameter]
+    public int TotalPages { get; set; } = 10;
+
+    void SelectPage(int index)
+    {
+        if (index != CurrentPageIndex)
+        {
+            CurrentPageIndex = index;
+            CurrentPageIndexChanged.InvokeAsync(CurrentPageIndex);
+        }
+    }
+}

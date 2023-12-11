@@ -1,0 +1,9 @@
+.tab-content-component {
+}
+
+    .tab-content-component.active {
+    }
+
+    .tab-content-component.inactive {
+        display: none;
+    }

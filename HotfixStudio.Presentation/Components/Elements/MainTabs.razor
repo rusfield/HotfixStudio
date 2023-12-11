@@ -1,6 +1,38 @@
-﻿<div class="main-tabs-component">
-    Hello
-</div>
-@code {
+﻿@using HotfixStudio.Infrastructure.PresentationData
 
+<div class="tabs-component">
+    <div class="tabs-container">
+        @foreach (var tab in Tabs)
+        {
+            <div class="tabs-cell">
+                <div class="tabs-label" @onclick="(() => ChangeTab(tab))">
+                    @tab.Label
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+
+@code {
+    [Parameter]
+    public List<PageTab> Tabs { get; set; }
+
+    [Parameter]
+    public EventCallback<List<PageTab>> TabsChanged { get; set; }
+
+    [Parameter]
+    public PageTab CurrentTab { get; set; }
+
+    [Parameter]
+    public EventCallback<PageTab> CurrentTabChanged { get; set; }
+
+    void ChangeTab(PageTab tab)
+    {
+        if (CurrentTab != tab)
+        {
+            CurrentTab = tab;
+            CurrentTabChanged.InvokeAsync(CurrentTab);
+        }
+    }
 }

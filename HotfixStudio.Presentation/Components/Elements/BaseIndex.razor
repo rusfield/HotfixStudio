@@ -1,0 +1,53 @@
+﻿@using HotfixStudio.Presentation.Components.BaseElements
+
+<div class="base-index-component">
+    <div class="base-index-header">
+        <div class="base-index-logo">
+            @Logo
+        </div>
+        <div class="base-index-tabs-wrapper" style="@($"max-width:calc(100% - {sidebarWidth}px);height:{headerHeight}px;")">
+            <div class="base-index-tabs">
+                @Tabs
+            </div>
+            <BaseDragBar @bind-Size="headerHeight" Type="DragBarType.HORIZONTAL_BOTTOM" />
+        </div>
+    </div>
+    <div class="base-index-body">
+        <div class="base-index-menu-wrapper">
+            <div class="base-index-menu" style="@($"width:{sidebarWidth}px;")">
+                @Menu
+            </div>
+            <BaseDragBar @bind-Size="sidebarWidth" Type="DragBarType.VERTICAL_RIGHT" />
+        </div>
+
+        <div class="base-index-content">
+            <div class="base-index-content-row">
+                <div class="base-index-content-page">
+                    @Content
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="base-index-footer" style="@($"height:{footerHeight}px;")">
+        <BaseDragBar @bind-Size="footerHeight" Type="DragBarType.HORIZONTAL_TOP" />
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment Logo { get; set; }
+
+    [Parameter]
+    public RenderFragment Tabs { get; set; }
+
+    [Parameter]
+    public RenderFragment Menu { get; set; }
+
+    [Parameter]
+    public RenderFragment Content { get; set; }
+
+    double headerHeight = 40;
+    double sidebarWidth = 160;
+    double footerHeight = 30;
+
+}
