@@ -11,90 +11,25 @@
             <MainTabs @bind-Tabs="tabs" @bind-CurrentTab="currentTab" />
         </Tabs>
         <Menu>
+            @*
             <MainMenu />
+            *@
             <HotfixStudio.Presentation.Components.BaseElements.BaseButton Content="Click" OnClick="AddTab" />
         </Menu>
-        <Content>
-            @*
-            <StackingContext>
-                <Input @bind-Value="val" T="uint" Label="Text" />
-                <SingleSelect @bind-Value="value" T="int" Label="Single" GetOptionsAsync="GetOptionsAsync" />
-                <MultiSelect @bind-Value="values" T="int" Label="Multi" GetOptionsAsync="GetOptionsAsync" />
-
-           
-
-
-                <BasePagination />
-            </StackingContext>
-            *@
-        </Content>
     </BaseIndex>
 
 </div>
 
 @code {
-    uint val = 2;
-    int values = 33;
-    int value = 1;
-
     List<PageTab> tabs = new();
     PageTab? currentTab;
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (firstRender)
-        {
-            tabs.Add(new()
-                {
-                    Label = "Title 1"
-                });
-            tabs.Add(new()
-                {
-                    Label = "Title 2"
-                });
-            currentTab = tabs.First();
-            this.StateHasChanged();
-        }
-        base.OnAfterRender(firstRender);
-    }
-
-    async Task<OptionResult<int>> GetOptionsAsync(OptionSearch<int> optionSearch)
-    {
-        await Task.Delay(1500, optionSearch.CancellationToken);
-
-        var result = new OptionResult<int>();
-        result.Options.Add(1, "Apple");
-        result.Options.Add(2, "Orange Orange Orange OrangeOrange OrangeOrange Orange Orange OrangeOrange OrangeOrangeOrange");
-        result.Options.Add(4, "Mango");
-        result.Options.Add(8, "Pineapple");
-        result.Options.Add(16, "Banana");
-        result.Options.Add(32, "LUL");
-        result.Options.Add(64, "BALD");
-        result.Options.Add(128, "TRUE");
-        result.Options.Add(256, "TRUUUEEEE");
-        result.Options.Add(512, "BALDIE");
-        result.Options.Add(1024, "AsmonBALD");
-        result.Options.Add(2048, "McK");
-        result.Options.Add(4096, "Lol");
-
-        if (optionSearch.PageSize == 1)
-        {
-            result.Options = result.Options.Where(o => o.Key == optionSearch.SelectedValues.First()).ToDictionary<int, string>();
-        }
-        else if (!string.IsNullOrWhiteSpace(optionSearch.Search))
-        {
-            result.Options = result.Options.Where(v => v.Value.Contains(optionSearch.Search, StringComparison.OrdinalIgnoreCase)).ToDictionary<int, string>();
-        }
-
-        result.TotalRows = result.Options.Count;
-        return result;
-    }
 
     void AddTab()
     {
         tabs.Add(new()
             {
-                Label = "Title " + (tabs.Count + 1)
+                Label = "Title " + (tabs.Count + 1),
+                PageComponent = typeof(TestPage)
             });
     }
 

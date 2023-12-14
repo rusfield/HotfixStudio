@@ -1,19 +1,30 @@
 ﻿@using HotfixStudio.Infrastructure.PresentationData
+@using HotfixStudio.Presentation.Components.BaseElements
 
 <div class="tabs-component">
-    <div class="tabs-container">
+    <div class="tabs-header" style="@($"height:{headerHeight}px;")">
         @foreach (var tab in Tabs)
         {
-            <div class="tabs-cell @GetTabClass(tab)" @onclick="(() => ChangeTab(tab))" @key="tab">
-                <div class="tabs-cell-label">
+            <div class="tabs-header-cell @GetTabClass(tab)" @onclick="(() => ChangeTab(tab))" @key="tab">
+                <div class="tabs-header-cell-label">
                     @tab.Label
                 </div>
                 @if (tab.IsClosable)
                 {
-                    <div class="tabs-cell-close" @onclick="(() => CloseTab(tab))">
+                    <div class="tabs-header-cell-close" @onclick="(() => CloseTab(tab))">
                         X
                     </div>
                 }
+            </div>
+        }
+        <BaseDragBar @bind-Size="headerHeight" Type="DragBarType.HORIZONTAL_BOTTOM" MinSize="24" MaxSize="300" />
+    </div>
+
+    <div class="tabs-body">
+        @foreach (var tab in Tabs)
+        {
+            <div class="tabs-body-content @GetTabClass(tab)" @key="tab">
+                <DynamicComponent Type="tab.PageComponent" />
             </div>
         }
     </div>
@@ -33,6 +44,7 @@
     public EventCallback<PageTab> CurrentTabChanged { get; set; }
 
     PageTab? closingTab;
+    double headerHeight = 40;
 
     void ChangeTab(PageTab tab)
     {
