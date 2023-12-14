@@ -1,43 +1,52 @@
 .tabs-component {
     display: flex;
-    flex-grow: 1;
-    max-width: 100%;
-    flex-direction: column;
-    overflow-x: scroll;
-    box-sizing: border-box;
-    z-index: 2;
+    width: 100%;
+    user-select: none;
 }
-
-    .tabs-component::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0);
-    }
-
-    .tabs-component:not(:hover)::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0);
-    }
 
 .tabs-container {
     display: flex;
-    flex-grow: 1;
+    width: 100%;
     border-left: 1px solid var(--color-text);
     flex-direction: row;
 }
 
 .tabs-cell {
-    min-width: 180px;
-    padding-top: 6px;
-    cursor: pointer;
-    border-right: 1px solid var(--color-text);
-    position: relative;
-}
-
-.tabs-label {
-    margin: 3px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
+    border-right: 1px solid var(--color-text);
+    overflow: hidden;
+    flex-basis: 240px;
 }
 
-.tabs-cell:hover {
-    background-color: var(--color-background-light);
+    .tabs-cell:hover {
+        background-color: var(--color-background-light);
+    }
+
+    .tabs-cell:hover .close-test {
+        display: block;
+    }
+
+    .tabs-cell.active {
+        background-color: var(--color-background-dark);
+        box-shadow: 0px 20px 0px 0px var(--color-background-dark);
+    }
+
+    .tabs-cell span {
+        margin-left: 6px;
+        flex-grow: 1;
+        flex-shrink: 1;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+.close-test {
+    margin-right: 6px;
+    width: 24px;
+    height: 24px;
+    background-color: red;
+    display: none;
 }

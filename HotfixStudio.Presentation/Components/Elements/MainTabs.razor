@@ -4,10 +4,16 @@
     <div class="tabs-container">
         @foreach (var tab in Tabs)
         {
-            <div class="tabs-cell">
-                <div class="tabs-label" @onclick="(() => ChangeTab(tab))">
+            <div class="tabs-cell @GetTabClass(tab)" @onclick="(() => ChangeTab(tab))">
+                <span>
                     @tab.Label
-                </div>
+                </span>
+                @if (tab.IsClosable)
+                {
+                    <div class="close-test" @onclick="(() => CloseTab(tab))">
+                        X
+                    </div>
+                }
             </div>
         }
     </div>
@@ -34,5 +40,16 @@
             CurrentTab = tab;
             CurrentTabChanged.InvokeAsync(CurrentTab);
         }
+    }
+
+    void CloseTab(PageTab tab)
+    {
+        Tabs.Remove(tab);
+        CurrentTab = Tabs.FirstOrDefault();
+    }
+
+    string GetTabClass(PageTab tab)
+    {
+        return CurrentTab == tab ? "active" : "";
     }
 }
