@@ -1,0 +1,14 @@
+.tabs-content-component {
+    display: flex;
+    flex-grow: 1;
+
+}
+
+.tabs-content {
+    display: none;
+    flex-grow: 1;
+}
+
+.tabs-content.active {
+    display: block;
+}

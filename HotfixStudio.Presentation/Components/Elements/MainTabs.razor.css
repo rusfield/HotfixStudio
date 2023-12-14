@@ -19,19 +19,16 @@
     border-right: 1px solid var(--color-text);
     overflow: hidden;
     flex-basis: 240px;
+    animation: growIn 0.2s ease forwards;
 }
-
-    .tabs-cell.open {
-        animation: growIn 0.2s ease forwards;
-    }
 
     .tabs-cell:hover {
         background-color: var(--color-background-light);
     }
 
-    .tabs-cell:hover .close-test {
-        display: block;
-    }
+        .tabs-cell:hover .tabs-cell-close {
+            display: block;
+        }
 
     .tabs-cell.active {
         background-color: var(--color-background-dark);
@@ -42,16 +39,16 @@
         animation: shrinkOut 0.2s ease forwards;
     }
 
-    .tabs-cell span {
-        margin-left: 6px;
-        flex-grow: 1;
-        flex-shrink: 1;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
+.tabs-cell-label {
+    margin-left: 6px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
 
-.close-test {
+.tabs-cell-close {
     margin-right: 6px;
     min-width: 24px;
     min-height: 24px;

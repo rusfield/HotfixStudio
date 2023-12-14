@@ -54,19 +54,19 @@
     void OnResize(MouseEventArgs args)
     {
         double newSize = 0;
-        if(Type == DragBarType.HORIZONTAL_TOP)
+        if (Type == DragBarType.HORIZONTAL_TOP)
         {
             newSize = startSize + startY - args.ClientY;
         }
-        else if(Type == DragBarType.HORIZONTAL_BOTTOM)
+        else if (Type == DragBarType.HORIZONTAL_BOTTOM)
         {
             newSize = startSize - startY + args.ClientY;
         }
-        else if(Type == DragBarType.VERTICAL_LEFT)
+        else if (Type == DragBarType.VERTICAL_LEFT)
         {
             newSize = startSize + startX - args.ClientX;
         }
-        else if(Type== DragBarType.VERTICAL_RIGHT)
+        else if (Type == DragBarType.VERTICAL_RIGHT)
         {
             newSize = startSize - startX + args.ClientX;
         }
@@ -79,22 +79,32 @@
 
     void OnMouseOut()
     {
-        if(Type == DragBarType.HORIZONTAL_TOP)
+        double newSize = 0;
+        if (Type == DragBarType.HORIZONTAL_TOP)
         {
-            Size += 20;
+            newSize = Size + 20;
         }
-        else if(Type == DragBarType.HORIZONTAL_BOTTOM)
+        else if (Type == DragBarType.HORIZONTAL_BOTTOM)
         {
-            Size -= 20;
+            newSize = Size - 20;
         }
-        else if(Type == DragBarType.VERTICAL_LEFT)
+        else if (Type == DragBarType.VERTICAL_LEFT)
         {
-            Size += 20;
+            newSize = Size + 20;
         }
-        else if(Type == DragBarType.VERTICAL_RIGHT)
+        else if (Type == DragBarType.VERTICAL_RIGHT)
         {
-            Size -= 20;
+            newSize = Size - 20;
         }
+        if (MinSize >= 0 && MaxSize > MinSize)
+        {
+            if (newSize < MinSize)
+                newSize = MinSize;
+            else if (newSize < MaxSize)
+                newSize = MaxSize;
+        }
+
+        Size = newSize;
         SizeChanged.InvokeAsync(Size);
         DisableResizeState();
     }

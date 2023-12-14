@@ -1,0 +1,23 @@
+﻿@using HotfixStudio.Infrastructure.PresentationData
+
+<div class="tabs-content-component">
+    @foreach (var tab in Tabs)
+    {
+        <div class="tabs-content @GetTabClass(tab)" @key="tab">
+            <DynamicComponent Type="tab.PageComponent" />
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public List<PageTab> Tabs { get; set; }
+
+    [Parameter]
+    public PageTab? CurrentTab { get; set; }
+
+    string GetTabClass(PageTab tab)
+    {
+        return tab == CurrentTab ? "active" : "";
+    }
+}

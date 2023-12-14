@@ -12,18 +12,21 @@
         </Tabs>
         <Menu>
             <MainMenu />
+            <HotfixStudio.Presentation.Components.BaseElements.BaseButton Content="Click" OnClick="AddTab" />
         </Menu>
         <Content>
+            @*
             <StackingContext>
                 <Input @bind-Value="val" T="uint" Label="Text" />
                 <SingleSelect @bind-Value="value" T="int" Label="Single" GetOptionsAsync="GetOptionsAsync" />
                 <MultiSelect @bind-Value="values" T="int" Label="Multi" GetOptionsAsync="GetOptionsAsync" />
 
-                <HotfixStudio.Presentation.Components.BaseElements.BaseButton Content="Click" OnClick="AddTab" />
+           
 
 
                 <BasePagination />
             </StackingContext>
+            *@
         </Content>
     </BaseIndex>
 

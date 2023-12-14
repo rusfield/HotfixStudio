@@ -5,19 +5,18 @@
         @foreach (var tab in Tabs)
         {
             <div class="tabs-cell @GetTabClass(tab)" @onclick="(() => ChangeTab(tab))" @key="tab">
-                <span>
+                <div class="tabs-cell-label">
                     @tab.Label
-                </span>
+                </div>
                 @if (tab.IsClosable)
                 {
-                    <div class="close-test" @onclick="(() => CloseTab(tab))">
+                    <div class="tabs-cell-close" @onclick="(() => CloseTab(tab))">
                         X
                     </div>
                 }
             </div>
         }
     </div>
-
 </div>
 
 @code {
@@ -49,8 +48,11 @@
         closingTab = tab;
         this.StateHasChanged();
         await Task.Delay(200);
+        var index = Tabs.IndexOf(tab);
         Tabs.Remove(tab);
-        CurrentTab = Tabs.FirstOrDefault();
+        index = Math.Min(index, Tabs.Count - 1);
+        if (index >= 0)
+            ChangeTab(Tabs[index]);
     }
 
     string GetTabClass(PageTab tab)
@@ -58,8 +60,8 @@
         if (closingTab == tab)
             return "closing";
         else if (CurrentTab == tab)
-            return "open active";
+            return "active";
         else
-            return "open";
+            return "";
     }
 }
