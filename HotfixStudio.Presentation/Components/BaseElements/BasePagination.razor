@@ -6,10 +6,22 @@
     </div>
     <div class="base-pagination-container @GetPageClass()">
         <input type="range" min="0" max="@(TotalPages - 1)" value="@CurrentPageIndex" @oninput="OnSliderDragged" @onchange="OnSliderReleased" />
-        <div class="slider-handle" style="@GetHandleStyle() @GetThumbStyle(CurrentPageIndex + 1)">@(CurrentPageIndex + 1)</div>
-        @if(CurrentPageIndex == 0 && TotalPages > 1)
+        <div class="handle-wrapper" style="@GetHandlePositionStyle() @GetFontSizeStyle(CurrentPageIndex + 1)">
+            <Button Size="ElementSize.COMPACT">
+                <div class="page-block">
+                    @(CurrentPageIndex + 1)
+                </div>
+            </Button>
+        </div>
+        @if (CurrentPageIndex == 0 && TotalPages > 1)
         {
-            <div class="slider-handle total-pages" style="@GetThumbStyle(TotalPages)">@TotalPages</div>
+            <div class="handle-wrapper total-pages" style="@GetFontSizeStyle(TotalPages)">
+                <Button Size="ElementSize.COMPACT">
+                    <div class="page-block">
+                        @(TotalPages)
+                    </div>
+                </Button>
+            </div>
         }
     </div>
     <div class="navigation-container">
@@ -72,7 +84,7 @@
         }
     }
 
-    string GetThumbStyle(int displayValue)
+    string GetFontSizeStyle(int displayValue)
     {
         if (Size == ElementSize.COMPACT && displayValue > 99)
             return "--component-page-font-size:8px;";
@@ -85,7 +97,7 @@
         return $"--component-thumb-size:{sliderThumbSize}px;";
     }
 
-    string GetHandleStyle()
+    string GetHandlePositionStyle()
     {
         return $"left: calc({sliderPercentage}% - {sliderSizeAdjustment}px);";
     }
@@ -99,7 +111,7 @@
     {
         canNext = CurrentPageIndex < TotalPages - 1;
         canPrevious = CurrentPageIndex > 0;
-        if(TotalPages > 1)
+        if (TotalPages > 1)
         {
             sliderPercentage = ((double)CurrentPageIndex / (TotalPages - 1)) * 100;
             sliderSizeAdjustment = sliderPercentage * sliderThumbSize / 100;

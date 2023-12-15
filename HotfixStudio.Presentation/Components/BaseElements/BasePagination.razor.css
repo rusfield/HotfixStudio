@@ -37,17 +37,17 @@ input {
     cursor: pointer;
 }
 
-.slider-handle {
-    position: absolute;
+.page-block {
     width: var(--component-thumb-size);
     height: var(--component-thumb-size);
-    background-color: var(--color-primary);
     text-align: center;
     line-height: var(--component-thumb-size);
-    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.handle-wrapper {
+    position: absolute;
     pointer-events: none;
     transition: left ease 0.2s;
     top: 50%;
@@ -55,7 +55,7 @@ input {
     font-size: var(--component-page-font-size);
 }
 
-    .slider-handle.total-pages {
+    .handle-wrapper.total-pages {
         left: calc(100% - var(--component-thumb-size));
         background-color: var(--color-primary-dark);
         opacity: 0.4;
