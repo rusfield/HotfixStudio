@@ -12,8 +12,8 @@
     transition: font-variation-settings ease 0.2s;
     background-color: var(--component-color);
     font-variation-settings: 'FILL' 0;
-    height: 24px;
     border-radius: 4px;
+    height: 24px;
 }
 
     .button-component:hover {
