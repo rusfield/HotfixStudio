@@ -1,3 +1,4 @@
 .icon-component {
-
+    --component-color: var(--color-primary);
+    color: var(--component-color);
 }

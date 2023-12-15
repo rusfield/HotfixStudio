@@ -58,10 +58,7 @@
 }
 
 .tabs-header-cell-close {
-    margin-right: 6px;
-    min-width: 24px;
-    min-height: 24px;
-    background-color: red;
+    margin: 0 8px;
     display: none;
 }
 

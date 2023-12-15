@@ -11,8 +11,10 @@
                 </div>
                 @if (tab.IsClosable)
                 {
-                    <div class="tabs-header-cell-close" @onclick="(() => CloseTab(tab))">
-                        X
+                    <div class="tabs-header-cell-close">
+                        <Button Size="ElementSize.COMPACT" BackgroundColor="ElementColor.TRANSPARENT" OnClick="(() => CloseTab(tab))">
+                            <Icon Color="ElementColor.ERROR" IconName="cancel" />
+                        </Button>
                     </div>
                 }
             </div>

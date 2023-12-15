@@ -1,5 +1,5 @@
 ﻿<div class="base-pagination-component" style="@GetSizeStyle()">
-    @if (TotalPages > 10)
+    @if (TotalPages > 9)
     {
         <div class="navigation-container">
             <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(CurrentPageIndex -1))" Disabled="@(!canPrevious)">

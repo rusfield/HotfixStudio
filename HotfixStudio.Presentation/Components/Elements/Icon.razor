@@ -1,4 +1,4 @@
-﻿<div class="icon-component material-symbols">
+﻿<div class="icon-component material-symbols" style="@GetColorStyle()">
     <span>
         @IconName
     </span>
@@ -10,4 +10,10 @@
 
     [Parameter]
     public ElementColor Color { get; set; } = ElementColor.TEXT;
+
+    string GetColorStyle()
+    {
+        string color = Color.ToString().ToLower().Replace("_", "-");
+        return $"color:var(--color-{color});";
+    }
 }
