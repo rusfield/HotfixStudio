@@ -1,4 +1,4 @@
-﻿<div class="base-pagination-component" style="@GetThumbStyle()">
+﻿<div class="base-pagination-component" style="@GetSizeStyle()">
     <div class="navigation-container">
         <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(CurrentPageIndex -1))" Disabled="@(!canPrevious)">
             <Icon IconName="arrow_circle_left" />
@@ -6,7 +6,11 @@
     </div>
     <div class="base-pagination-container @GetPageClass()">
         <input type="range" min="0" max="@(TotalPages - 1)" value="@CurrentPageIndex" @oninput="OnSliderDragged" @onchange="OnSliderReleased" />
-        <div class="base-pagination-slider-handle" style="@GetHandleStyle()">@(CurrentPageIndex + 1)</div>
+        <div class="slider-handle" style="@GetHandleStyle() @GetThumbStyle(CurrentPageIndex + 1)">@(CurrentPageIndex + 1)</div>
+        @if(CurrentPageIndex == 0 && TotalPages > 1)
+        {
+            <div class="slider-handle total-pages" style="@GetThumbStyle(TotalPages)">@TotalPages</div>
+        }
     </div>
     <div class="navigation-container">
         <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(CurrentPageIndex + 1))" Disabled="@(!canNext)">
@@ -68,14 +72,17 @@
         }
     }
 
-    string GetThumbStyle()
+    string GetThumbStyle(int displayValue)
     {
-        string style = $"--component-thumb-size:{sliderThumbSize}px;";
+        if (Size == ElementSize.COMPACT && displayValue > 99)
+            return "--component-page-font-size:8px;";
 
-        if (Size == ElementSize.COMPACT && CurrentPageIndex >= 99)
-            style += "--component-page-font-size:8px;";
+        return "";
+    }
 
-        return style;
+    string GetSizeStyle()
+    {
+        return $"--component-thumb-size:{sliderThumbSize}px;";
     }
 
     string GetHandleStyle()

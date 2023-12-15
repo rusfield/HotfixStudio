@@ -34,9 +34,10 @@ input {
     padding: 0;
     margin: 0;
     width: 100%;
+    cursor: pointer;
 }
 
-.base-pagination-slider-handle {
+.slider-handle {
     position: absolute;
     width: var(--component-thumb-size);
     height: var(--component-thumb-size);
@@ -53,6 +54,12 @@ input {
     transform: translateY(-50%);
     font-size: var(--component-page-font-size);
 }
+
+    .slider-handle.total-pages {
+        left: calc(100% - var(--component-thumb-size));
+        background-color: var(--color-primary-dark);
+        opacity: 0.4;
+    }
 
 input::-webkit-slider-thumb {
     -webkit-appearance: none;
