@@ -16,12 +16,18 @@
     border-radius: 4px;
 }
 
-    .button-component:hover {
+    .button-component.disabled {
+        pointer-events none;
+        cursor: auto;
+        opacity: 0.5;
+    }
+
+    .button-component:not(.disabled):hover {
         background-color: var(--component-color-hover);
         font-variation-settings: 'FILL' 1;
     }
 
-    .button-component:active {
+    .button-component:not(.disabled):active {
         background-color: var(--component-color-active);
     }
 

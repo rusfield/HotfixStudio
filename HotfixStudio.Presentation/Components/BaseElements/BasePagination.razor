@@ -1,12 +1,12 @@
 ﻿<div class="base-pagination-component" style="@GetThumbStyle()">
-    <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(-1))">
+    <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(-1))" Disabled="@(!canPrevious)">
             <Icon IconName="arrow_circle_left" />
     </Button>
     <div class="base-pagination-container @GetDisabledClass()">
         <input type="range" min="1" max="@TotalPages" value="@CurrentPage" @oninput="OnSliderDragged" @onchange="OnSliderReleased" />
         <div class="base-pagination-slider-handle" style="@GetHandleStyle()">@CurrentPage</div>
     </div>
-    <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(1))">
+    <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(1))" Disabled="@(!canNext)">
         <Icon IconName="arrow_circle_right" />
     </Button>
 </div>
@@ -28,12 +28,16 @@
     double sliderPercentage = 0;
     double sliderSizeAdjustment = 0;
     int sliderThumbSize = 48;
-    bool isDisabled = false;
+    bool isOnePageOnly = false;
+    bool canNext = true;
+    bool canPrevious = true;
 
     protected override void OnParametersSet()
     {
-        isDisabled = TotalPages <= 1;
+        isOnePageOnly = TotalPages <= 1;
         sliderThumbSize = Size == ElementSize.DEFAULT ? 48 : 24;
+        canNext = CurrentPage < TotalPages;
+        canPrevious = CurrentPage > 1;
         base.OnParametersSet();
     }
 
@@ -49,6 +53,8 @@
 
     void OnSliderReleased()
     {
+        canNext = CurrentPage < TotalPages;
+        canPrevious = CurrentPage > 1;
         CurrentPageChanged.InvokeAsync(CurrentPage);
     }
 
@@ -79,6 +85,6 @@
 
     string GetDisabledClass()
     {
-        return isDisabled ? "disabled" : "";
+        return isOnePageOnly ? "disabled" : "";
     }
 }
