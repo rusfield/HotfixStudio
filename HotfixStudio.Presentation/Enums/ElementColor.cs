@@ -1,0 +1,31 @@
+﻿namespace HotfixStudio.Presentation.Enums
+{
+    public enum ElementColor
+    {
+        BACKGROUND,
+        PRIMARY,
+        SECONDARY,
+        TERTIARY,
+        INFO,
+        SUCCESS,
+        WARNING,
+        ERROR,
+        TEXT,
+        BACKGROUND_DARK,
+        BACKGROUND_LIGHT,
+        PRIMARY_DARK,
+        PRIMARY_LIGHT,
+        SECONDARY_DARK,
+        SECONDARY_LIGHT,
+        TERTIARY_DARK,
+        TERTIARY_LIGHT,
+        INFO_DARK,
+        INFO_LIGHT,
+        SUCCESS_DARK,
+        SUCCESS_LIGHT,
+        WARNING_DARK,
+        WARNING_LIGHT,
+        ERROR_DARK,
+        ERROR_LIGHT
+    }
+}

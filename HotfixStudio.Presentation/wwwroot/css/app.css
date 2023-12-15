@@ -1,6 +1,27 @@
 ﻿@import url("themes/wotlk.css");
 @import url("scrollbar.css");
 
+@font-face {
+    /* https://github.com/google/material-design-icons/tree/master/variablefont */
+    font-family: 'Material Symbols';
+    font-style: normal;
+    src: url('../fonts/MaterialSymbolsSharp.ttf') format('truetype');
+}
+
+.material-symbols {
+    font-family: 'Material Symbols';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px; /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+}
+
 html, body, .app {
     margin: 0;
     padding: 0;
@@ -10,9 +31,4 @@ html, body, .app {
     overflow:hidden;
     background-color: var(--color-background-dark);
     color: var(--color-text);
-}
-
-input {
-    letter-spacing: 1.5px;
-    word-spacing: 2px;
 }
