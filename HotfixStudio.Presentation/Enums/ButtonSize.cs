@@ -2,8 +2,7 @@
 {
     public enum ButtonSize
     {
-        SMALL,
-        DEFAULT,
-        LARGE
+        COMPACT,
+        DEFAULT
     }
 }

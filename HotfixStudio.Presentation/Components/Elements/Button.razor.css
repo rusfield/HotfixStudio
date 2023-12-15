@@ -1,11 +1,38 @@
 .button-component {
-    padding: 4px;
+    --component-color: var(--color-primary);
+    --component-color-hover: var(--color-primary-light);
+    --component-color-active: var(--color-primary-dark);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+    transition: font-variation-settings ease 0.2s;
+    background-color: var(--component-color);
+    font-variation-settings: 'FILL' 1;
+    height: 24px;
+    border-radius: 4px;
 }
 
-.button-component span {
+    .button-component:hover {
+        background-color: var(--component-color-hover);
+        font-variation-settings: 'FILL' 0;
+    }
 
-}
+    .button-component:active {
+        background-color: var(--component-color-active);
+    }
+
+    .button-component.default {
+        padding: 4px;
+        flex-shrink: 0;
+        flex-grow: 1;
+    }
+
+    .button-component.compact {
+        flex-shrink: 1;
+        flex-grow: 0;
+        align-self: flex-start;
+    }

@@ -6,7 +6,9 @@
     <SingleSelect @bind-Value="value" T="int" Label="Single" GetOptionsAsync="GetOptionsAsync" />
     <MultiSelect @bind-Value="values" T="int" Label="Multi" GetOptionsAsync="GetOptionsAsync" />
     <BasePagination />
-    <Button IsIcon="true" Content="home" />
+    <Button>
+        <Icon IconName="home" />
+    </Button>
 </StackingContext>
 
 @code {

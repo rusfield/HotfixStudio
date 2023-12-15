@@ -1,14 +1,24 @@
 ﻿@using HotfixStudio.Presentation.Components.BaseElements
 
-<div class="button-component" style="@GetBackgroundColorStyle() "  @onclick="OnClick">
-    <span class="@GetClass()" style="@GetTextColorStyle()">
-        @Content
-    </span>
+<div class="button-component @GetSizeClass()" style="@GetColorStyle()" @onclick="OnClick">
+    @if(ChildContent != null)
+    {
+        @ChildContent
+    }
+    else
+    {
+        <span style="@GetTextColorStyle()">
+            @Text
+        </span>
+    }
 </div>
 
 @code {
     [Parameter]
-    public string Content { get; set; }
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string Text { get; set; }
 
     [Parameter]
     public ElementColor TextColor { get; set; } = ElementColor.TEXT;
@@ -22,26 +32,22 @@
     [Parameter]
     public EventCallback OnClick { get; set; }
 
-    [Parameter]
-    public bool IsIcon { get; set; } = false;
-
-    string GetBackgroundColorStyle()
-    {
-        return $"background-color:var(--color-{BackgroundColor.ToString().ToLower().Replace("_", "-")});";
-    }
-
     string GetTextColorStyle()
     {
         return $"color:var(--color-{TextColor.ToString().ToLower().Replace("_", "-")});";
     }
 
-    string GetSizeStyle()
+    string GetSizeClass()
     {
-        return "";
+        return Size.ToString().ToLower();
     }
 
-    string GetClass()
+    string GetColorStyle()
     {
-        return IsIcon ? "material-symbols" : "";
+        string preparedColorString = BackgroundColor.ToString().Replace("_LIGHT", "").Replace("_DARK", "").Replace("_", "-").ToLower();
+        string color = $"--component-color: var(--color-{preparedColorString});";
+        color += $"--component-color-hover: var(--color-{preparedColorString}-light);";
+        color += $"--component-color-active: var(--color-{preparedColorString}-dark);";
+        return color;
     }
 }
