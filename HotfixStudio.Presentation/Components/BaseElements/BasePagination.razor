@@ -1,15 +1,15 @@
 ﻿<div class="base-pagination-component" style="@GetThumbStyle()">
     <div class="navigation-container">
-        <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(-1))" Disabled="@(!canPrevious)">
+        <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(CurrentPageIndex -1))" Disabled="@(!canPrevious)">
             <Icon IconName="arrow_circle_left" />
         </Button>
     </div>
-    <div class="base-pagination-container @GetDisabledClass()">
-        <input type="range" min="1" max="@TotalPages" value="@CurrentPage" @oninput="OnSliderDragged" @onchange="OnSliderReleased" />
-        <div class="base-pagination-slider-handle" style="@GetHandleStyle()">@CurrentPage</div>
+    <div class="base-pagination-container @GetPageClass()">
+        <input type="range" min="0" max="@(TotalPages - 1)" value="@CurrentPageIndex" @oninput="OnSliderDragged" @onchange="OnSliderReleased" />
+        <div class="base-pagination-slider-handle" style="@GetHandleStyle()">@(CurrentPageIndex + 1)</div>
     </div>
     <div class="navigation-container">
-        <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(1))" Disabled="@(!canNext)">
+        <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(CurrentPageIndex + 1))" Disabled="@(!canNext)">
             <Icon IconName="arrow_circle_right" />
         </Button>
     </div>
@@ -17,10 +17,10 @@
 
 @code {
     [Parameter]
-    public int CurrentPage { get; set; }
+    public int CurrentPageIndex { get; set; }
 
     [Parameter]
-    public EventCallback<int> CurrentPageChanged { get; set; }
+    public EventCallback<int> CurrentPageIndexChanged { get; set; }
 
     [Parameter]
     public int TotalPages { get; set; }
@@ -40,8 +40,7 @@
     {
         isOnePageOnly = TotalPages <= 1;
         sliderThumbSize = Size == ElementSize.DEFAULT ? 48 : 24;
-        canNext = CurrentPage < TotalPages;
-        canPrevious = CurrentPage > 1;
+        SetSliderValues();
         base.OnParametersSet();
     }
 
@@ -49,26 +48,23 @@
     {
         if (int.TryParse(e.Value.ToString(), out var newValue))
         {
-            CurrentPage = newValue;
-            sliderPercentage = ((double)(CurrentPage - 1) / (TotalPages - 1)) * 100;
-            sliderSizeAdjustment = sliderPercentage * sliderThumbSize / 100;
+            Navigate(newValue, false);
         }
     }
 
     void OnSliderReleased()
     {
-        canNext = CurrentPage < TotalPages;
-        canPrevious = CurrentPage > 1;
-        CurrentPageChanged.InvokeAsync(CurrentPage);
+        Navigate(CurrentPageIndex);
     }
 
-    void Navigate(int direction)
+    void Navigate(int navigateTo, bool invokeChange = true)
     {
-        int newPage = CurrentPage + direction;
-        if (1 <= newPage && newPage <= TotalPages)
+        if (0 <= navigateTo && navigateTo <= TotalPages)
         {
-            CurrentPage = newPage;
-            CurrentPageChanged.InvokeAsync(CurrentPage);
+            CurrentPageIndex = navigateTo;
+            SetSliderValues();
+            if (invokeChange)
+                CurrentPageIndexChanged.InvokeAsync(CurrentPageIndex);
         }
     }
 
@@ -76,7 +72,7 @@
     {
         string style = $"--component-thumb-size:{sliderThumbSize}px;";
 
-        if (Size == ElementSize.COMPACT && CurrentPage > 99)
+        if (Size == ElementSize.COMPACT && CurrentPageIndex >= 99)
             style += "--component-page-font-size:8px;";
 
         return style;
@@ -87,8 +83,24 @@
         return $"left: calc({sliderPercentage}% - {sliderSizeAdjustment}px);";
     }
 
-    string GetDisabledClass()
+    string GetPageClass()
     {
-        return isOnePageOnly ? "disabled" : "";
+        return isOnePageOnly ? "one-page" : "";
+    }
+
+    void SetSliderValues()
+    {
+        canNext = CurrentPageIndex < TotalPages - 1;
+        canPrevious = CurrentPageIndex > 0;
+        if(TotalPages > 1)
+        {
+            sliderPercentage = ((double)CurrentPageIndex / (TotalPages - 1)) * 100;
+            sliderSizeAdjustment = sliderPercentage * sliderThumbSize / 100;
+        }
+        else
+        {
+            sliderPercentage = 0;
+            sliderSizeAdjustment = 0;
+        }
     }
 }

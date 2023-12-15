@@ -3,7 +3,6 @@
     public class OptionResult<T>
     {
         public Dictionary<T, string> Options { get; set; } = new();
-        public int CurrentPageIndex { get; set; }
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
         public int TotalRows { get; set; }

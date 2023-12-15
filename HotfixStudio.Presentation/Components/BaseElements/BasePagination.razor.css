@@ -12,12 +12,12 @@
 }
 
 .base-pagination-container {
-    flex-grow: 1;
+    width: 100%;
     position: relative;
+    transition: width ease 0.2s;
 }
 
-    .base-pagination-container.disabled {
-        flex-grow: 0;
+    .base-pagination-container.one-page {
         width: var(--component-thumb-size);
     }
 

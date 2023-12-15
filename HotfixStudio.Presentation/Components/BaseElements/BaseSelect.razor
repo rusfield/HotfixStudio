@@ -4,7 +4,7 @@
 @typeparam T
 
 <div class="base-select-component @GetStatusClassString()" @onmouseenter="(() => isHovering = true)" @onmouseleave="(() => isHovering = false)">
-    <BaseInput @bind-Value="inputValue" T="string" OnFocus="OnInputBaseFocusAsync" OnInputChanged="OnInputChangedAsync" Status="GetStatusClass()" Label="@Label" />
+    <BaseInput @bind-Value="displayValue" T="string" OnFocus="OnInputBaseFocusAsync" OnInputChanged="OnInputChangedAsync" Status="GetStatusClass()" Label="@Label" />
     <div class="base-select-dropdown" style="@GetDynamicStyle()">
         @if (isLoading)
         {
@@ -31,27 +31,6 @@
                     </div>
                 }
             </div>
-            <div class="base-select-dropdown-controls">
-                <div class="controls-wrapper start">
-                    <Button Size="ElementSize.COMPACT">
-                        <Icon IconName="done_all" />
-                    </Button>
-                    <Button Size="ElementSize.COMPACT">
-                        <Icon IconName="playlist_add" />
-                    </Button>
-                </div>
-                <div class="controls-wrapper">
-                    <BasePagination Size="ElementSize.COMPACT" TotalPages="10" />
-                </div>
-                <div class="controls-wrapper end">
-                    <Button Size="ElementSize.COMPACT">
-                        <Icon IconName="remove_done" />
-                    </Button>
-                    <Button Size="ElementSize.COMPACT">
-                        <Icon IconName="playlist_remove" />
-                    </Button>
-                </div>
-            </div>
         }
         else
         {
@@ -59,6 +38,27 @@
                 Nothing to see here
             </div>
         }
+        <div class="base-select-dropdown-controls">
+            <div class="controls-wrapper start @GetControlsClass()">
+                <Button Size="ElementSize.COMPACT">
+                    <Icon IconName="done_all" />
+                </Button>
+                <Button Size="ElementSize.COMPACT">
+                    <Icon IconName="playlist_add" />
+                </Button>
+            </div>
+            <div class="controls-wrapper @GetControlsClass(true)">
+                <BasePagination CurrentPageIndex="currentPageIndex" CurrentPageIndexChanged="PageChangedAsync" Size="ElementSize.COMPACT" TotalPages="@(optionResult?.TotalPages ?? 1)" />
+            </div>
+            <div class="controls-wrapper end @GetControlsClass()">
+                <Button Size="ElementSize.COMPACT">
+                    <Icon IconName="remove_done" />
+                </Button>
+                <Button Size="ElementSize.COMPACT">
+                    <Icon IconName="playlist_remove" />
+                </Button>
+            </div>
+        </div>
         <BaseDragBar @bind-Size="dropdownHeight" Type="DragBarType.HORIZONTAL_BOTTOM" OnResizeStart="ResizeStart" OnResizeEnd="ResizeEnd" />
     </div>
 </div>
@@ -78,7 +78,7 @@
     public EventCallback<List<T>> ValuesChanged { get; set; }
 
     [Parameter]
-    public string DbValueAsString { get; set; } = "String Value";
+    public string DbValueAsString { get; set; } = "Placeholder";
 
     [Parameter]
     public Func<OptionSearch<T>, Task<OptionResult<T>>> GetOptionsAsync { get; set; }
@@ -102,14 +102,16 @@
     int pageSize = 50;
     CancellationTokenSource? searchTokenSource;
     CancellationTokenSource? displayTextTokenSource;
-    OptionSearch<T> optionSearch;
-    OptionResult<T> optionResult;
+    OptionSearch<T>? optionSearch;
+    OptionResult<T>? optionResult;
 
     bool _useDbValueAsText = false;
     bool isComponentLoading = true;
 
+    string displayValue = "";
+    string lastVerifiedDisplayValue = "";
     string inputValue = "";
-    string lastVerifiedInputValue = "";
+    int currentPageIndex = 0;
 
     // When removing the second last option, the remaining option may not exist in the options list.
     // If this is the case, do not interrupt the user by loading it, but handle it in the end.
@@ -117,6 +119,9 @@
 
     // If user has typed something, do not automatically update the input.
     bool userHasTyped = false;
+
+    // The user can navigate during loading to change page, but not during a new string search
+    bool preventPageNavigation = false;
 
     double dropdownHeight = 250;
     bool isResizing = false;
@@ -170,7 +175,7 @@
     {
         searchTokenSource?.Cancel();
         isFocused = false;
-        inputValue = lastVerifiedInputValue;
+        displayValue = lastVerifiedDisplayValue;
         userHasTyped = false;
         if (unknownRemainingValue)
         {
@@ -190,11 +195,22 @@
     async Task OnInputChangedAsync(string input)
     {
         userHasTyped = true;
+        inputValue = input;
+        currentPageIndex = 0;
+        optionResult = null;
+        preventPageNavigation = true;
+        await SearchAsync();
+        preventPageNavigation = false;
+    }
+
+    async Task SearchAsync()
+    {
         isLoading = true;
         searchTokenSource?.Cancel();
         searchTokenSource = new();
         var currentSearchToken = searchTokenSource.Token;
-        optionSearch.Search = input;
+        optionSearch.Search = inputValue;
+        optionSearch.PageIndex = currentPageIndex;
         optionSearch.CancellationToken = currentSearchToken;
 
         try
@@ -292,7 +308,7 @@
         UpdateInputText(option);
         if (!userHasTyped)
         {
-            inputValue = lastVerifiedInputValue;
+            displayValue = lastVerifiedDisplayValue;
         }
 
         if (!Multiselect)
@@ -303,27 +319,27 @@
     {
         if (_useDbValueAsText)
         {
-            lastVerifiedInputValue = DbValueAsString;
+            lastVerifiedDisplayValue = DbValueAsString;
         }
         else if (Values.Count == 0)
         {
-            lastVerifiedInputValue = "None";
+            lastVerifiedDisplayValue = "None";
         }
         else if (Values.Count == 1)
         {
             if (unknownRemainingValue)
             {
                 // This will only happen on multiselect. See explaination on variable declaration.
-                lastVerifiedInputValue = "1 selected";
+                lastVerifiedDisplayValue = "1 selected";
             }
             else
             {
-                lastVerifiedInputValue = option.Value;
+                lastVerifiedDisplayValue = option.Value;
             }
         }
         else
         {
-            lastVerifiedInputValue = $"{Values.Count} selected";
+            lastVerifiedDisplayValue = $"{Values.Count} selected";
         }
     }
 
@@ -366,7 +382,7 @@
 
         }
         UpdateInputText(tempKeyValuePair);
-        inputValue = lastVerifiedInputValue;
+        displayValue = lastVerifiedDisplayValue;
         isComponentLoading = false;
     }
 
@@ -389,5 +405,20 @@
     void ResizeEnd()
     {
         isResizing = false;
+    }
+
+    async Task PageChangedAsync(int newPageIndex)
+    {
+        currentPageIndex = newPageIndex;
+        await SearchAsync();
+    }
+
+    string GetControlsClass(bool isPageNavigator = false)
+    {
+        if (isPageNavigator)
+        {
+            return preventPageNavigation ? "disable-content" : "";
+        }
+        return isLoading ? "disable-content" : "";
     }
 }

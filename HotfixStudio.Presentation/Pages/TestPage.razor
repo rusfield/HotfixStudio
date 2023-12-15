@@ -44,7 +44,9 @@
             result.Options = result.Options.Where(v => v.Value.Contains(optionSearch.Search, StringComparison.OrdinalIgnoreCase)).ToDictionary<int, string>();
         }
 
-        result.TotalRows = result.Options.Count;
+        result.PageSize = optionSearch.PageSize;
+        result.PageIndex = optionSearch.PageIndex;
+        result.TotalRows = 500;
         return result;
     }
 }
