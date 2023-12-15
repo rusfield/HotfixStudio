@@ -32,7 +32,25 @@
                 }
             </div>
             <div class="base-select-dropdown-controls">
-                <BasePagination Size="ElementSize.COMPACT" TotalPages="1000" />
+                <div class="controls-wrapper start">
+                    <Button Size="ElementSize.COMPACT">
+                        <Icon IconName="done_all" />
+                    </Button>
+                    <Button Size="ElementSize.COMPACT">
+                        <Icon IconName="playlist_add" />
+                    </Button>
+                </div>
+                <div class="controls-wrapper">
+                    <BasePagination Size="ElementSize.COMPACT" TotalPages="10" />
+                </div>
+                <div class="controls-wrapper end">
+                    <Button Size="ElementSize.COMPACT">
+                        <Icon IconName="remove_done" />
+                    </Button>
+                    <Button Size="ElementSize.COMPACT">
+                        <Icon IconName="playlist_remove" />
+                    </Button>
+                </div>
             </div>
         }
         else

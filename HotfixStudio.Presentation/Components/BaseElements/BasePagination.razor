@@ -1,14 +1,18 @@
 ﻿<div class="base-pagination-component" style="@GetThumbStyle()">
-    <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(-1))" Disabled="@(!canPrevious)">
+    <div class="navigation-container">
+        <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(-1))" Disabled="@(!canPrevious)">
             <Icon IconName="arrow_circle_left" />
-    </Button>
+        </Button>
+    </div>
     <div class="base-pagination-container @GetDisabledClass()">
         <input type="range" min="1" max="@TotalPages" value="@CurrentPage" @oninput="OnSliderDragged" @onchange="OnSliderReleased" />
         <div class="base-pagination-slider-handle" style="@GetHandleStyle()">@CurrentPage</div>
     </div>
-    <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(1))" Disabled="@(!canNext)">
-        <Icon IconName="arrow_circle_right" />
-    </Button>
+    <div class="navigation-container">
+        <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(1))" Disabled="@(!canNext)">
+            <Icon IconName="arrow_circle_right" />
+        </Button>
+    </div>
 </div>
 
 @code {
@@ -61,7 +65,7 @@
     void Navigate(int direction)
     {
         int newPage = CurrentPage + direction;
-        if(1 <= newPage && newPage <= TotalPages)
+        if (1 <= newPage && newPage <= TotalPages)
         {
             CurrentPage = newPage;
             CurrentPageChanged.InvokeAsync(CurrentPage);

@@ -21,6 +21,10 @@
         width: var(--component-thumb-size);
     }
 
+.navigation-container {
+    flex-shrink: 0;
+}
+
 input {
     -webkit-appearance: none;
     height: 8px;
@@ -56,5 +60,5 @@ input::-webkit-slider-thumb {
     width: var(--component-thumb-size);
     height: var(--component-thumb-size);
     background: rgba(0, 0, 0, 0);
-    cursor: pointer; 
+    cursor: pointer;
 }
