@@ -108,7 +108,7 @@
     align-items: center;
     display: flex;
     flex-direction: row;
-    flex-shrink: 1;
+    flex-shrink: 0;
     flex-grow: 1;
     margin: 0 4px;
     gap: 4px;
@@ -116,10 +116,12 @@
 
     .controls-wrapper.start {
         justify-content: start;
-        flex-shrink: 0;
+        flex-shrink: 1;
+        flex-grow: 0;
     }
 
     .controls-wrapper.end {
         justify-content: end;
-        flex-shrink: 0;
+        flex-shrink: 1;
+        flex-grow: 0;
     }

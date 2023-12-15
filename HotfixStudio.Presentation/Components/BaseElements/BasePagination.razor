@@ -1,33 +1,46 @@
 ﻿<div class="base-pagination-component" style="@GetSizeStyle()">
-    <div class="navigation-container">
-        <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(CurrentPageIndex -1))" Disabled="@(!canPrevious)">
-            <Icon IconName="arrow_circle_left" />
-        </Button>
-    </div>
-    <div class="base-pagination-container @GetPageClass()">
-        <input type="range" min="0" max="@(TotalPages - 1)" value="@CurrentPageIndex" @oninput="OnSliderDragged" @onchange="OnSliderReleased" />
-        <div class="handle-wrapper" style="@GetHandlePositionStyle() @GetFontSizeStyle(CurrentPageIndex + 1)">
-            <Button Size="ElementSize.COMPACT">
-                <div class="page-block">
-                    @(CurrentPageIndex + 1)
-                </div>
+    <div class="slider-container">
+        <div class="navigation-container">
+            <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(CurrentPageIndex -1))" Disabled="@(!canPrevious)">
+                <Icon IconName="arrow_circle_left" />
             </Button>
         </div>
-        @if (CurrentPageIndex == 0 && TotalPages > 1)
-        {
-            <div class="handle-wrapper total-pages" style="@GetFontSizeStyle(TotalPages)">
+        <div class="base-pagination-container @GetPageClass()">
+            <input type="range" min="0" max="@(TotalPages - 1)" value="@CurrentPageIndex" @oninput="OnSliderDragged" @onchange="OnSliderReleased" />
+            <div class="handle-wrapper" style="@GetHandlePositionStyle() @GetFontSizeStyle(CurrentPageIndex + 1)">
                 <Button Size="ElementSize.COMPACT">
                     <div class="page-block">
-                        @(TotalPages)
+                        @(CurrentPageIndex + 1)
                     </div>
                 </Button>
             </div>
-        }
+            @if (CurrentPageIndex == 0 && TotalPages > 1)
+            {
+                <div class="handle-wrapper total-pages" style="@GetFontSizeStyle(TotalPages)">
+                    <Button Size="ElementSize.COMPACT">
+                        <div class="page-block">
+                            @(TotalPages)
+                        </div>
+                    </Button>
+                </div>
+            }
+        </div>
+        <div class="navigation-container">
+            <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(CurrentPageIndex + 1))" Disabled="@(!canNext)">
+                <Icon IconName="arrow_circle_right" />
+            </Button>
+        </div>
     </div>
-    <div class="navigation-container">
-        <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(CurrentPageIndex + 1))" Disabled="@(!canNext)">
-            <Icon IconName="arrow_circle_right" />
-        </Button>
+    <div class="list-container">
+        @for (int i = 0; i < TotalPages; i++)
+        {
+            int pageIndex = i;
+            <Button Size="ElementSize.COMPACT" OnClick="(() => Navigate(pageIndex))" BackgroundColor="GetColor(pageIndex)">
+                <div class="page-block">
+                    @(pageIndex + 1)
+                </div>
+            </Button>
+        }
     </div>
 </div>
 
@@ -121,5 +134,10 @@
             sliderPercentage = 0;
             sliderSizeAdjustment = 0;
         }
+    }
+
+    ElementColor GetColor(int index)
+    {
+        return index == CurrentPageIndex ? ElementColor.PRIMARY : ElementColor.TRANSPARENT;
     }
 }
