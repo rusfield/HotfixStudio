@@ -95,7 +95,10 @@
 }
 
 .base-select-dropdown-controls {
-    min-height: 48px;
+    min-height: 32px;
     background-color: var(--color-background-light);
     border-top: 2px solid var(--color-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

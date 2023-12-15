@@ -31,4 +31,7 @@ html, body, .app {
     overflow:hidden;
     background-color: var(--color-background-dark);
     color: var(--color-text);
+
+    --color-transparent: rgba(0, 0, 0, 0);
 }
+

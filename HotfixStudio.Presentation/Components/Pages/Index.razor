@@ -11,13 +11,12 @@
             <MainTabs @bind-Tabs="tabs" @bind-CurrentTab="currentTab" />
         </Tabs>
         <Menu>
-            @*
-            <MainMenu />
-            *@
-            <Button Text="Add tab" OnClick="AddTab" />
-            <Button Size="ButtonSize.COMPACT">
-                <Icon IconName="home" />
-            </Button>
+            <MainMenu>
+                <Button Text="Add tab" OnClick="AddTab" />
+                <Button Size="ElementSize.COMPACT">
+                    <Icon IconName="home" />
+                </Button>
+            </MainMenu>
         </Menu>
     </BaseIndex>
 

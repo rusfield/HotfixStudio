@@ -1,8 +1,8 @@
 ﻿namespace HotfixStudio.Presentation.Enums
 {
-    public enum ButtonSize
+    public enum ElementSize
     {
-        COMPACT,
-        DEFAULT
+        DEFAULT,
+        COMPACT
     }
 }

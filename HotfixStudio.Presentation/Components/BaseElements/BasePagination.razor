@@ -1,23 +1,84 @@
-﻿<div class="base-pagination-component">
-
+﻿<div class="base-pagination-component" style="@GetThumbStyle()">
+    <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(-1))">
+            <Icon IconName="arrow_circle_left" />
+    </Button>
+    <div class="base-pagination-container @GetDisabledClass()">
+        <input type="range" min="1" max="@TotalPages" value="@CurrentPage" @oninput="OnSliderDragged" @onchange="OnSliderReleased" />
+        <div class="base-pagination-slider-handle" style="@GetHandleStyle()">@CurrentPage</div>
+    </div>
+    <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(1))">
+        <Icon IconName="arrow_circle_right" />
+    </Button>
 </div>
 
 @code {
     [Parameter]
-    public int CurrentPageIndex { get; set; }
+    public int CurrentPage { get; set; }
 
     [Parameter]
-    public EventCallback<int> CurrentPageIndexChanged { get; set; }
+    public EventCallback<int> CurrentPageChanged { get; set; }
 
     [Parameter]
-    public int TotalPages { get; set; } = 10;
+    public int TotalPages { get; set; }
 
-    void SelectPage(int index)
+    [Parameter]
+    public ElementSize Size { get; set; } = ElementSize.DEFAULT;
+
+
+    double sliderPercentage = 0;
+    double sliderSizeAdjustment = 0;
+    int sliderThumbSize = 48;
+    bool isDisabled = false;
+
+    protected override void OnParametersSet()
     {
-        if (index != CurrentPageIndex)
+        isDisabled = TotalPages <= 1;
+        sliderThumbSize = Size == ElementSize.DEFAULT ? 48 : 24;
+        base.OnParametersSet();
+    }
+
+    void OnSliderDragged(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value.ToString(), out var newValue))
         {
-            CurrentPageIndex = index;
-            CurrentPageIndexChanged.InvokeAsync(CurrentPageIndex);
+            CurrentPage = newValue;
+            sliderPercentage = ((double)(CurrentPage - 1) / (TotalPages - 1)) * 100;
+            sliderSizeAdjustment = sliderPercentage * sliderThumbSize / 100;
         }
+    }
+
+    void OnSliderReleased()
+    {
+        CurrentPageChanged.InvokeAsync(CurrentPage);
+    }
+
+    void Navigate(int direction)
+    {
+        int newPage = CurrentPage + direction;
+        if(1 <= newPage && newPage <= TotalPages)
+        {
+            CurrentPage = newPage;
+            CurrentPageChanged.InvokeAsync(CurrentPage);
+        }
+    }
+
+    string GetThumbStyle()
+    {
+        string style = $"--component-thumb-size:{sliderThumbSize}px;";
+
+        if (Size == ElementSize.COMPACT && CurrentPage > 99)
+            style += "--component-page-font-size:8px;";
+
+        return style;
+    }
+
+    string GetHandleStyle()
+    {
+        return $"left: calc({sliderPercentage}% - {sliderSizeAdjustment}px);";
+    }
+
+    string GetDisabledClass()
+    {
+        return isDisabled ? "disabled" : "";
     }
 }

@@ -11,14 +11,14 @@
     overflow: hidden;
     transition: font-variation-settings ease 0.2s;
     background-color: var(--component-color);
-    font-variation-settings: 'FILL' 1;
+    font-variation-settings: 'FILL' 0;
     height: 24px;
     border-radius: 4px;
 }
 
     .button-component:hover {
         background-color: var(--component-color-hover);
-        font-variation-settings: 'FILL' 0;
+        font-variation-settings: 'FILL' 1;
     }
 
     .button-component:active {
@@ -27,12 +27,8 @@
 
     .button-component.default {
         padding: 4px;
-        flex-shrink: 0;
-        flex-grow: 1;
     }
 
     .button-component.compact {
-        flex-shrink: 1;
-        flex-grow: 0;
-        align-self: flex-start;
+        display: inline-block;
     }

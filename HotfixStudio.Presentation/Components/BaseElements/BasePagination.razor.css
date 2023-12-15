@@ -1,20 +1,60 @@
-.pagination-container {
+.base-pagination-component {
+    --component-thumb-size: 24px;
+    --component-page-font-size: 16px;
+    position: relative;
+    width: 100%;
     display: flex;
-    list-style: none;
-    /* Add more styles as needed */
+    height: var(--component-thumb-size);
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 2px;
 }
 
-.page-item {
-    margin: 0 2px;
+.base-pagination-container {
+    flex-grow: 1;
+    position: relative;
 }
 
-    .page-item.disabled span,
-    .page-item.active span {
-        cursor: default;
+    .base-pagination-container.disabled {
+        flex-grow: 0;
+        width: var(--component-thumb-size);
     }
 
-.page-link {
-    border: 1px solid #ddd;
-    padding: 5px 10px;
-    cursor: pointer;
+input {
+    -webkit-appearance: none;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--color-background);
+    outline: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.base-pagination-slider-handle {
+    position: absolute;
+    width: var(--component-thumb-size);
+    height: var(--component-thumb-size);
+    background-color: var(--color-primary);
+    text-align: center;
+    line-height: var(--component-thumb-size);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    transition: left ease 0.2s;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: var(--component-page-font-size);
+}
+
+input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: var(--component-thumb-size);
+    height: var(--component-thumb-size);
+    background: rgba(0, 0, 0, 0);
+    cursor: pointer; 
 }

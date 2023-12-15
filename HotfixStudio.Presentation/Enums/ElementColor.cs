@@ -2,6 +2,7 @@
 {
     public enum ElementColor
     {
+        TRANSPARENT,
         BACKGROUND,
         PRIMARY,
         SECONDARY,
