@@ -112,6 +112,7 @@
     flex-grow: 1;
     margin: 0 4px;
     gap: 4px;
+    flex-basis: 200px;
 }
 
     .controls-wrapper.start {

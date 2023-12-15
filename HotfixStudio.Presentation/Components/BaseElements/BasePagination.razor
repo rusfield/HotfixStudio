@@ -1,5 +1,6 @@
 ﻿<div class="base-pagination-component" style="@GetSizeStyle()">
-    <div class="slider-container">
+    @if (TotalPages > 10)
+    {
         <div class="navigation-container">
             <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(CurrentPageIndex -1))" Disabled="@(!canPrevious)">
                 <Icon IconName="arrow_circle_left" />
@@ -30,9 +31,10 @@
                 <Icon IconName="arrow_circle_right" />
             </Button>
         </div>
-    </div>
-    <div class="list-container">
-        @for (int i = 0; i < TotalPages; i++)
+    }
+    else
+    {
+        for (int i = 0; i < TotalPages; i++)
         {
             int pageIndex = i;
             <Button Size="ElementSize.COMPACT" OnClick="(() => Navigate(pageIndex))" BackgroundColor="GetColor(pageIndex)">
@@ -41,7 +43,7 @@
                 </div>
             </Button>
         }
-    </div>
+    }
 </div>
 
 @code {

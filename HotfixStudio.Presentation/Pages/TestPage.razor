@@ -5,7 +5,7 @@
     <Input @bind-Value="val" T="uint" Label="Text" />
     <SingleSelect @bind-Value="value" T="int" Label="Single" GetOptionsAsync="GetOptionsAsync" />
     <MultiSelect @bind-Value="values" T="int" Label="Multi" GetOptionsAsync="GetOptionsAsync" />
-    <BasePagination />
+    <BasePagination TotalPages="5" />
     <Button>
         <Icon IconName="home" />
     </Button>
@@ -46,7 +46,7 @@
 
         result.PageSize = optionSearch.PageSize;
         result.PageIndex = optionSearch.PageIndex;
-        result.TotalRows = 2500;
+        result.TotalRows = 500;
         return result;
     }
 }
