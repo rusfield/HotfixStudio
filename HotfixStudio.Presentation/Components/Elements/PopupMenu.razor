@@ -1,0 +1,26 @@
+﻿<div class="popup-menu-component">
+    <div class="popup-menu-header">
+        @Label
+    </div>
+    <div class="popup-menu-body">
+        @foreach (var listItems in ListItemSections)
+        {
+            <div class="popup-menu-section">
+                @foreach (var item in listItems)
+                {
+                    <div class="popup-menu-section-item" @onclick="item.Item2">
+                        @item.Item1
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Label { get; set; } = "Creatures";
+
+    [Parameter]
+    public List<List<(string, EventCallback)>> ListItemSections { get; set; }
+}

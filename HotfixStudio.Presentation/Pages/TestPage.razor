@@ -9,12 +9,23 @@
     <Button>
         <Icon IconName="home" />
     </Button>
+    <PopupMenu ListItemSections="listItemSections" />
 </StackingContext>
 
 @code {
     uint val = 2;
     int values = 33;
     int value = 1;
+
+    static List<(string, EventCallback)> popupMenu = new()
+    {
+        new("Item 1", EventCallback.Empty),
+         new("Item 2", EventCallback.Empty),
+          new("Item 3", EventCallback.Empty),
+           new("Item 4", EventCallback.Empty)
+    };
+
+    List<List<(string, EventCallback)>> listItemSections = new() { popupMenu, popupMenu, popupMenu };
 
     async Task<OptionResult<int>> GetOptionsAsync(OptionSearch<int> optionSearch)
     {
