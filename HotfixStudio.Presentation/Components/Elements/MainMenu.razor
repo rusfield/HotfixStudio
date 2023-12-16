@@ -1,8 +1,68 @@
-﻿<div class="main-menu-component">
-    @ChildContent
+﻿@ChildContent
+
+<div class="main-menu-component">
+    @for (int i = 0; i < 4; i++)
+    {
+        int index = i;
+        <div class="label" @onmouseenter="(() => OpenMenu(index))" @onmouseleave="(() => MouseOut(index))">
+            <div class="icon">
+                <Icon IconName="home" />
+            </div>
+            <div class="text">
+                Some test
+            </div>
+            @if (hovers[index])
+            {
+                <div class="abs-pos">
+                    <PopupMenu Label="Some test" ListItemSections="listItemSections" />
+                </div>
+            }
+        </div>
+    }
 </div>
 
 @code {
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public bool MenuOpen { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> MenuOpenChanged { get; set; }
+
+    static List<(string, EventCallback)> popupMenu = new()
+    {
+        new("Item 1", EventCallback.Empty),
+         new("Item 2", EventCallback.Empty),
+          new("Item 3", EventCallback.Empty),
+           new("Item 4", EventCallback.Empty)
+    };
+
+    List<List<(string, EventCallback)>> listItemSections = new() { popupMenu, popupMenu, popupMenu };
+
+    List<bool> hovers = new()
+    {
+        false,
+        false,
+        false,
+        false
+    };
+
+    void MouseOut(int index)
+    {
+        hovers[index] = false;
+        MenuOpen = false;
+        MenuOpenChanged.InvokeAsync(MenuOpen);
+    }
+
+    void OpenMenu(int index)
+    {
+        for (int i = 0; i < 4; i++)
+            hovers[i] = false;
+
+        hovers[index] = true;
+        MenuOpen = true;
+        MenuOpenChanged.InvokeAsync(MenuOpen);
+    }
 }

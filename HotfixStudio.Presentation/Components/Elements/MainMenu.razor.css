@@ -1,5 +1,49 @@
 .main-menu-component {
     width: 100%;
     height: 100%;
-    display: block;
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    margin: 4px 4px 4px 0px;
+    background-color: var(--color-background);
+    position: relative;
+    padding: 5px 10px;
+    display: flex;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 10;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    font-variation-settings: 'FILL' 0;
+}
+
+.label:hover .text {
+    width: 0;
+}
+
+.icon {
+
+}
+
+.text {
+    overflow: hidden;
+    width: calc(100% - 24px);
+    transition: width ease 0.2s;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.label:hover {
+    background-color: var(--color-background-light);
+    font-variation-settings: 'FILL' 1;
+}
+
+.abs-pos {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    z-index: 2;
 }

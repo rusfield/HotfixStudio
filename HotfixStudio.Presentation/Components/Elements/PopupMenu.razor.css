@@ -1,39 +1,49 @@
 .popup-menu-component {
-    width: 240px;
+    --component-gap: 2px;
     display: flex;
     border-radius: 4px;
-    background-color: var(--color-background-dark);
+    border-top-left-radius: 0px;
+    background-color: var(--color-background-light);
     flex-direction: column;
-    border: 2px solid var(--color-primary);
     color: var(--color-text);
+    overflow-x: clip;
+    animation: scaleHeader 0.1s linear forwards;
+    max-width: 0;
+    width: 240px;
 }
 
 .popup-menu-header {
     padding: 5px 10px;
     background-color: var(--color-background-light);
     border-radius: 4px;
-    margin: 4px;
+    margin: var(--component-gap);
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
+    font-size: 16px;
+    font-weight: bold;
+    height: 24px;
 }
 
 .popup-menu-body {
-    gap: 4px;
+    gap: var(--component-gap);
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    max-height: 0;
+    animation: scaleBody 0.2s linear 0.1s forwards;
+    overflow: hidden;
 }
 
 .popup-menu-section {
-    border-radius: 4px;
+    border-radius: var(--component-gap);
     background-color: var(--color-background);
-    margin: 0px 4px;
+    margin: 0px var(--component-gap);
     cursor: pointer;
 }
 
     .popup-menu-section:last-child {
-        margin-bottom: 4px;
+        margin-bottom: var(--component-gap);
     }
 
 .popup-menu-section-item {
@@ -53,3 +63,23 @@
     .popup-menu-section-item:hover {
         background-color: var(--color-background-light);
     }
+
+@keyframes scaleHeader {
+    from {
+        max-width: 0
+    }
+
+    to {
+        max-width: 240px;
+    }
+}
+
+@keyframes scaleBody {
+    from {
+        max-height: 0;
+    }
+
+    to {
+        max-height: 1000px;
+    }
+}

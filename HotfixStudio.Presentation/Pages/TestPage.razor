@@ -9,13 +9,19 @@
     <Button>
         <Icon IconName="home" />
     </Button>
-    <PopupMenu ListItemSections="listItemSections" />
+
+    @if (!closeMenu && false)
+    {
+        <PopupMenu ListItemSections="listItemSections" Label="Test Label" OnMouseOut="(() => closeMenu = true )" />
+    }
 </StackingContext>
 
 @code {
     uint val = 2;
     int values = 33;
     int value = 1;
+
+    bool closeMenu = false;
 
     static List<(string, EventCallback)> popupMenu = new()
     {
