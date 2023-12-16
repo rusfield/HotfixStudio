@@ -8,7 +8,7 @@
     justify-content: center;
     flex-direction: row;
     display: flex;
-    gap: 2px;
+    gap: 4px;
 }
 
 .base-pagination-container {
@@ -18,11 +18,8 @@
     transition: width ease 0.2s;
     display: flex;
     align-items: center;
+    overflow:hidden;
 }
-
-    .base-pagination-container.one-page {
-        width: var(--component-thumb-size);
-    }
 
 .navigation-container {
     flex-shrink: 0;
@@ -77,4 +74,13 @@ input::-webkit-slider-thumb {
     height: var(--component-thumb-size);
     background: rgba(0, 0, 0, 0);
     cursor: pointer;
+}
+
+.pages-container {
+    position: absolute;
+    transform: translateX(-50%);
+    height: var(--component-thumb-size);
+    left: 50%;
+    display: flex;
+    gap: 4px;
 }

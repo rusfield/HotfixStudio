@@ -16,12 +16,12 @@
     height: 24px;
 }
 
-    .button-component:hover {
+    .button-component:not(.disable-animations):hover {
         background-color: var(--component-color-hover);
         font-variation-settings: 'FILL' 1;
     }
 
-    .button-component:active {
+    .button-component:not(.disable-animations):active {
         background-color: var(--component-color-active);
     }
 

@@ -1,12 +1,13 @@
 ﻿<div class="base-pagination-component" style="@GetSizeStyle()">
-    @if (TotalPages > 9)
-    {
-        <div class="navigation-container">
-            <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(CurrentPageIndex -1))" Disabled="@(!canPrevious)">
-                <Icon IconName="arrow_circle_left" />
-            </Button>
-        </div>
-        <div class="base-pagination-container @GetPageClass()">
+
+    <div class="navigation-container">
+        <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(CurrentPageIndex -1))" Disabled="@(!canPrevious)">
+            <Icon IconName="arrow_circle_left" />
+        </Button>
+    </div>
+    <div class="base-pagination-container" style="@GetPageStyle()">
+        @if (TotalPages > 9)
+        {
             <input type="range" min="0" max="@(TotalPages - 1)" value="@CurrentPageIndex" @oninput="OnSliderDragged" @onchange="OnSliderReleased" />
             <div class="handle-wrapper" style="@GetHandlePositionStyle() @GetFontSizeStyle(CurrentPageIndex + 1)">
                 <Button Size="ElementSize.COMPACT">
@@ -25,25 +26,29 @@
                     </Button>
                 </div>
             }
-        </div>
-        <div class="navigation-container">
-            <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(CurrentPageIndex + 1))" Disabled="@(!canNext)">
-                <Icon IconName="arrow_circle_right" />
-            </Button>
-        </div>
-    }
-    else
-    {
-        for (int i = 0; i < TotalPages; i++)
-        {
-            int pageIndex = i;
-            <Button Size="ElementSize.COMPACT" OnClick="(() => Navigate(pageIndex))" BackgroundColor="GetColor(pageIndex)">
-                <div class="page-block">
-                    @(pageIndex + 1)
-                </div>
-            </Button>
         }
-    }
+        else
+        {
+            <div class="pages-container">
+                @for (int i = 0; i < TotalPages; i++)
+                {
+                    int pageIndex = i;
+                    <Button Size="ElementSize.COMPACT" OnClick="(() => Navigate(pageIndex))" BackgroundColor="GetColor(pageIndex)" AnimationEffects="false">
+                        <div class="page-block">
+                            @(pageIndex + 1)
+                        </div>
+                    </Button>
+                }
+            </div>
+        }
+    </div>
+    <div class="navigation-container">
+        <Button BackgroundColor="ElementColor.TRANSPARENT" Size="ElementSize.COMPACT" OnClick="(() => Navigate(CurrentPageIndex + 1))" Disabled="@(!canNext)">
+            <Icon IconName="arrow_circle_right" />
+        </Button>
+    </div>
+
+
 </div>
 
 @code {
@@ -63,13 +68,11 @@
     double sliderPercentage = 0;
     double sliderSizeAdjustment = 0;
     int sliderThumbSize = 48;
-    bool isOnePageOnly = false;
     bool canNext = true;
     bool canPrevious = true;
 
     protected override void OnParametersSet()
     {
-        isOnePageOnly = TotalPages <= 1;
         sliderThumbSize = Size == ElementSize.DEFAULT ? 48 : 24;
         SetSliderValues();
         base.OnParametersSet();
@@ -90,7 +93,7 @@
 
     void Navigate(int navigateTo, bool invokeChange = true)
     {
-        if (0 <= navigateTo && navigateTo <= TotalPages)
+        if (0 <= navigateTo && navigateTo <= TotalPages && navigateTo != CurrentPageIndex)
         {
             CurrentPageIndex = navigateTo;
             SetSliderValues();
@@ -117,9 +120,15 @@
         return $"left: calc({sliderPercentage}% - {sliderSizeAdjustment}px);";
     }
 
-    string GetPageClass()
+    string GetPageStyle()
     {
-        return isOnePageOnly ? "one-page" : "";
+
+        if (TotalPages <= 1)
+            return $"width:{sliderThumbSize}px;";
+        else if (TotalPages < 10)
+            return $"width:{(sliderThumbSize * TotalPages) + ((TotalPages - 1) * 4)}px;"; // 4 is for gap
+
+        return "width:100%;";
     }
 
     void SetSliderValues()
