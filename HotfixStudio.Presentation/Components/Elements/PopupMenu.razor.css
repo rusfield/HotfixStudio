@@ -23,6 +23,7 @@
     font-size: 16px;
     font-weight: bold;
     height: 24px;
+    white-space: nowrap;
 }
 
 .popup-menu-body {
@@ -33,6 +34,7 @@
     max-height: 0;
     animation: scaleBody 0.2s linear 0.1s forwards;
     overflow: hidden;
+    white-space: nowrap;
 }
 
 .popup-menu-section {
