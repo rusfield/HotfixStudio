@@ -33,7 +33,7 @@
                 @for (int i = 0; i < TotalPages; i++)
                 {
                     int pageIndex = i;
-                    <Button Size="ElementSize.COMPACT" OnClick="(() => Navigate(pageIndex))" BackgroundColor="GetColor(pageIndex)" AnimationEffects="false">
+                    <Button Size="ElementSize.COMPACT" OnClick="(() => OnPageBlockClick(pageIndex))" BackgroundColor="GetColor(pageIndex)" AnimationEffects="false">
                         <div class="page-block">
                             @(pageIndex + 1)
                         </div>
@@ -91,9 +91,15 @@
         Navigate(CurrentPageIndex);
     }
 
+    void OnPageBlockClick(int navigateTo)
+    {
+        if (navigateTo != CurrentPageIndex)
+            Navigate(navigateTo);
+    }
+
     void Navigate(int navigateTo, bool invokeChange = true)
     {
-        if (0 <= navigateTo && navigateTo <= TotalPages && navigateTo != CurrentPageIndex)
+        if (0 <= navigateTo && navigateTo <= TotalPages)
         {
             CurrentPageIndex = navigateTo;
             SetSliderValues();
