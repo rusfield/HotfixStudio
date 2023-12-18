@@ -35,6 +35,7 @@
     animation: scaleBody 0.2s linear 0.1s forwards;
     overflow: hidden;
     white-space: nowrap;
+    font-weight: normal;
 }
 
 .popup-menu-section {
@@ -64,6 +65,7 @@
 
     .popup-menu-section-item:hover {
         background-color: var(--color-background-light);
+        border-radius: 0px;
     }
 
 @keyframes scaleHeader {

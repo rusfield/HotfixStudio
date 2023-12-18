@@ -5,16 +5,16 @@
 <div class="base-index-component">
 
     <div class="base-index-container-row">
-        <div class="base-index-sidebar" style="@($"min-width:{sidebarWidth}px;")">
+        <div class="base-index-sidebar @GetToggleClass()" style="@($"width:{sidebarWidth}px;")" @ondblclick="ToggleMenu">
             <div class="base-index-sidebar-column">
                 <div class="logo">
                     Logo
                 </div>
                 <MainMenu MenuObjects="menuObjects" />
             </div>
-            <BaseDragBar @bind-Size="sidebarWidth" Type="DragBarType.VERTICAL_RIGHT" />
+            <BaseDragBar @bind-Size="sidebarWidth" Type="DragBarType.VERTICAL_RIGHT" MinSize="48" MaxSize="400" />
         </div>
-        <div class="base-index-content" style="@($"width:calc(100% - {sidebarWidth}px);")">
+        <div class="base-index-content @GetToggleClass()" style="@($"max-width:calc(100% - {sidebarWidth}px);")">
             <MainTabs @bind-Tabs="tabs" @bind-CurrentTab="currentTab" />
         </div>
 
@@ -29,16 +29,23 @@
     List<PageTab> tabs = new();
     PageTab? currentTab;
 
-    double sidebarWidth = 160;
+    double sidebarWidth = 180;
     double footerHeight = 30;
+    bool togglingMenu = false;
 
     List<MenuObject> menuObjects = new();
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        togglingMenu = false;
+        base.OnAfterRender(firstRender);
+    }
 
     protected override void OnInitialized()
     {
         var testCallback = EventCallback.Factory.Create(this, AddTab);
 
-        for(int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++)
         {
             Dictionary<string, EventCallback> dashboardSection = new();
             dashboardSection.Add("Dashboard", testCallback);
@@ -66,5 +73,19 @@
                 Label = "Title " + (tabs.Count + 1),
                 PageComponent = typeof(TestPage)
             });
+    }
+
+    void ToggleMenu()
+    {
+        togglingMenu = true;
+        if (sidebarWidth >= 180)
+            sidebarWidth = 48;
+        else
+            sidebarWidth = 180;
+    }
+
+    string GetToggleClass()
+    {
+        return togglingMenu ? " toggling" : "";
     }
 }

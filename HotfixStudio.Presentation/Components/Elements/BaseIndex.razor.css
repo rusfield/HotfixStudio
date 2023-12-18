@@ -22,6 +22,10 @@
     position: relative;
 }
 
+    .base-index-sidebar.toggling {
+        transition: width ease 0.2s;
+    }
+
 .base-index-sidebar-column {
     display: flex;
     flex-direction: column;
@@ -31,3 +35,7 @@
 .base-index-content {
     flex-grow: 1;
 }
+
+    .base-index-content.toggling {
+        transition: max-width ease 0.2s;
+    }
