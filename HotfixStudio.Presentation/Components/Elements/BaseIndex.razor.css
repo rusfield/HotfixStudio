@@ -34,8 +34,26 @@
 
 .base-index-content {
     flex-grow: 1;
+    position: relative;
 }
 
     .base-index-content.toggling {
         transition: max-width ease 0.2s;
+    }
+
+.base-index-menu-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: background-color 0.2s, width 0s, height 0s;
+}
+
+    .base-index-menu-overlay.disabled {
+        background-color: rgba(0, 0, 0, 0);
+        width: 0;
+        height: 0;
+        transition: background-color 0.2s, width 0s 0.2s, height 0s 0.2s;
     }

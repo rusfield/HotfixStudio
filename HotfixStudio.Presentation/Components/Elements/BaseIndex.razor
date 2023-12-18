@@ -10,12 +10,13 @@
                 <div class="logo">
                     Logo
                 </div>
-                <MainMenu MenuObjects="menuObjects" />
+                <MainMenu MenuObjects="menuObjects" @bind-MenuOpen="menuOpen" />
             </div>
             <BaseDragBar @bind-Size="sidebarWidth" Type="DragBarType.VERTICAL_RIGHT" MinSize="48" MaxSize="400" />
         </div>
         <div class="base-index-content @GetToggleClass()" style="@($"max-width:calc(100% - {sidebarWidth}px);")">
             <MainTabs @bind-Tabs="tabs" @bind-CurrentTab="currentTab" />
+            <div class="base-index-menu-overlay @GetOverlayDisabledClass()" />
         </div>
 
     </div>
@@ -32,6 +33,7 @@
     double sidebarWidth = 180;
     double footerHeight = 30;
     bool togglingMenu = false;
+    bool menuOpen = false;
 
     List<MenuObject> menuObjects = new();
 
@@ -77,15 +79,23 @@
 
     void ToggleMenu()
     {
-        togglingMenu = true;
-        if (sidebarWidth >= 180)
-            sidebarWidth = 48;
-        else
-            sidebarWidth = 180;
+        if (!menuOpen)
+        {
+            togglingMenu = true;
+            if (sidebarWidth >= 180)
+                sidebarWidth = 48;
+            else
+                sidebarWidth = 180;
+        }
     }
 
     string GetToggleClass()
     {
         return togglingMenu ? " toggling" : "";
+    }
+
+    string GetOverlayDisabledClass()
+    {
+        return menuOpen ? "" : " disabled";
     }
 }
