@@ -43,7 +43,6 @@
     .tabs-header-cell.active {
         background-color: var(--color-background-dark);
         box-shadow: 0px 20px 0px 0px var(--color-background-dark);
-        min-width: var(--tab-width);
     }
 
         .tabs-header-cell.active:hover .tabs-header-cell-close {

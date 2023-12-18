@@ -10,12 +10,12 @@
                 <div class="logo">
                     Logo
                 </div>
-                <MainMenu MenuObjects="menuObjects" @bind-MenuOpen="menuOpen" />
+                <MainMenu @ref="mainMenu" MenuObjects="menuObjects" @bind-MenuOpen="menuOpen" />
             </div>
             <BaseDragBar @bind-Size="sidebarWidth" Type="DragBarType.VERTICAL_RIGHT" MinSize="48" MaxSize="400" />
         </div>
         <div class="base-index-content @GetToggleClass()" style="@($"max-width:calc(100% - {sidebarWidth}px);")">
-            <MainTabs @bind-Tabs="tabs" @bind-CurrentTab="currentTab" />
+            <MainTabs @ref="mainTabs" />
             <div class="base-index-menu-overlay @GetOverlayDisabledClass()" />
         </div>
 
@@ -27,13 +27,14 @@
 </div>
 
 @code {
-    List<PageTab> tabs = new();
-    PageTab? currentTab;
-
     double sidebarWidth = 180;
     double footerHeight = 30;
+
+    MainMenu? mainMenu;
     bool togglingMenu = false;
     bool menuOpen = false;
+
+    MainTabs? mainTabs;
 
     List<MenuObject> menuObjects = new();
 
@@ -70,11 +71,13 @@
 
     void AddTab()
     {
-        tabs.Add(new()
+        mainMenu?.Close();
+        PageTab newTab = new()
             {
-                Label = "Title " + (tabs.Count + 1),
+                Label = "Title",
                 PageComponent = typeof(TestPage)
-            });
+            };
+        mainTabs?.OpenTab(newTab);
     }
 
     void ToggleMenu()

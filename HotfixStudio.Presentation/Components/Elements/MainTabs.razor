@@ -4,7 +4,7 @@
 <div class="tabs-component">
     <div class="tabs-header" style="@($"height:{headerHeight}px;")">
         <BaseDragBar @bind-Size="headerHeight" Type="DragBarType.HORIZONTAL_BOTTOM" MinSize="32" MaxSize="300" />
-        @foreach (var tab in Tabs)
+        @foreach (var tab in tabs)
         {
             <div class="tabs-header-cell @GetTabClass(tab)" @onclick="(() => ChangeTab(tab))" @key="tab">
                 <div class="tabs-header-cell-label">
@@ -23,7 +23,7 @@
     </div>
 
     <div class="tabs-body">
-        @foreach (var tab in Tabs)
+        @foreach (var tab in tabs)
         {
             <div class="tabs-body-content @GetTabClass(tab)" @key="tab">
                 <DynamicComponent Type="tab.PageComponent" />
@@ -33,17 +33,8 @@
 </div>
 
 @code {
-    [Parameter]
-    public List<PageTab> Tabs { get; set; }
-
-    [Parameter]
-    public EventCallback<List<PageTab>> TabsChanged { get; set; }
-
-    [Parameter]
-    public PageTab CurrentTab { get; set; }
-
-    [Parameter]
-    public EventCallback<PageTab> CurrentTabChanged { get; set; }
+    List<PageTab> tabs = new();
+    PageTab? CurrentTab;
 
     PageTab? closingTab;
     double headerHeight = 40;
@@ -53,7 +44,6 @@
         if (CurrentTab != tab)
         {
             CurrentTab = tab;
-            CurrentTabChanged.InvokeAsync(CurrentTab);
         }
     }
 
@@ -62,11 +52,11 @@
         closingTab = tab;
         this.StateHasChanged();
         await Task.Delay(200);
-        var index = Tabs.IndexOf(tab);
-        Tabs.Remove(tab);
-        index = Math.Min(index, Tabs.Count - 1);
+        var index = tabs.IndexOf(tab);
+        tabs.Remove(tab);
+        index = Math.Min(index, tabs.Count - 1);
         if (index >= 0)
-            ChangeTab(Tabs[index]);
+            ChangeTab(tabs[index]);
     }
 
     string GetTabClass(PageTab tab)
@@ -77,5 +67,12 @@
             return "active";
         else
             return "";
+    }
+
+    public void OpenTab(PageTab newTab)
+    {
+        tabs.Add(newTab);
+        ChangeTab(newTab);
+        this.StateHasChanged();
     }
 }

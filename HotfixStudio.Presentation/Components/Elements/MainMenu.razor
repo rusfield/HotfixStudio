@@ -49,4 +49,11 @@
         MenuOpen = true;
         MenuOpenChanged.InvokeAsync(MenuOpen);
     }
+
+    public void Close()
+    {
+        hoverIndex = -1;
+        MenuOpen = false;
+        MenuOpenChanged.InvokeAsync(MenuOpen);
+    }
 }
