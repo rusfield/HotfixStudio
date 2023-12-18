@@ -1,15 +1,16 @@
-﻿<div class="popup-menu-component" @onmouseleave="OnMouseOut">
+﻿@using HotfixStudio.Presentation.ComponentModels
+<div class="popup-menu-component" @onmouseleave="OnMouseOut">
     <div class="popup-menu-header">
         @Label
     </div>
     <div class="popup-menu-body">
-        @foreach (var listItems in ListItemSections)
+        @foreach (var section in Sections)
         {
             <div class="popup-menu-section">
-                @foreach (var item in listItems)
+                @foreach (var item in section.Items)
                 {
-                    <div class="popup-menu-section-item" @onclick="item.Item2">
-                        @item.Item1
+                    <div class="popup-menu-section-item" @onclick="item.Value">
+                        @item.Key
                     </div>
                 }
             </div>
@@ -22,7 +23,7 @@
     public string Label { get; set; }
 
     [Parameter]
-    public List<List<(string, EventCallback)>> ListItemSections { get; set; }
+    public List<MenuObject.Section> Sections { get; set; }
 
     [Parameter]
     public EventCallback OnMouseOut { get; set; }

@@ -1,17 +1,21 @@
-﻿@using HotfixStudio.Presentation.Components.BaseElements
+﻿@using HotfixStudio.Infrastructure.PresentationData
+@using HotfixStudio.Presentation.ComponentModels
+@using HotfixStudio.Presentation.Components.BaseElements
 
 <div class="base-index-component">
 
     <div class="base-index-container-row">
         <div class="base-index-sidebar" style="@($"min-width:{sidebarWidth}px;")">
             <div class="base-index-sidebar-column">
-                @Logo
-                @Menu
+                <div class="logo">
+                    Logo
+                </div>
+                <MainMenu MenuObjects="menuObjects" />
             </div>
             <BaseDragBar @bind-Size="sidebarWidth" Type="DragBarType.VERTICAL_RIGHT" />
         </div>
         <div class="base-index-content" style="@($"width:calc(100% - {sidebarWidth}px);")">
-            @Tabs
+            <MainTabs @bind-Tabs="tabs" @bind-CurrentTab="currentTab" />
         </div>
 
     </div>
@@ -22,16 +26,45 @@
 </div>
 
 @code {
-    [Parameter]
-    public RenderFragment Logo { get; set; }
-
-    [Parameter]
-    public RenderFragment Tabs { get; set; }
-
-    [Parameter]
-    public RenderFragment Menu { get; set; }
+    List<PageTab> tabs = new();
+    PageTab? currentTab;
 
     double sidebarWidth = 160;
     double footerHeight = 30;
 
+    List<MenuObject> menuObjects = new();
+
+    protected override void OnInitialized()
+    {
+        var testCallback = EventCallback.Factory.Create(this, AddTab);
+
+        for(int i = 0; i < 5; i++)
+        {
+            Dictionary<string, EventCallback> dashboardSection = new();
+            dashboardSection.Add("Dashboard", testCallback);
+
+            Dictionary<string, EventCallback> newSection = new();
+            newSection.Add("Search by ID", testCallback);
+            newSection.Add("Search by Name", testCallback);
+
+            menuObjects.Add(new()
+                {
+                    Header = "Creatures",
+                    IconName = "home"
+                });
+            menuObjects[i].AddSection(dashboardSection);
+            menuObjects[i].AddSection(newSection);
+        }
+
+        base.OnInitialized();
+    }
+
+    void AddTab()
+    {
+        tabs.Add(new()
+            {
+                Label = "Title " + (tabs.Count + 1),
+                PageComponent = typeof(TestPage)
+            });
+    }
 }

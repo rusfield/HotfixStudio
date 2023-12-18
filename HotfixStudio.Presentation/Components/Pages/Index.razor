@@ -3,36 +3,10 @@
 @using HotfixStudio.Presentation.Components.BaseElements
 
 <div class="index">
-    <BaseIndex>
-        <Logo>
-            Logo
-        </Logo>
-        <Tabs>
-            <MainTabs @bind-Tabs="tabs" @bind-CurrentTab="currentTab" />
-        </Tabs>
-        <Menu>
-            <MainMenu>
-                <Button Text="Add tab" OnClick="AddTab" />
-                <Button Disabled="true" Size="ElementSize.COMPACT">
-                    <Icon IconName="home" />
-                </Button>
-            </MainMenu>
-        </Menu>
-    </BaseIndex>
-
+    <BaseIndex />
 </div>
 
 @code {
-    List<PageTab> tabs = new();
-    PageTab? currentTab;
 
-    void AddTab()
-    {
-        tabs.Add(new()
-            {
-                Label = "Title " + (tabs.Count + 1),
-                PageComponent = typeof(TestPage)
-            });
-    }
 
 }

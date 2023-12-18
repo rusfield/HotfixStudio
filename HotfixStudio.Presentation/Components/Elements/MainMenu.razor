@@ -1,20 +1,20 @@
-﻿@ChildContent
+﻿@using HotfixStudio.Presentation.ComponentModels
 
 <div class="main-menu-component">
-    @for (int i = 0; i < 4; i++)
+    @for(int i = 0; i < MenuObjects.Count; i++)
     {
         int index = i;
         <div class="label" @onmouseenter="(() => OpenMenu(index))" @onmouseleave="(() => MouseOut(index))">
             <div class="icon">
-                <Icon IconName="home" />
+                <Icon IconName="@MenuObjects[index].IconName" />
             </div>
             <div class="text">
-                Some test
+                @MenuObjects[index].Header
             </div>
-            @if (hovers[index])
+            @if (hoverIndex == index)
             {
                 <div class="abs-pos">
-                    <PopupMenu Label="Some test" ListItemSections="listItemSections" />
+                    <PopupMenu Label="Some test" Sections="@MenuObjects[index].Sections" />
                 </div>
             }
         </div>
@@ -23,45 +23,29 @@
 
 @code {
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
-
-    [Parameter]
     public bool MenuOpen { get; set; }
 
     [Parameter]
     public EventCallback<bool> MenuOpenChanged { get; set; }
 
-    static List<(string, EventCallback)> popupMenu = new()
-    {
-        new("Item 1", EventCallback.Empty),
-         new("Item 2", EventCallback.Empty),
-          new("Item 3", EventCallback.Empty),
-           new("Item 4", EventCallback.Empty)
-    };
+    [Parameter]
+    public List<MenuObject> MenuObjects { get; set; }
 
-    List<List<(string, EventCallback)>> listItemSections = new() { popupMenu, popupMenu, popupMenu };
-
-    List<bool> hovers = new()
-    {
-        false,
-        false,
-        false,
-        false
-    };
+    int hoverIndex = -1;
 
     void MouseOut(int index)
     {
-        hovers[index] = false;
-        MenuOpen = false;
-        MenuOpenChanged.InvokeAsync(MenuOpen);
+        if(hoverIndex == index)
+        {
+            hoverIndex = -1;
+            MenuOpen = false;
+            MenuOpenChanged.InvokeAsync(MenuOpen);
+        }
     }
 
     void OpenMenu(int index)
     {
-        for (int i = 0; i < 4; i++)
-            hovers[i] = false;
-
-        hovers[index] = true;
+        hoverIndex = index;
         MenuOpen = true;
         MenuOpenChanged.InvokeAsync(MenuOpen);
     }
