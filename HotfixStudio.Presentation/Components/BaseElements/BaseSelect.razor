@@ -22,7 +22,7 @@
                         <div class="base-select-dropdown-results-option-label">
                             @option.Value
                         </div>
-                        @if (displayDbValueInOption)
+                        @if (DisplayDbValueInOption)
                         {
                             <div class="base-select-dropdown-results-option-value">
                                 @option.Key
@@ -89,9 +89,8 @@
     [Parameter]
     public string? Label { get; set; }
 
-
-
-    bool displayDbValueInOption = true;
+    [Parameter]
+    public bool DisplayDbValueInOption { get; set; } = true;
 
     bool isFocused = false;
     bool isHovering = false;

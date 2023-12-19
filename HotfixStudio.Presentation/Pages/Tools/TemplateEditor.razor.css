@@ -1,0 +1,34 @@
+.template-editor-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.template-editor-grid {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    transition: grid-template-columns 0.5s ease;
+    max-height: 100%;
+    overflow-y: auto;
+    overflow-x: clip;
+}
+
+    .template-editor-grid.expanded {
+        grid-template-columns: 50% 50%; /* expand the second column */
+    }
+
+    .template-editor-grid.collapsed {
+        grid-template-columns: 100% 0; /* collapse the second column */
+    }
+
+.template-editor-grid-cell {
+    text-align: center;
+}
+
+.template-editor-grid-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-column: 1 / -1;
+}

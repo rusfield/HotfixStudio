@@ -3,7 +3,7 @@
 @typeparam T
 
 <div class="single-select-component">
-    <BaseSelect T="T" Values="baseValues" ValuesChanged="BaseValuesChanged" DbValueAsString="@dbValueAsString" Multiselect="false" GetOptionsAsync="GetOptionsAsync" Label="@Label" />
+    <BaseSelect T="T" Values="baseValues" ValuesChanged="BaseValuesChanged" DbValueAsString="@dbValueAsString" Multiselect="false" GetOptionsAsync="GetOptionsAsync" Label="@Label" DisplayDbValueInOption="DisplayDbValueInOption" />
 </div>
 
 @code {
@@ -18,6 +18,9 @@
 
     [Parameter]
     public string? Label { get; set; }
+
+    [Parameter]
+    public bool DisplayDbValueInOption { get; set; } = true;
 
     List<T> baseValues = new();
     string dbValueAsString = "";

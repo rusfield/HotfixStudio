@@ -1,0 +1,129 @@
+﻿@using HotfixStudio.Infrastructure.Models
+@using HotfixStudio.Infrastructure.PresentationData
+
+<div class="template-editor-page">
+    <div class="template-editor-header">
+        <h1>
+            Template Editor
+        </h1>
+        <Button Text="Toggle Definition" OnClick="ToggleDefinition" />
+    </div>
+    <div class="template-editor-grid @GetDefinitionClass()">
+        <div class="template-editor-grid-cell">
+            <h2>
+                Template
+            </h2>
+        </div>
+        <div class="template-editor-grid-cell">
+            <h2>
+                Definition
+            </h2>
+        </div>
+
+        @foreach (var column in Template!.Columns)
+        {
+            <div class="template-editor-grid-row">
+                <h3>
+                    @column.Name
+                </h3>
+            </div>
+            <div class="template-editor-grid-cell">
+                <Input Label="Name" @bind-Value="column.Name" />
+                <SingleSelect Label="Type" T="Type" GetOptionsAsync="GetOptionsAsync" @bind-Value="column.Type" DisplayDbValueInOption="false" />
+            </div>
+            <div class="template-editor-grid-cell disable-content">
+                <Input Label="Name" Value="column.Name" />
+                <Input Label="Type" T="string" Value="@GetColumnTypeName(column.Type)" />
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public TableDefinition Definition { get; set; }
+
+    [Parameter]
+    public DbTemplate? Template { get; set; } // Will be null if new, or something if edit
+
+    OptionResult<Type>? typeOptions;
+    bool showDefinition = true;
+
+    protected override void OnInitialized()
+    {
+        InitTypeOptions();
+
+        InitFakeDefinition();
+
+        Template = new(Definition.Name, Definition.Schema);
+        foreach (var column in Definition.Columns)
+        {
+            Template.Columns.Add(new(column.Name, column.Type));
+        }
+        base.OnInitialized();
+    }
+
+    async Task<OptionResult<Type>> GetOptionsAsync(OptionSearch<Type> search)
+    {
+        return typeOptions.GenerateNewResults(search);
+    }
+
+    void InitTypeOptions()
+    {
+        var options = new Dictionary<Type, string>()
+        {
+            { typeof(string), "String" },
+            { typeof(byte), "UInt8" },
+            { typeof(sbyte), "Int8" },
+            { typeof(ushort), "UInt16" },
+            { typeof(short), "Int16" },
+            { typeof(uint), "UInt32" },
+            { typeof(int), "Int32" },
+            { typeof(ulong), "UInt64" },
+            { typeof(long), "Int64" },
+            { typeof(decimal), "Float" }
+        };
+
+        typeOptions = new()
+            {
+                Options = options,
+                PageIndex = 0,
+                PageSize = options.Count,
+                TotalRows = options.Count
+            };
+    }
+
+    void InitFakeDefinition()
+    {
+        Definition = new();
+        Definition.Name = "Test";
+        Definition.Schema = "Test";
+        Definition.Columns.Add(new()
+            {
+                Name = "Property 1",
+                Type = typeof(int)
+            });
+        Definition.Columns.Add(new()
+            {
+                Name = "Property 2",
+                Type = typeof(ulong)
+            });
+    }
+
+    string GetColumnTypeName(Type type)
+    {
+        if (typeOptions.Options.TryGetValue(type, out var value))
+            return value;
+        return $"Unknown ({type.Name})";
+    }
+
+    void ToggleDefinition()
+    {
+        showDefinition = !showDefinition;
+    }
+
+    string GetDefinitionClass()
+    {
+        return showDefinition ? "expanded" : "collapsed";
+    }
+}

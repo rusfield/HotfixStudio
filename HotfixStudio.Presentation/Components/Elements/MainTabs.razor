@@ -26,7 +26,9 @@
         @foreach (var tab in tabs)
         {
             <div class="tabs-body-content @GetTabClass(tab)" @key="tab">
-                <DynamicComponent Type="tab.PageComponent" />
+                <StackingContext>
+                    <DynamicComponent Type="tab.PageComponent" />
+                </StackingContext>
             </div>
         }
     </div>

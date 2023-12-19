@@ -4,7 +4,7 @@
 @typeparam T
 
 <div class="multi-select-component">
-    <BaseSelect T="T" Values="baseValues" ValuesChanged="BaseValuesChanged" DbValueAsString="@dbValueAsString" Multiselect="true" GetOptionsAsync="GetOptionsAsync" Label="@Label" />
+    <BaseSelect T="T" Values="baseValues" ValuesChanged="BaseValuesChanged" DbValueAsString="@dbValueAsString" Multiselect="true" GetOptionsAsync="GetOptionsAsync" Label="@Label" DisplayDbValueInOption="DisplayDbValueInOption" />
 </div>
 
 @code {
@@ -22,6 +22,9 @@
 
     [Parameter]
     public MultiSelectType Type { get; set; } = MultiSelectType.FLAG;
+
+    [Parameter]
+    public bool DisplayDbValueInOption { get; set; } = true;
 
     List<T> baseValues = new();
     string dbValueAsString = "0";
