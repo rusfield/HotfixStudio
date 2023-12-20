@@ -2,8 +2,7 @@
 @using HotfixStudio.Presentation.Components.BaseElements
 
 <div class="tabs-component">
-    <div class="tabs-header" style="@($"height:{headerHeight}px;")">
-        <BaseDragBar @bind-Size="headerHeight" Type="DragBarType.HORIZONTAL_BOTTOM" MinSize="32" MaxSize="300" />
+    <div class="tabs-header">
         @foreach (var tab in tabs)
         {
             <div class="tabs-header-cell @GetTabClass(tab)" @onclick="(() => ChangeTab(tab))" @key="tab">
@@ -39,7 +38,6 @@
     PageTab? CurrentTab;
 
     PageTab? closingTab;
-    double headerHeight = 40;
 
     void ChangeTab(PageTab tab)
     {

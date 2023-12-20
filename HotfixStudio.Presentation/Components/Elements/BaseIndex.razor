@@ -2,36 +2,40 @@
 @using HotfixStudio.Presentation.ComponentModels
 @using HotfixStudio.Presentation.Components.BaseElements
 
-<div class="base-index-component">
 
-    <div class="base-index-container-row">
-        <div class="base-index-sidebar @GetToggleClass()" style="@($"width:{sidebarWidth}px;")" @ondblclick="ToggleMenu">
-            <div class="base-index-sidebar-column">
-                <div class="logo">
-                    Logo
-                </div>
-                <MainMenu @ref="mainMenu" MenuObjects="menuObjects" @bind-MenuOpen="menuOpen" />
-            </div>
-            <BaseDragBar @bind-Size="sidebarWidth" Type="DragBarType.VERTICAL_RIGHT" MinSize="48" MaxSize="400" />
-        </div>
-        <div class="base-index-content @GetToggleClass()" style="@($"max-width:calc(100% - {sidebarWidth}px);")">
-            <MainTabs @ref="mainTabs" />
-            <div class="base-index-menu-overlay @GetOverlayDisabledClass()" />
-        </div>
+<div class="base-index-component @GetAnimateResizeClass()" style="@GetSizeStyles()">
 
-    </div>
-    <div class="base-index-footer" style="@($"height:{footerHeight}px;")">
-        <BaseDragBar @bind-Size="footerHeight" Type="DragBarType.HORIZONTAL_TOP" />
+    <div class="logo" @ondblclick="ResetSizes">
+        Logo
     </div>
 
+    <div class="base-index-aside" @ondblclick="ToggleMenu">
+
+        <MainMenu @ref="mainMenu" MenuObjects="menuObjects" @bind-MenuOpen="menuOpen" />
+    </div>
+
+    <div class="base-index-content" @ondblclick="ResetHeaderSize">
+        <MainTabs @ref="mainTabs" />
+        <div class="base-index-menu-overlay @GetOverlayDisabledClass()" />
+    </div>
+
+    <div class="base-index-footer" @ondblclick="ResetFooterSize">
+        Footer
+    </div>
+
+    <BaseDragBar @bind-Size="headerHeight" Type="DragBarType.HORIZONTAL_BOTTOM" />
+    <BaseDragBar @bind-Size="footerHeight" Type="DragBarType.HORIZONTAL_TOP" />
+    <BaseDragBar @bind-Size="asideWidth" Type="DragBarType.VERTICAL_RIGHT" MinSize="48" MaxSize="400" />
 </div>
 
+
 @code {
-    double sidebarWidth = 180;
+    double asideWidth = 180;
     double footerHeight = 30;
+    double headerHeight = 48;
 
     MainMenu? mainMenu;
-    bool togglingMenu = false;
+    bool animateResize = false;
     bool menuOpen = false;
 
     MainTabs? mainTabs;
@@ -40,7 +44,7 @@
 
     protected override void OnAfterRender(bool firstRender)
     {
-        togglingMenu = false;
+        animateResize = false;
         base.OnAfterRender(firstRender);
     }
 
@@ -84,21 +88,54 @@
     {
         if (!menuOpen)
         {
-            togglingMenu = true;
-            if (sidebarWidth >= 180)
-                sidebarWidth = 48;
+            animateResize = true;
+            if (asideWidth >= 180)
+                asideWidth = 48;
             else
-                sidebarWidth = 180;
+                asideWidth = 180;
         }
     }
 
-    string GetToggleClass()
+    void ResetFooterSize()
     {
-        return togglingMenu ? " toggling" : "";
+        if (footerHeight != 30)
+        {
+            animateResize = true;
+            footerHeight = 30;
+        }
+    }
+
+    void ResetHeaderSize()
+    {
+        if (headerHeight != 48)
+        {
+            animateResize = true;
+            headerHeight = 48;
+        }
+    }
+
+    void ResetSizes()
+    {
+        ToggleMenu();
+        ResetFooterSize();
+        ResetHeaderSize();
+    }
+
+    string GetAnimateResizeClass()
+    {
+        return animateResize ? " animate" : "";
     }
 
     string GetOverlayDisabledClass()
     {
         return menuOpen ? "" : " disabled";
+    }
+
+    string GetSizeStyles()
+    {
+        string styles = $"--component-header-height:{headerHeight}px;";
+        styles += $"--component-footer-height:{footerHeight}px;";
+        styles += $"--component-aside-width:{asideWidth}px;";
+        return styles;
     }
 }

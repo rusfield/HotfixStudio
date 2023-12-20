@@ -6,7 +6,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    user-select: none;
     position: relative;
     overflow: hidden;
     transition: font-variation-settings ease 0.2s;

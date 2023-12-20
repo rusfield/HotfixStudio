@@ -1,5 +1,6 @@
 .base-drag-bar-component {
     position: absolute;
+    z-index: 11;
 }
 
     .base-drag-bar-component.horizontal {

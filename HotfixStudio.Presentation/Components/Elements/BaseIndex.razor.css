@@ -1,40 +1,49 @@
 .base-index-component {
+    --component-header-height: 48px;
+    --component-footer-height: 30px;
+    --component-aside-width: 180px;
     height: 100%;
-    position: relative;
-    display: flex;
-    flex-direction: column;
+    width: 100%;
+    display: grid;
+    grid-template-columns: var(--component-aside-width) 1fr;
+    grid-template-rows: var(--component-header-height) 1fr var(--component-footer-height);
+    transition: ease 0s;
 }
 
-.base-index-container-row {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
+    .base-index-component.animate {
+        transition: ease 0.2s;
+    }
+
+        .base-index-component.animate ::deep .tabs-header {
+            transition: min-height ease 0.2s;
+        }
+
+.base-index-dragbar-container {
+    position: relative;
 }
 
 .base-index-footer {
     z-index: 10;
     background-color: var(--color-background-light);
     position: relative;
+    grid-column: span 2;
+    width: 100%;
 }
 
-.base-index-sidebar {
+.base-index-aside {
     background-color: var(--color-background);
     position: relative;
+    grid-row: 2;
 }
 
-    .base-index-sidebar.toggling {
+    .base-index-aside.toggling {
         transition: width ease 0.2s;
     }
 
-.base-index-sidebar-column {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
 
 .base-index-content {
-    flex-grow: 1;
     position: relative;
+    grid-row: span 2;
 }
 
     .base-index-content.toggling {
@@ -48,12 +57,27 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    transition: background-color 0.2s, width 0s, height 0s;
+    transition: background-color ease 0.2s;
 }
 
     .base-index-menu-overlay.disabled {
         background-color: rgba(0, 0, 0, 0);
         width: 0;
         height: 0;
-        transition: background-color 0.2s, width 0s 0.2s, height 0s 0.2s;
     }
+
+::deep .base-drag-bar-component.vertical.right {
+    right: calc(100% - var(--component-aside-width));
+}
+
+::deep .base-drag-bar-component.horizontal.top {
+    top: calc(100% - var(--component-footer-height));
+}
+
+::deep .base-drag-bar-component.horizontal.bottom {
+    bottom: calc(100% - var(--component-header-height));
+}
+
+::deep .tabs-header {
+    min-height: var(--component-header-height);
+}
