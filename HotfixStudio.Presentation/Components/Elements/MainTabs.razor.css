@@ -70,6 +70,8 @@
     flex-grow: 1;
     box-shadow: inset 10px 10px 10px rgba(0, 0, 0, 0.5);
     display: flex;
+    min-height: 0;
+    min-width: 0;
 }
 
 .tabs-body-content {
@@ -77,6 +79,8 @@
     display: none;
     transform: scale(0);
     transition: transform 0.2s ease, opacity 0.2s ease;
+    min-height: 0;
+    min-width: 0;
 }
 
     .tabs-body-content.active {
