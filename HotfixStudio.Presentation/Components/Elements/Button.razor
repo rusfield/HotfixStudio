@@ -1,16 +1,23 @@
 ﻿@using HotfixStudio.Presentation.Components.BaseElements
 
-<div class="button-component @GetClasses()" style="@GetColorStyle()" @onclick="OnClick">
-    @if (ChildContent != null)
-    {
-        @ChildContent
-    }
-    else
-    {
-        <span style="@GetTextColorStyle()">
-            @Text
-        </span>
-    }
+<div class="button-component @GetClasses()">
+    <button @onclick="OnClick">
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+        else
+        {
+
+            <span class="label">
+                @Text
+            </span>
+
+        }
+        <div class="button-background-image left" />
+        <div class="button-background-image right" />
+        <div class="button-background-image middle" />
+    </button>
 </div>
 
 @code {
@@ -38,11 +45,6 @@
     [Parameter]
     public bool AnimationEffects { get; set; } = true;
 
-    string GetTextColorStyle()
-    {
-        return $"color:var(--color-{TextColor.ToString().ToLower().Replace("_", "-")});";
-    }
-
     string GetClasses()
     {
         string classes = Size.ToString().ToLower();
@@ -52,14 +54,5 @@
             classes += " disable-animations";
 
         return classes;
-    }
-
-    string GetColorStyle()
-    {
-        string preparedColorString = BackgroundColor.ToString().Replace("_LIGHT", "").Replace("_DARK", "").Replace("_", "-").ToLower();
-        string color = $"--component-color: var(--color-{preparedColorString});";
-        color += $"--component-color-hover: var(--color-{preparedColorString}-light);";
-        color += $"--component-color-active: var(--color-{preparedColorString}-dark);";
-        return color;
     }
 }

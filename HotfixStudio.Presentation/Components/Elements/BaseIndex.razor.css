@@ -8,6 +8,7 @@
     grid-template-columns: var(--component-aside-width) 1fr;
     grid-template-rows: var(--component-header-height) 1fr var(--component-footer-height);
     transition: ease 0s;
+    background: url('component-images/layout/6OR_Garrison_Stonewall.PNG');
 }
 
     .base-index-component.animate {
@@ -28,6 +29,10 @@
     position: relative;
     grid-column: span 2;
     width: 100%;
+}
+
+.base-index-logo {
+    background-color: var(--color-background-light);
 }
 
 .base-index-aside {

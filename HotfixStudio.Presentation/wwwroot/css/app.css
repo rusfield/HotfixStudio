@@ -1,5 +1,8 @@
 ﻿@import url("themes/wotlk.css");
 @import url("scrollbar.css");
+@import url("cursor.css");
+@import url("text.css");
+
 
 @font-face {
     /* https://github.com/google/material-design-icons/tree/master/variablefont */
@@ -28,11 +31,10 @@ html, body, .app {
     font-family: 'Open Sans', sans-serif;
     letter-spacing: 1.5px;
     word-spacing: 2px;
-    overflow:hidden;
+    overflow: hidden;
     background-color: var(--color-background-dark);
     color: var(--color-text);
     user-select: none;
-
     --color-transparent: rgba(0, 0, 0, 0);
 }
 

@@ -4,11 +4,10 @@ input {
     outline: none;
     box-sizing: border-box;
     background-color: transparent;
-    font-size: 1rem;
-    padding: 0px 6px;
+    font-size: calc(var(--component-input-size) / 2);
+    padding: 0px calc(var(--component-input-size) / 5);
     text-overflow: ellipsis;
-    height: 28px;
-    border-radius: 4px;
+    height: var(--component-input-size);
     color: var(--color-text);
     letter-spacing: 1.5px;
     word-spacing: 2px;
@@ -30,23 +29,63 @@ input {
 }
 
 .base-input-container {
-    border-radius: 4px;
-    border: 1px solid var(--color-text);
-    outline: 1px solid rgba(0, 0, 0, 0);
     transition: ease 0.2s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
-    background-color: transparent;
+    position: relative;
+}
+
+.base-input-background-image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+    .base-input-background-image.left {
+        background: url('component-images/input/GreyBorder64-Left.PNG') no-repeat;
+        background-size: contain;
+        left: 0;
+        width: var(--component-input-size);
+        background-size: auto 100%;
+    }
+
+    .base-input-background-image.right {
+        background: url('component-images/input/GreyBorder64-Right.PNG') no-repeat;
+        background-size: contain;
+        right: 0;
+        width: var(--component-input-size);
+        background-size: auto 100%;
+    }
+
+    .base-input-background-image.middle {
+        background: url('component-images/input/GreyBorder64-Mid.PNG') repeat-x;
+        background-size: contain;
+        right: var(--component-input-size);
+        left: var(--component-input-size);
+        background-size: auto 100%;
+    }
+
+.base-input-background {
+    border-radius: 5px;
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    bottom: 3px;
+    right: 3px;
+    pointer-events: none;
+    z-index: -1;
+    background-color: var(--color-background);
 }
 
 .base-input-label {
     margin-left: 4px;
-    font-weight: bold;
-    font-size: 16px;
     transition: ease 0.2s;
     text-align: start;
 }
 
 .base-input-component {
+    --component-input-size: 32px; /* 64 max */
     --component-color: var(--color-text);
     color: var(--component-color);
 }
@@ -54,22 +93,3 @@ input {
     .base-input-component.focus {
         --component-color: var(--color-primary);
     }
-
-        .base-input-component.focus > .base-input-container {
-            background-color: var(--color-background);
-            outline: 1px solid var(--component-color);
-            border: 1px solid var(--component-color);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .base-input-component.focus > .base-input-label {
-            pointer-events: none;
-        }
-
-    .base-input-component.hover {
-    }
-
-        .base-input-component.hover > .base-input-container {
-            outline: 1px solid var(--component-color);
-            background-color: var(--color-background);
-        }

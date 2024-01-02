@@ -3,10 +3,15 @@
 @typeparam T
 
 <div class="base-input-component @GetStatusClassString()">
-    <div class="base-input-label" @onclick="FocusInput">
+    <div class="base-input-label label" @onclick="FocusInput">
         @Label
     </div>
     <div class="base-input-container">
+        <div class="base-input-background-image left" />
+        <div class="base-input-background-image middle" />
+        <div class="base-input-background-image right" />
+        <div class="base-input-background" />
+
         @if (Status == ElementStatus.LOADING)
         {
             <div class="base-input-loading">
