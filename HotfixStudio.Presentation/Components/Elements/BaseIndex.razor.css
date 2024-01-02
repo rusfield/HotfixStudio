@@ -71,15 +71,15 @@
         height: 0;
     }
 
-::deep .base-drag-bar-component.vertical.right {
+::deep > .base-drag-bar-component.vertical.right {
     right: calc(100% - var(--component-aside-width));
 }
 
-::deep .base-drag-bar-component.horizontal.top {
+::deep > .base-drag-bar-component.horizontal.top {
     top: calc(100% - var(--component-footer-height));
 }
 
-::deep .base-drag-bar-component.horizontal.bottom {
+::deep > .base-drag-bar-component.horizontal.bottom {
     bottom: calc(100% - var(--component-header-height));
 }
 
