@@ -1,0 +1,103 @@
+.button-component {
+    height: 128px;
+    width: 100%;
+}
+
+button {
+    position: relative;
+    background: transparent;
+    color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+    button:hover:not(:active):not(:disabled) .button-background-image.highlight {
+        background: url('component-images/button/128GoldRedButton.PNG') no-repeat;
+        background-position: calc(50% + 40px) calc(50% + 60px);
+    }
+
+    button:active .button-background-image.left {
+        background-position: -290px -780px;
+    }
+
+    button:active .button-background-image.right {
+        background-position: right -220px top -780px;
+    }
+
+    button:active .button-background-image.middle {
+        background-position: 0 -260px;
+    }
+
+    button:disabled .button-background-image.left {
+        background-position: -290px -650px;
+    }
+
+    button:disabled .button-background-image.right {
+        background-position: right -220px top -650px;
+    }
+
+    button:disabled .button-background-image.middle {
+        background-position: 0 -130px;
+    }
+
+    button:disabled .button-label {
+        filter: grayscale(1);
+    }
+
+.button-label {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+    .button-label > span {
+        z-index: 1;
+    }
+
+.button-background-image.highlight {
+    height: 100%;
+    width: 100%;
+    max-width: 430px;
+    min-width: 50px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    position: absolute;
+    z-index: 0;
+}
+
+.button-background-image {
+    pointer-events: none;
+    height: 100%;
+    background-size: auto auto;
+}
+
+    .button-background-image.left {
+        background: url('component-images/button/128GoldRedButton.PNG') no-repeat;
+        background-position: -290px -520px;
+        width: 120px;
+    }
+
+    .button-background-image.right {
+        background: url('component-images/button/128GoldRedButton.PNG') no-repeat;
+        background-position: right -220px top -520px;
+        max-width: 292px;
+        min-width: 120px;
+        flex-grow: 1;
+        flex-shrink: 1;
+    }
+
+    .button-background-image.middle {
+        background: url('component-images/button/128GoldRedButton.PNG') repeat-x;
+        background-position: 0 0;
+        min-width: 0px;
+        flex-grow: 1;
+        flex-shrink: 1;
+    }

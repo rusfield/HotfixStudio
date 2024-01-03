@@ -64,6 +64,15 @@
         left: var(--component-size);
     }
 
+    .button-background-image.highlight {
+        background: url('component-images/button/UI-DialogBox-Button-Highlight.PNG') no-repeat;
+        background-size: contain;
+        background-position: center;
+        right: var(--component-size);
+        left: var(--component-size);
+        z-index: 0;
+    }
+
 button {
     background: transparent;
     color: transparent;

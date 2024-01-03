@@ -1,0 +1,24 @@
+﻿<div class="button-component">
+    <button disabled="@Disabled">
+        <div class="button-label">
+            <span class="label-xl">
+                @Label
+            </span>
+            <div class="button-background-image highlight" />
+        </div>
+        <div class="button-background-image left" />
+        <div class="button-background-image middle" />
+        <div class="button-background-image right" />
+    </button>
+</div>
+
+@code {
+    [Parameter]
+    public string Label { get; set; }
+
+    [Parameter]
+    public int Type { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+}
