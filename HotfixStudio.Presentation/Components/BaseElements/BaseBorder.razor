@@ -1,0 +1,21 @@
+﻿<div class="base-border-component" style="@GetScaleStyle()">
+    <div class="top-left corner" />
+    <div class="top horizontal" />
+    <div class="top-right corner" />
+    <div class="left vertical" />
+    <div class="center" />
+    <div class="right vertical" />
+    <div class="bottom-left corner" />
+    <div class="bottom horizontal" />
+    <div class="bottom-right corner" />
+</div>
+
+@code {
+    [Parameter]
+    public int Scale { get; set; } = 240;
+
+    string GetScaleStyle()
+    {
+        return $"--component-scale:{Scale}px;";
+    }
+}

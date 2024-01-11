@@ -1,0 +1,63 @@
+.base-border-component {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    --component-scale: 240px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: auto 1fr auto;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.corner {
+    background-size: cover;
+    width: var(--component-scale);
+    height: var(--component-scale);
+}
+
+.horizontal {
+    width: 100%;
+    height: var(--component-scale);
+    background-repeat: repeat-x;
+    background-size: auto var(--component-scale);
+}
+
+.vertical {
+    height: 100%;
+    width: var(--component-scale);
+    background-repeat: repeat-y;
+    background-size: var(--component-scale) auto;
+}
+
+.top-right {
+    background-image: url('images/border/border-topright.png');
+}
+
+.top {
+    background-image: url('images/border/border-top.png');
+}
+
+.top-left {
+    background-image: url('images/border/border-topleft.png');
+}
+
+.left {
+    background-image: url('images/border/border-left.png');
+}
+
+.right {
+    background-image: url('images/border/border-right.png');
+}
+
+.bottom-left {
+    background-image: url('images/border/border-bottomleft.png');
+}
+
+.bottom {
+    background-image: url('images/border/border-bottom.png');
+}
+
+.bottom-right {
+    background-image: url('images/border/border-bottomright.png');
+}

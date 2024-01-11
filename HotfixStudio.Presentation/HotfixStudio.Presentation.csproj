@@ -56,17 +56,6 @@
 	</ItemGroup>
 
     <ItemGroup>
-      <Content Remove="wwwroot\images\border\border-bottom.png" />
-      <Content Remove="wwwroot\images\border\border-bottomleft.png" />
-      <Content Remove="wwwroot\images\border\border-bottomright.png" />
-      <Content Remove="wwwroot\images\border\border-left.PNG" />
-      <Content Remove="wwwroot\images\border\border-right.PNG" />
-      <Content Remove="wwwroot\images\border\border-top.png" />
-      <Content Remove="wwwroot\images\border\border-topleft.png" />
-      <Content Remove="wwwroot\images\border\border-topright.png" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
