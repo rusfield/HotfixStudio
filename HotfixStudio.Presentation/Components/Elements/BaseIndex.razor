@@ -1,7 +1,8 @@
 ﻿@using HotfixStudio.Infrastructure.PresentationData
 @using HotfixStudio.Presentation.ComponentModels
 @using HotfixStudio.Presentation.Components.BaseElements
-
+@using Microsoft.Extensions.FileProviders
+@using System.Reflection
 
 <div class="base-index-component @GetAnimateResizeClass()" style="@GetSizeStyles()">
 
@@ -48,8 +49,11 @@
         base.OnAfterRender(firstRender);
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+        await PreloadImages(); // TODO:
+
+
         var testCallback = EventCallback.Factory.Create(this, AddTab);
 
         for (int i = 0; i < 5; i++)
@@ -70,7 +74,34 @@
             menuObjects[i].AddSection(newSection);
         }
 
-        base.OnInitialized();
+        await base.OnInitializedAsync();
+    }
+
+    async Task PreloadImages()
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        var fileProvider = new EmbeddedFileProvider(assembly, $"{assembly.GetName()}.wwwroot");
+        var imagePaths = await BuildImagePaths(assembly, fileProvider);
+    }
+
+    async Task<List<string>> BuildImagePaths(Assembly assembly, EmbeddedFileProvider fileProvider, string subPath = "")
+    {
+        var imagePaths = new List<string>();
+        var contents = fileProvider.GetDirectoryContents(subPath);
+        foreach (var content in contents)
+        {
+            if (content.IsDirectory)
+            {
+                var nestedImagePaths = await BuildImagePaths(assembly, fileProvider, content.Name);
+                imagePaths.AddRange(nestedImagePaths);
+            }
+            else
+            {
+                var path = content.PhysicalPath;
+                imagePaths.Add(path);
+            }
+        }
+        return imagePaths;
     }
 
     void AddTab()
@@ -138,4 +169,6 @@
         styles += $"--component-aside-width:{asideWidth}px;";
         return styles;
     }
+
+
 }
