@@ -6,6 +6,9 @@
         @foreach (var tab in tabs)
         {
             <div class="tabs-header-cell @GetTabClass(tab)" @onclick="(() => ChangeTab(tab))" @key="tab">
+                <div class="tabs-header-cell-icon">
+                    <IconButton Base64IconString="@tab.Base64IconString" />
+                </div>
                 <div class="tabs-header-cell-label">
                     @tab.Label
                 </div>

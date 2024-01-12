@@ -27,6 +27,7 @@
     animation: growIn 0.2s ease forwards;
     transition: min-width ease 0.2s;
     background-color: var(--color-background);
+    flex-direction: row;
 }
 
     .tabs-header-cell:hover {
@@ -58,6 +59,11 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+
+.tabs-header-cell-icon {
+    align-items: center;
+    justify-content: center;
 }
 
 .tabs-header-cell-close {

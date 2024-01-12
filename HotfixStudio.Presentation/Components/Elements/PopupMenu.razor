@@ -1,22 +1,27 @@
 ﻿@using HotfixStudio.Presentation.ComponentModels
-<div class="popup-menu-component" @onmouseleave="OnMouseOut">
-    <div class="popup-menu-header">
-        @Label
+@using HotfixStudio.Presentation.Components.BaseElements
+
+<BaseBorder Scale="48">
+    <div class="popup-menu-component" @onmouseleave="OnMouseOut">
+        <div class="popup-menu-header">
+            @Label
+        </div>
+        <div class="popup-menu-body">
+            @foreach (var section in Sections)
+            {
+                <div class="popup-menu-section">
+                    @foreach (var item in section.Items)
+                    {
+                        <div class="popup-menu-section-item" @onclick="item.Value">
+                            @item.Key
+                        </div>
+                    }
+                </div>
+            }
+        </div>
     </div>
-    <div class="popup-menu-body">
-        @foreach (var section in Sections)
-        {
-            <div class="popup-menu-section">
-                @foreach (var item in section.Items)
-                {
-                    <div class="popup-menu-section-item" @onclick="item.Value">
-                        @item.Key
-                    </div>
-                }
-            </div>
-        }
-    </div>
-</div>
+</BaseBorder>
+
 
 @code {
     [Parameter]

@@ -1,0 +1,13 @@
+﻿<div class="icon-button-component" style="@GetIconStyle()">
+
+</div>
+
+@code {
+    [Parameter]
+    public string Base64IconString { get; set; }
+
+    string GetIconStyle()
+    {
+        return string.IsNullOrWhiteSpace(Base64IconString) ? "" : $"--component-icon: url('data:image/png;base64,{Base64IconString}');";
+    }
+}

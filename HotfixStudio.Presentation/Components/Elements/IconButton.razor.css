@@ -1,0 +1,13 @@
+.icon-button-component {
+    --component-icon: url('images/icons/INV_Misc_QuestionMark.png');
+    min-height: 16px;
+    min-width: 16px;
+    max-height: 64px;
+    max-width: 64px;
+    width: 100%;
+    height: 64px;
+    background-image: var(--component-icon);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}

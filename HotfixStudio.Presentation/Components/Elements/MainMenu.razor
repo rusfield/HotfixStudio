@@ -6,15 +6,12 @@
         int index = i;
         <div class="label" @onmouseenter="(() => OpenMenu(index))" @onmouseleave="(() => MouseOut(index))">
             <div class="icon">
-                <Icon IconName="@MenuObjects[index].IconName" />
-            </div>
-            <div class="text">
-                @MenuObjects[index].Header
+                <IconButton Base64IconString="@MenuObjects[i].Base64IconString" />
             </div>
             @if (hoverIndex == index)
             {
                 <div class="abs-pos">
-                    <PopupMenu Label="Some test" Sections="@MenuObjects[index].Sections" />
+                    <PopupMenu Label="@MenuObjects[i].Header" Sections="@MenuObjects[index].Sections" />
                 </div>
             }
         </div>

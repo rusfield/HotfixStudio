@@ -1,13 +1,18 @@
 .base-border-component {
-    position: absolute;
     width: 100%;
     height: 100%;
     --component-scale: 240px;
+}
+
+.border-container {
+    pointer-events: none;
+    z-index: 1000;
+    position: absolute;
+    width: 100%;
+    height: 100%;
     display: grid;
     grid-template-rows: auto 1fr auto;
     grid-template-columns: auto 1fr auto;
-    z-index: 1000;
-    pointer-events: none;
 }
 
 .corner {
@@ -60,4 +65,9 @@
 
 .bottom-right {
     background-image: url('images/border/border-bottomright.png');
+}
+
+.content {
+    border: 8px solid rgba(0, 0, 0, 0);
+    box-sizing: border-box;
 }
