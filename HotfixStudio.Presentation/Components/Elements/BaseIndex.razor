@@ -6,26 +6,33 @@
 
 <div class="base-index-component @GetAnimateResizeClass()" style="@GetSizeStyles()">
 
-    <div class="base-index-logo" @ondblclick="ResetSizes">
+    <div class="base-index-logo-top" @ondblclick="ResetSizes">
         Logo
     </div>
 
     <div class="base-index-aside" @ondblclick="ToggleMenu">
         <MainMenu @ref="mainMenu" MenuObjects="menuObjects" @bind-MenuOpen="menuOpen" />
-        <BaseDragBar @bind-Size="asideWidth" Type="DragBarType.VERTICAL_RIGHT" MinSize="48" MaxSize="400" Visible="true" />
+        <BaseDragBar @bind-Size="asideWidth" Type="DragBarType.VERTICAL_RIGHT" MinSize="48" MaxSize="400" />
+        <div class="aside-bar-img" />
     </div>
 
     <div class="base-index-content">
         <MainTabs @ref="mainTabs" OnTabDoubleClick="ResetHeaderSize" />
         <div class="base-index-menu-overlay @GetOverlayDisabledClass()" />
+        <div class="header-bar-img" />
+        <BaseDragBar @bind-Size="headerHeight" Type="DragBarType.HORIZONTAL_BOTTOM" />
+    </div>
+
+    <div class="base-index-logo-bottom">
+        Logo
     </div>
 
     <div class="base-index-footer" @ondblclick="ResetFooterSize">
+        <div class="footer-bar-img" />
+        <BaseDragBar @bind-Size="footerHeight" Type="DragBarType.HORIZONTAL_TOP" />
         Footer
     </div>
 
-    <BaseDragBar @bind-Size="headerHeight" Type="DragBarType.HORIZONTAL_BOTTOM" Visible="true" />
-    <BaseDragBar @bind-Size="footerHeight" Type="DragBarType.HORIZONTAL_TOP" Visible="true" />
 </div>
 
 

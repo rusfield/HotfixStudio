@@ -24,17 +24,6 @@
             display: block;
         }
 
-        .base-drag-bar-component.horizontal.visible::before {
-            height: 12px;
-            background-image: url('images/furniture/bar-horizontal.png');
-            background-size: auto 100%;
-        }
-
-        .base-drag-bar-component.horizontal.visible.top::before {
-            margin-top: -6px;
-        }
-
-
     .base-drag-bar-component.vertical {
         top: 0;
         bottom: 0;
@@ -55,12 +44,6 @@
             width: 4px;
             display: block;
             height: 100%;
-        }
-
-        .base-drag-bar-component.vertical.visible::before {
-            width: 12px;
-            background-image: url('images/furniture/bar-vertical.png');
-            background-size: 100% auto;
         }
 
     .base-drag-bar-component.resizing {

@@ -12,10 +12,7 @@
     border-left: 1px solid var(--color-background-light);
     flex-direction: row;
     position: relative;
-    background-image: url('images/furniture/background-horizontal.png');
-    background-size: auto 100%;
-    background-repeat: repeat-x;
-    background-position-x: center;
+    background-color: var(--color-background);
 }
 
 .tabs-header-cell {

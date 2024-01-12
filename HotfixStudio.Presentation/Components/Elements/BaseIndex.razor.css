@@ -2,6 +2,7 @@
     --component-header-height: 48px;
     --component-footer-height: 30px;
     --component-aside-width: 180px;
+    --component-bar-scale: 48px;
     height: 100%;
     width: 100%;
     display: grid;
@@ -25,14 +26,10 @@
 
 .base-index-footer {
     z-index: 10;
-    background-color: var(--color-background-light);
+    background-color: var(--color-background);
     position: relative;
-    grid-column: span 2;
+    grid-column: 2;
     width: 100%;
-    background-image: url('images/furniture/background-horizontal.png');
-    background-size: auto 100%;
-    background-repeat: repeat-x;
-    background-position-x: center;
 }
 
 .base-index-footer-bar {
@@ -41,8 +38,13 @@
     background-repeat: repeat-x;
 }
 
-.base-index-logo {
-    background-color: var(--color-background-light);
+.base-index-logo-top {
+    background-color: var(--color-background);
+}
+
+.base-index-logo-bottom {
+    background-color: var(--color-background);
+    grid-row: 3 / 4;
 }
 
 .base-index-aside {
@@ -80,6 +82,65 @@
         width: 0;
         height: 0;
     }
+
+.aside-bar-img {
+    height: 100%;
+    width: var(--component-bar-scale);
+    background-image: url('images/border/border-left.png');
+    background-repeat: repeat-y;
+    background-size: var(--component-bar-scale) auto;
+    position: absolute;
+    right: -41px;
+    top: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+    .aside-bar-img::before {
+        content: '';
+        width: var(--component-bar-scale);
+        height: var(--component-bar-scale);
+        background-image: url('images/border/border-topleft.png');
+        background-size: var(--component-bar-scale) var(--component-bar-scale);
+        position: absolute;
+        top: -8px;
+        right: 0;
+    }
+
+.footer-bar-img {
+    height: var(--component-bar-scale);
+    width: 100%;
+    background-image: url('images/border/border-bottom.png');
+    background-repeat: repeat-x;
+    background-size: auto var(--component-bar-scale);
+    position: absolute;
+    top: -38px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+    .footer-bar-img::before {
+        content: '';
+        width: var(--component-bar-scale);
+        height: var(--component-bar-scale);
+        background-image: url('images/border/border-bottomleft.png');
+        background-size: var(--component-bar-scale) var(--component-bar-scale);
+        position: absolute;
+        bottom: 0;
+        left: -7px;
+    }
+
+.header-bar-img {
+    height: var(--component-bar-scale);
+    width: 100%;
+    background-image: url('images/border/border-top.png');
+    background-repeat: repeat-x;
+    background-size: auto var(--component-bar-scale);
+    position: absolute;
+    top: calc(var(--component-header-height) - 8px);
+    pointer-events: none;
+    z-index: 8;
+}
 
 ::deep > .base-drag-bar-component.vertical.right {
     right: calc(100% - var(--component-aside-width));
