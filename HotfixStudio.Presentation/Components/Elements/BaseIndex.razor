@@ -11,12 +11,12 @@
     </div>
 
     <div class="base-index-aside" @ondblclick="ToggleMenu">
-
         <MainMenu @ref="mainMenu" MenuObjects="menuObjects" @bind-MenuOpen="menuOpen" />
+        <BaseDragBar @bind-Size="asideWidth" Type="DragBarType.VERTICAL_RIGHT" MinSize="48" MaxSize="400" Visible="true" />
     </div>
 
-    <div class="base-index-content" @ondblclick="ResetHeaderSize">
-        <MainTabs @ref="mainTabs" />
+    <div class="base-index-content">
+        <MainTabs @ref="mainTabs" OnTabDoubleClick="ResetHeaderSize" />
         <div class="base-index-menu-overlay @GetOverlayDisabledClass()" />
     </div>
 
@@ -24,9 +24,8 @@
         Footer
     </div>
 
-    <BaseDragBar @bind-Size="headerHeight" Type="DragBarType.HORIZONTAL_BOTTOM" />
-    <BaseDragBar @bind-Size="footerHeight" Type="DragBarType.HORIZONTAL_TOP" />
-    <BaseDragBar @bind-Size="asideWidth" Type="DragBarType.VERTICAL_RIGHT" MinSize="48" MaxSize="400" />
+    <BaseDragBar @bind-Size="headerHeight" Type="DragBarType.HORIZONTAL_BOTTOM" Visible="true" />
+    <BaseDragBar @bind-Size="footerHeight" Type="DragBarType.HORIZONTAL_TOP" Visible="true" />
 </div>
 
 

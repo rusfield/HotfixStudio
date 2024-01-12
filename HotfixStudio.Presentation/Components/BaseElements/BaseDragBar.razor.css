@@ -22,7 +22,16 @@
             cursor: ns-resize;
             height: 4px;
             display: block;
-            margin-top: 1px;
+        }
+
+        .base-drag-bar-component.horizontal.visible::before {
+            height: 12px;
+            background-image: url('images/furniture/bar-horizontal.png');
+            background-size: auto 100%;
+        }
+
+        .base-drag-bar-component.horizontal.visible.top::before {
+            margin-top: -6px;
         }
 
 
@@ -45,12 +54,16 @@
             cursor: ew-resize;
             width: 4px;
             display: block;
-            margin-left: 1px;
             height: 100%;
         }
 
+        .base-drag-bar-component.vertical.visible::before {
+            width: 12px;
+            background-image: url('images/furniture/bar-vertical.png');
+            background-size: 100% auto;
+        }
+
     .base-drag-bar-component.resizing {
-        background-color: var(--color-text);
         border-radius: 6px;
     }
 

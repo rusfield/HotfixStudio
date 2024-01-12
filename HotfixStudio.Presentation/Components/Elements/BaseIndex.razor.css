@@ -29,6 +29,16 @@
     position: relative;
     grid-column: span 2;
     width: 100%;
+    background-image: url('images/furniture/background-horizontal.png');
+    background-size: auto 100%;
+    background-repeat: repeat-x;
+    background-position-x: center;
+}
+
+.base-index-footer-bar {
+    background-image: url('images/furniture/bar-horizontal.png');
+    background-size: auto auto;
+    background-repeat: repeat-x;
 }
 
 .base-index-logo {
