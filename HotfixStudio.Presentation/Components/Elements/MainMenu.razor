@@ -1,12 +1,16 @@
 ﻿@using HotfixStudio.Presentation.ComponentModels
 
 <div class="main-menu-component">
-    @for(int i = 0; i < MenuObjects.Count; i++)
+    @for (int i = 0; i < MenuObjects.Count; i++)
     {
         int index = i;
         <div class="label" @onmouseenter="(() => OpenMenu(index))" @onmouseleave="(() => MouseOut(index))">
-            <div class="icon">
-                <IconButton Base64IconString="@MenuObjects[i].Base64IconString" />
+            <div class="icon" style="@GetIconStyle(MenuObjects[index].Base64IconString)">
+            </div>
+            <div class="text">
+                <span>
+                    @MenuObjects[index].Header
+                </span>
             </div>
             @if (hoverIndex == index)
             {
@@ -32,7 +36,7 @@
 
     void MouseOut(int index)
     {
-        if(hoverIndex == index)
+        if (hoverIndex == index)
         {
             hoverIndex = -1;
             MenuOpen = false;
@@ -52,5 +56,10 @@
         hoverIndex = -1;
         MenuOpen = false;
         MenuOpenChanged.InvokeAsync(MenuOpen);
+    }
+
+    string GetIconStyle(string base64IconString)
+    {
+        return string.IsNullOrWhiteSpace(base64IconString) ? "" : $"background-image: url('data:image/png;base64,{base64IconString}');";
     }
 }

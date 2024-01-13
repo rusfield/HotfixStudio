@@ -12,13 +12,12 @@
 
     <div class="base-index-aside" @ondblclick="ToggleMenu">
         <MainMenu @ref="mainMenu" MenuObjects="menuObjects" @bind-MenuOpen="menuOpen" />
-        <BaseDragBar @bind-Size="asideWidth" Type="DragBarType.VERTICAL_RIGHT" MinSize="16" MaxSize="400" />
+        <BaseDragBar @bind-Size="asideWidth" Type="DragBarType.VERTICAL_RIGHT" MinSize="72" MaxSize="400" />
         <div class="aside-bar-img" />
     </div>
 
     <div class="base-index-content">
         <MainTabs @ref="mainTabs" OnTabDoubleClick="ResetHeaderSize" />
-        <div class="base-index-menu-overlay @GetOverlayDisabledClass()" />
         <div class="header-bar-img" />
         <BaseDragBar @bind-Size="headerHeight" Type="DragBarType.HORIZONTAL_BOTTOM" />
     </div>
@@ -164,7 +163,7 @@
         {
             animateResize = true;
             if (asideWidth >= 180)
-                asideWidth = 48;
+                asideWidth = 72;
             else
                 asideWidth = 180;
         }
@@ -198,11 +197,6 @@
     string GetAnimateResizeClass()
     {
         return animateResize ? " animate" : "";
-    }
-
-    string GetOverlayDisabledClass()
-    {
-        return menuOpen ? "" : " disabled";
     }
 
     string GetSizeStyles()
