@@ -17,9 +17,12 @@
     </div>
 
     <div class="base-index-content">
-        <MainTabs @ref="mainTabs" OnTabDoubleClick="ResetHeaderSize" @bind-TabIndex="currentTabIndex" />
-        <div class="header-bar-img" />
-        <BaseDragBar @bind-Size="headerHeight" Type="DragBarType.HORIZONTAL_BOTTOM" />
+        <MainTabs @ref="mainTabs" OnTabDoubleClick="ResetHeaderSize" @bind-TabIndex="currentTabIndex">
+            <DragBarArea>
+                <div class="header-bar-img" />
+                <BaseDragBar @bind-Size="headerHeight" Type="DragBarType.HORIZONTAL_BOTTOM" MinSize="24" MaxSize="120" />
+            </DragBarArea>
+        </MainTabs>
     </div>
 
     <div class="base-index-logo-bottom">
@@ -28,7 +31,7 @@
 
     <div class="base-index-footer" @ondblclick="ResetFooterSize">
         <div class="footer-bar-img" />
-        <BaseDragBar @bind-Size="footerHeight" Type="DragBarType.HORIZONTAL_TOP" />
+        <BaseDragBar @bind-Size="footerHeight" Type="DragBarType.HORIZONTAL_TOP" MinSize="30" MaxSize="120" />
         Footer
     </div>
 

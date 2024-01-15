@@ -25,6 +25,7 @@
                 }
             </div>
         }
+        @DragBarArea
     </div>
 
     <div class="tabs-body">
@@ -40,6 +41,8 @@
 </div>
 
 @code {
+    [Parameter]
+    public RenderFragment DragBarArea { get; set; }
     [Parameter]
     public EventCallback OnTabDoubleClick { get; set; }
 

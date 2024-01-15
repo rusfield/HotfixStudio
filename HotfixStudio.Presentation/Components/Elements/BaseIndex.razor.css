@@ -121,21 +121,21 @@
     background-repeat: repeat-x;
     background-size: auto var(--component-bar-scale);
     position: absolute;
-    top: calc(var(--component-header-height) - 8px);
+    bottom: -40px;
     pointer-events: none;
     z-index: 1;
 }
 
-::deep > .base-drag-bar-component.vertical.right {
+::deep .base-drag-bar-component.vertical.right {
     right: calc(100% - var(--component-aside-width) - 6px);
 }
 
-::deep > .base-drag-bar-component.horizontal.top {
+::deep .base-drag-bar-component.horizontal.top {
     top: calc(100% - var(--component-footer-height) - 6px);
 }
 
-::deep > .base-drag-bar-component.horizontal.bottom {
-    bottom: calc(100% - var(--component-header-height) - 6px);
+::deep  .base-drag-bar-component.horizontal.bottom {
+    bottom: -6px;
 }
 
 ::deep .tabs-header {

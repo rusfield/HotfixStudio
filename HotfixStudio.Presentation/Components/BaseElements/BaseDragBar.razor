@@ -79,30 +79,9 @@
 
     void OnMouseOut()
     {
-        double newSize = 0;
-        if (Type == DragBarType.HORIZONTAL_TOP)
-        {
-            newSize = Size + 20;
-        }
-        else if (Type == DragBarType.HORIZONTAL_BOTTOM)
-        {
-            newSize = Size - 20;
-        }
-        else if (Type == DragBarType.VERTICAL_LEFT)
-        {
-            newSize = Size + 20;
-        }
-        else if (Type == DragBarType.VERTICAL_RIGHT)
-        {
-            newSize = Size - 20;
-        }
+        double newSize = Size;
         if (MinSize >= 0 && MaxSize > MinSize)
-        {
-            if (newSize < MinSize)
-                newSize = MinSize;
-            else if (newSize < MaxSize)
-                newSize = MaxSize;
-        }
+            newSize = Math.Clamp(newSize, MinSize, MaxSize);
 
         Size = newSize;
         SizeChanged.InvokeAsync(Size);
