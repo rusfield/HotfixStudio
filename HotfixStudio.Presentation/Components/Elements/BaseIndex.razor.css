@@ -80,7 +80,7 @@
     z-index: 2;
 }
 
-    .aside-bar-img::before {
+    .aside-bar-img.corner::before {
         content: '';
         width: var(--component-bar-scale);
         height: var(--component-bar-scale);

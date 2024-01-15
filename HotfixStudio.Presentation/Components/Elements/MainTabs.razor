@@ -6,8 +6,11 @@
         @foreach (var tab in tabs)
         {
             <div class="tabs-header-cell @GetTabClass(tab)" @onclick="(() => ChangeTab(tab))" @key="tab">
+                <div class="tabs-header-cell-corner" />
                 <div class="tabs-header-cell-icon">
+                    @*
                     <IconButton Base64IconString="@tab.Base64IconString" />
+                    *@
                 </div>
                 <div class="tabs-header-cell-label">
                     @tab.Label
@@ -40,16 +43,23 @@
     [Parameter]
     public EventCallback OnTabDoubleClick { get; set; }
 
+    [Parameter]
+    public int TabIndex { get; set; } = -1;
+
+    [Parameter]
+    public EventCallback<int> TabIndexChanged { get; set; }
+
     List<PageTab> tabs = new();
-    PageTab? CurrentTab;
+    PageTab? currentTab;
 
     PageTab? closingTab;
 
     void ChangeTab(PageTab tab)
     {
-        if (CurrentTab != tab)
+        if (currentTab != tab)
         {
-            CurrentTab = tab;
+            currentTab = tab;
+            TabIndexChanged.InvokeAsync(tabs.IndexOf(tab));
         }
     }
 
@@ -63,13 +73,15 @@
         index = Math.Min(index, tabs.Count - 1);
         if (index >= 0)
             ChangeTab(tabs[index]);
+            else 
+            await TabIndexChanged.InvokeAsync(-1);
     }
 
     string GetTabClass(PageTab tab)
     {
         if (closingTab == tab)
-            return "closing";
-        else if (CurrentTab == tab)
+            return "active closing";
+        else if (currentTab == tab)
             return "active";
         else
             return "";

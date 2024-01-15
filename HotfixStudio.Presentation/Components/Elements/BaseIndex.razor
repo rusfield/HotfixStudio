@@ -13,11 +13,11 @@
     <div class="base-index-aside" @ondblclick="ToggleMenu">
         <MainMenu @ref="mainMenu" MenuObjects="menuObjects" @bind-MenuOpen="menuOpen" />
         <BaseDragBar @bind-Size="asideWidth" Type="DragBarType.VERTICAL_RIGHT" MinSize="72" MaxSize="400" />
-        <div class="aside-bar-img" />
+        <div class="aside-bar-img @GetCornerClass()" />
     </div>
 
     <div class="base-index-content">
-        <MainTabs @ref="mainTabs" OnTabDoubleClick="ResetHeaderSize" />
+        <MainTabs @ref="mainTabs" OnTabDoubleClick="ResetHeaderSize" @bind-TabIndex="currentTabIndex" />
         <div class="header-bar-img" />
         <BaseDragBar @bind-Size="headerHeight" Type="DragBarType.HORIZONTAL_BOTTOM" />
     </div>
@@ -45,6 +45,7 @@
     bool menuOpen = false;
 
     MainTabs? mainTabs;
+    int currentTabIndex = -1;
 
     List<MenuObject> menuObjects = new();
 
@@ -207,5 +208,8 @@
         return styles;
     }
 
-
+    string GetCornerClass()
+    {
+        return currentTabIndex == 0 ? "" : "corner";
+    }
 }
