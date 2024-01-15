@@ -52,7 +52,8 @@
 
 @container (max-width: 72px) {
     .label {
-        padding: 2px 4px 2px 4px;    }
+        justify-content: center;
+    }
 
     .text {
         width: 0px;
