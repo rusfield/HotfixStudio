@@ -127,15 +127,15 @@
 }
 
 ::deep > .base-drag-bar-component.vertical.right {
-    right: calc(100% - var(--component-aside-width));
+    right: calc(100% - var(--component-aside-width) - 6px);
 }
 
 ::deep > .base-drag-bar-component.horizontal.top {
-    top: calc(100% - var(--component-footer-height));
+    top: calc(100% - var(--component-footer-height) - 6px);
 }
 
 ::deep > .base-drag-bar-component.horizontal.bottom {
-    bottom: calc(100% - var(--component-header-height));
+    bottom: calc(100% - var(--component-header-height) - 6px);
 }
 
 ::deep .tabs-header {

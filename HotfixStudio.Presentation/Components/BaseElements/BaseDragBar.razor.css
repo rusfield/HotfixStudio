@@ -48,6 +48,7 @@
 
     .base-drag-bar-component.resizing {
         border-radius: 6px;
+        z-index: 20;
     }
 
 
