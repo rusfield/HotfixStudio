@@ -66,4 +66,8 @@
       <ProjectReference Include="..\HotfixStudio.Infrastructure\HotfixStudio.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\images\effects\" />
+    </ItemGroup>
+
 </Project>

@@ -4,8 +4,12 @@
     @for (int i = 0; i < MenuObjects.Count; i++)
     {
         int index = i;
+        @if(MenuObjects[index].MenuIndex == 1000)
+        {
+            <div class="menu-split" />
+        }
         <div class="label" @onmouseenter="(() => OpenMenu(index))" @onmouseleave="(() => MouseOut(index))">
-            <div class="icon" style="@GetIconStyle(MenuObjects[index].Base64IconString)">
+            <div class="icon" style="@GetIconStyle(MenuObjects[index].IconName)">
             </div>
             <div class="text">
                 <span>
@@ -34,6 +38,12 @@
 
     int hoverIndex = -1;
 
+    protected override void OnInitialized()
+    {
+        MenuObjects.OrderBy(o => o.MenuIndex);
+        base.OnInitialized();
+    }
+
     void MouseOut(int index)
     {
         if (hoverIndex == index)
@@ -58,8 +68,8 @@
         MenuOpenChanged.InvokeAsync(MenuOpen);
     }
 
-    string GetIconStyle(string base64IconString)
+    string GetIconStyle(string iconName)
     {
-        return string.IsNullOrWhiteSpace(base64IconString) ? "" : $"background-image: url('data:image/png;base64,{base64IconString}');";
+        return string.IsNullOrWhiteSpace(iconName) ? "" : $"background-image: url('images/icons/{iconName}.png');";
     }
 }

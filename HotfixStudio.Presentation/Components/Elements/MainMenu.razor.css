@@ -25,8 +25,8 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    position: relative;
 }
-
 .text {
     overflow: hidden;
     white-space: nowrap;
@@ -41,6 +41,26 @@
 .label:hover {
     background-color: var(--color-background-light);
 }
+
+.label:hover > .icon {
+    filter: brightness(120%);
+}
+
+.menu-split {
+    height: 15px;
+    position: relative;
+}
+
+    .menu-split::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 1px; 
+        background-color: var(--color-background-light);
+        margin: 0 4px;
+    }
 
 .abs-pos {
     position: absolute;
@@ -57,6 +77,18 @@
 
     .text {
         width: 0px;
+    }
+}
+
+@keyframes hoverGlowHorizontally {
+    100% {
+        background-position-x: -500%;
+    }
+}
+
+@keyframes hoverGlowVertically {
+    100% {
+        background-position-y: -500%;
     }
 }
 

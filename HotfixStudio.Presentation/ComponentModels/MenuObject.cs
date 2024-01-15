@@ -5,8 +5,9 @@ namespace HotfixStudio.Presentation.ComponentModels
     public class MenuObject
     {
         public string Header { get; set; }
-        public string Base64IconString { get; set; }    
+        public string IconName { get; set; }
         public List<Section> Sections { get; set; } = new();
+        public int MenuIndex { get; set; }
 
         public void AddSection(Dictionary<string, EventCallback> items)
         {
