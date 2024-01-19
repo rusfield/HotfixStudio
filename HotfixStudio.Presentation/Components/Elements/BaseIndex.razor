@@ -180,11 +180,12 @@
 
     void AddTab()
     {
+        var random = new Random().Next(0, menuObjects.Count - 1);
         mainMenu?.Close();
         PageTab newTab = new()
             {
                 Label = "Title",
-                IconName = menuObjects.First().IconName,
+                IconName = menuObjects[random].IconName,
                 PageComponent = typeof(TestPage)
             };
         mainTabs?.OpenTab(newTab);

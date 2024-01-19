@@ -4,13 +4,9 @@ input {
     outline: none;
     box-sizing: border-box;
     background-color: transparent;
-    font-size: calc(var(--component-input-size) / 2);
     padding: 0px calc(var(--component-input-size) / 5);
     text-overflow: ellipsis;
     height: var(--component-input-size);
-    color: var(--color-text);
-    letter-spacing: 1.5px;
-    word-spacing: 2px;
 }
 
     input[type="number"]::-webkit-inner-spin-button,
@@ -25,7 +21,7 @@ input {
     display: flex;
     align-items: center;
     padding: 0px 6px;
-    height: 28px;
+    height: var(--component-input-size);
 }
 
 .base-input-container {

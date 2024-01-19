@@ -1,6 +1,8 @@
 .stacking-context-component {
     height: 100%;
     position: relative;
+    padding:16px;
+    background-color: var(--color-background-dark);
 }
 
 .underlay {

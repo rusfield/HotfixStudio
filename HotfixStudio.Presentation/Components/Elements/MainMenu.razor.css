@@ -27,7 +27,7 @@
     background-size: cover;
     position: relative;
 }
-.text {
+.main-menu-text {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

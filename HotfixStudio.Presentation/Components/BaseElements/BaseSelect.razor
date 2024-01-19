@@ -5,65 +5,66 @@
 
 <div class="base-select-component @GetStatusClassString()" @onmouseenter="(() => isHovering = true)" @onmouseleave="(() => isHovering = false)">
     <BaseInput @bind-Value="displayValue" T="string" OnFocus="OnInputBaseFocusAsync" OnInputChanged="OnInputChangedAsync" Status="GetStatusClass()" Label="@Label" />
-        <div class="base-select-dropdown" style="@GetDynamicStyle()">
-                <BaseBorder Scale="60">
-
-            @if (isLoading)
-            {
-                <div class="base-select-dropdown-message">
-                    Loading
-                </div>
-            }
-            else if (optionResult?.TotalRows > 0)
-            {
-                <div class="base-select-dropdown-results">
-                    @foreach (var option in optionResult.Options)
-                    {
-                        string selectedClass = GetSelectedClass(option.Key);
-                        <div class="base-select-dropdown-results-option @selectedClass" @onclick="(() => SelectValue(option))">
-                            <div class="base-select-dropdown-results-option-label">
-                                @option.Value
-                            </div>
-                            @if (DisplayDbValueInOption)
-                            {
-                                <div class="base-select-dropdown-results-option-value">
-                                    @option.Key
+    <div class="base-select-dropdown" style="@GetDynamicStyle()">
+        <BaseDragBar @bind-Size="dropdownHeight" Type="DragBarType.HORIZONTAL_BOTTOM" OnResizeStart="ResizeStart" OnResizeEnd="ResizeEnd" />
+        <BaseBorder Scale="60">
+            <div class="base-select-dropdown-content">
+                @if (isLoading)
+                {
+                    <div class="base-select-dropdown-message text">
+                        Loading
+                    </div>
+                }
+                else if (optionResult?.TotalRows > 0)
+                {
+                    <div class="base-select-dropdown-results">
+                        @foreach (var option in optionResult.Options)
+                        {
+                            string selectedClass = GetSelectedClass(option.Key);
+                            <div class="base-select-dropdown-results-option @selectedClass" @onclick="(() => SelectValue(option))">
+                                <div class="base-select-dropdown-results-option-label">
+                                    @option.Value
                                 </div>
-                            }
-                        </div>
-                    }
-                </div>
-            }
-            else
-            {
-                <div class="base-select-dropdown-message">
-                    Nothing to see here
-                </div>
-            }
-            <div class="base-select-dropdown-controls">
-                <div class="controls-wrapper start @GetControlsClass()">
-                    <Button Size="ElementSize.COMPACT">
-                        <Icon IconName="done_all" />
-                    </Button>
-                    <Button Size="ElementSize.COMPACT">
-                        <Icon IconName="playlist_add" />
-                    </Button>
-                </div>
-                <div class="controls-wrapper @GetControlsClass(true)">
-                    <BasePagination CurrentPageIndex="currentPageIndex" CurrentPageIndexChanged="PageChangedAsync" Size="ElementSize.COMPACT" TotalPages="@(optionResult?.TotalPages ?? 1)" />
-                </div>
-                <div class="controls-wrapper end @GetControlsClass()">
-                    <Button Size="ElementSize.COMPACT">
-                        <Icon IconName="remove_done" />
-                    </Button>
-                    <Button Size="ElementSize.COMPACT">
-                        <Icon IconName="playlist_remove" />
-                    </Button>
+                                @if (DisplayDbValueInOption)
+                                {
+                                    <div class="base-select-dropdown-results-option-value">
+                                        @option.Key
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="base-select-dropdown-message">
+                        Nothing to see here
+                    </div>
+                }
+                <div class="base-select-dropdown-controls">
+                    <div class="controls-wrapper start @GetControlsClass()">
+                        <Button Size="ElementSize.COMPACT">
+                            <Icon IconName="done_all" />
+                        </Button>
+                        <Button Size="ElementSize.COMPACT">
+                            <Icon IconName="playlist_add" />
+                        </Button>
+                    </div>
+                    <div class="controls-wrapper @GetControlsClass(true)">
+                        <BasePagination CurrentPageIndex="currentPageIndex" CurrentPageIndexChanged="PageChangedAsync" Size="ElementSize.COMPACT" TotalPages="@(optionResult?.TotalPages ?? 1)" />
+                    </div>
+                    <div class="controls-wrapper end @GetControlsClass()">
+                        <Button Size="ElementSize.COMPACT">
+                            <Icon IconName="remove_done" />
+                        </Button>
+                        <Button Size="ElementSize.COMPACT">
+                            <Icon IconName="playlist_remove" />
+                        </Button>
+                    </div>
                 </div>
             </div>
-            <BaseDragBar @bind-Size="dropdownHeight" Type="DragBarType.HORIZONTAL_BOTTOM" OnResizeStart="ResizeStart" OnResizeEnd="ResizeEnd" />
         </BaseBorder>
-        </div>
+    </div>
 </div>
 
 
@@ -248,7 +249,7 @@
 
     string GetSelectedClass(T value)
     {
-        return Values.Contains(value) ? "selected" : "";
+        return Values.Contains(value) ? "selected label" : "text";
     }
 
     ElementStatus GetStatusClass()

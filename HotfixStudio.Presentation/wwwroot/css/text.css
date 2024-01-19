@@ -13,3 +13,11 @@
     letter-spacing: 2px;
     color: var(--color-label);
 }
+
+.text {
+    text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black, 1.5px 1.5px 1px black;
+    font-weight: bolder;
+    font-size: 16px;
+    letter-spacing: 1.5px;
+    color: var(--color-text);
+}
