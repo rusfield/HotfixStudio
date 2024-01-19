@@ -15,6 +15,7 @@
 }
 
 .tabs-header-cell {
+    --component-iteration-icon: url('images/icons/INV_Misc_QuestionMark.png');
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -126,7 +127,14 @@
 .tabs-header-cell-icon {
     align-items: center;
     justify-content: center;
-}
+    background-image: var(--component-iteration-icon);
+    background-size: 80% 80%;
+    background-repeat: no-repeat;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    background-position: center;
+    margin-left: 3px;
+   }
 
 .tabs-header-cell-close {
     margin: 0 8px;

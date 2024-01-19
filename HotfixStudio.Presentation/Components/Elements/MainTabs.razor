@@ -5,13 +5,9 @@
     <div class="tabs-header" @ondblclick="OnTabDoubleClick">
         @foreach (var tab in tabs)
         {
-            <div class="tabs-header-cell @GetTabClass(tab)" @onclick="(() => ChangeTab(tab))" @key="tab">
+            <div class="tabs-header-cell @GetTabClass(tab)" @onclick="(() => ChangeTab(tab))" @key="tab" style="@GetIconVariable(tab.IconName)">
                 <div class="tabs-header-cell-corner" />
-                <div class="tabs-header-cell-icon">
-                    @*
-                    <IconButton Base64IconString="@tab.Base64IconString" />
-                    *@
-                </div>
+                <div class="tabs-header-cell-icon" />
                 <div class="tabs-header-cell-label">
                     @tab.Label
                 </div>
@@ -76,7 +72,7 @@
         index = Math.Min(index, tabs.Count - 1);
         if (index >= 0)
             ChangeTab(tabs[index]);
-            else 
+        else 
             await TabIndexChanged.InvokeAsync(-1);
     }
 
@@ -88,6 +84,11 @@
             return "active";
         else
             return "";
+    }
+
+    string GetIconVariable(string iconName)
+    {
+        return $"--component-iteration-icon:url('images/icons/{iconName}.png'), url('images/icons/INV_Misc_QuestionMark.png');";
     }
 
     public void OpenTab(PageTab newTab)
