@@ -6,21 +6,45 @@ button {
     outline: none;
     box-shadow: none;
     height: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url('images/buttons/UI_SquareButton-Up.png');
+    background: url('images/buttons/UI-SquareButton-Up.png');
 }
 
     button:disabled {
-        background-image: url('images/buttons/UI_SquareButton-Disabled.png');
+        background: url('images/buttons/UI-SquareButton-Disabled.png');
     }
 
     button:active {
-        background-image: url('images/buttons/UI_SquareButton-Down.png');
+        background: url('images/buttons/UI-SquareButton-Down.png');
+    }
+
+        button:active span {
+            margin-left: 2px;
+            margin-top: 2px;
+        }
+
+    button span {
+        font-size: 18px;
+        align-self: center;
     }
 
 .button-symbol-component {
     width: 32px;
     height: 32px;
+    position: relative;
+}
+
+.button-symbol-component::before {
+    content: '';
+    position: absolute;
+    background-color: red;
+    top: 5px;
+    bottom: 5px;
+    left: 5px;
+    right: 4px;
+    border-radius: 4px;
+
 }

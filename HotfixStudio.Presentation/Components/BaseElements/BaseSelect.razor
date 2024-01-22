@@ -43,23 +43,15 @@
                 }
                 <div class="base-select-dropdown-controls">
                     <div class="controls-wrapper start @GetControlsClass()">
-                        <Button Size="ElementSize.COMPACT">
-                            <Icon IconName="done_all" />
-                        </Button>
-                        <Button Size="ElementSize.COMPACT">
-                            <Icon IconName="playlist_add" />
-                        </Button>
+                        <ButtonSymbol IconName="done_all" />
+                        <ButtonSymbol IconName="playlist_add" />
                     </div>
                     <div class="controls-wrapper @GetControlsClass(true)">
                         <BasePagination CurrentPageIndex="currentPageIndex" CurrentPageIndexChanged="PageChangedAsync" Size="ElementSize.COMPACT" TotalPages="@(optionResult?.TotalPages ?? 1)" />
                     </div>
                     <div class="controls-wrapper end @GetControlsClass()">
-                        <Button Size="ElementSize.COMPACT">
-                            <Icon IconName="remove_done" />
-                        </Button>
-                        <Button Size="ElementSize.COMPACT">
-                            <Icon IconName="playlist_remove" />
-                        </Button>
+                        <ButtonSymbol IconName="remove_done" />
+                        <ButtonSymbol IconName="playlist_remove" />
                     </div>
                 </div>
             </div>

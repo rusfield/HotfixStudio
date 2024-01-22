@@ -1,8 +1,11 @@
 ﻿<div class="button-symbol-component">
     <button>
-
+        <span class="text-highlight material-symbols">
+            @IconName
+        </span>
     </button>
 </div>
 @code {
-
+    [Parameter]
+    public string IconName { get; set; }
 }
