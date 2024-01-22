@@ -1,0 +1,26 @@
+button {
+    position: relative;
+    background: transparent;
+    color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('images/buttons/UI_SquareButton-Up.png');
+}
+
+    button:disabled {
+        background-image: url('images/buttons/UI_SquareButton-Disabled.png');
+    }
+
+    button:active {
+        background-image: url('images/buttons/UI_SquareButton-Down.png');
+    }
+
+.button-symbol-component {
+    width: 32px;
+    height: 32px;
+}
