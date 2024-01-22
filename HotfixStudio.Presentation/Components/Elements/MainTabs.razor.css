@@ -22,13 +22,14 @@
     cursor: pointer;
     border-right: 1px solid var(--color-background-light);
     flex-basis: var(--tab-width);
-    min-width: 0;
+    min-width: 80px;
     animation: growIn 0.2s ease forwards;
     transition: min-width ease 0.2s;
     background-color: var(--color-background);
     flex-direction: row;
     position: relative;
     box-sizing: border-box;
+    transform-origin: left;
 }
 
     .tabs-header-cell:hover {
@@ -45,6 +46,7 @@
         background-color: var(--color-background-dark);
         box-shadow: 0px 8px 0px 0px var(--color-background-dark);
         z-index: 2;
+        cursor: auto;
     }
 
         .tabs-header-cell.active::before {
@@ -96,20 +98,21 @@
         border-left: 1px solid var(--color-background-light);
     }
 
-        .tabs-header-cell.active > .tabs-header-cell-corner::after {
-            content: '';
-            width: var(--component-bar-scale);
-            height: var(--component-bar-scale);
-            background-image: url('images/border/border-bottomlefttop.png');
-            background-size: var(--component-bar-scale) var(--component-bar-scale);
-            position: absolute;
-            bottom: -14px;
-            right: -36px;
-        }
+    .tabs-header-cell.active > .tabs-header-cell-corner::after {
+        content: '';
+        width: var(--component-bar-scale);
+        height: var(--component-bar-scale);
+        background-image: url('images/border/border-bottomlefttop.png');
+        background-size: var(--component-bar-scale) var(--component-bar-scale);
+        position: absolute;
+        bottom: -14px;
+        right: -36px;
+    }
 
-        .tabs-header-cell.active:hover .tabs-header-cell-close {
-            display: block;
-        }
+    .tabs-header-cell.active:not(.closing):hover .tabs-header-cell-close {
+        display: block;
+        cursor: pointer;
+    }
 
     .tabs-header-cell.closing {
         animation: shrinkOut 0.2s ease forwards;
@@ -125,20 +128,25 @@
 }
 
 .tabs-header-cell-icon {
-    align-items: center;
-    justify-content: center;
     background-image: var(--component-iteration-icon);
     background-size: 80% 80%;
     background-repeat: no-repeat;
     height: 100%;
-    max-height: 46px;
+    max-height: 32px;
     aspect-ratio: 1 / 1;
     background-position: center;
     margin-left: 3px;
-   }
+}
 
 .tabs-header-cell-close {
-    margin: 0 8px;
+    height: 100%;
+    max-height: 32px;
+    aspect-ratio: 1 / 1;
+    background-image: url('images/misc/close.png');
+    background-size: 100% auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-right: 8px;
     display: none;
 }
 
@@ -173,20 +181,20 @@
 
 @keyframes growIn {
     from {
-        flex-basis: 0;
+        transform: scaleX(0);
     }
 
     to {
-        flex-basis: var(--tab-width);
+        transform: scaleX(100%);
     }
 }
 
 @keyframes shrinkOut {
     from {
-        flex-basis: var(--tab-width);
+        transform: scaleX(100%);
     }
 
     to {
-        flex-basis: 0;
+        transform: scaleX(0);
     }
 }
