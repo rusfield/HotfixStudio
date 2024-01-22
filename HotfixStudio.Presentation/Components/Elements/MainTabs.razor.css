@@ -67,7 +67,7 @@
             background-size: var(--component-bar-scale) var(--component-bar-scale);
             position: absolute;
             bottom: 0;
-            right: -36px;
+            right: -42px;
         }
 
 
@@ -105,7 +105,7 @@
         background-size: var(--component-bar-scale) var(--component-bar-scale);
         position: absolute;
         bottom: -14px;
-        right: -36px;
+        right: -42px;
     }
 
     .tabs-header-cell.active:not(.closing):hover .tabs-header-cell-close {
@@ -135,7 +135,7 @@
     max-height: 32px;
     aspect-ratio: 1 / 1;
     background-position: center;
-    margin-left: 3px;
+    margin-left: 9px;
     overflow: hidden;
 }
 
@@ -147,7 +147,6 @@
     background-size: 100% auto;
     background-position: center;
     background-repeat: no-repeat;
-    margin-right: 8px;
     display: none;
 }
 
@@ -203,7 +202,7 @@
 
     to {
         max-width: 0px;
-        flex-basis: 0;
+        flex-basis: 0px;
         min-width: 0px;
     }
 }
