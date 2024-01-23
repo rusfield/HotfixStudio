@@ -1,0 +1,146 @@
+.base-loader-component {
+    width: 64px;
+    height: 64px;
+    animation: sequence 2s linear infinite;
+}
+
+@keyframes sequence {
+    /* Blink */
+    0% {
+        background-image: url('images/loader/BattlenetWorking28.png');
+    }
+
+    3% {
+        background-image: url('images/loader/BattlenetWorking0.png');
+    }
+
+    6% {
+        background-image: url('images/loader/BattlenetWorking1.png');
+    }
+
+    9% {
+        background-image: url('images/loader/BattlenetWorking2.png');
+    }
+
+    12% {
+        background-image: url('images/loader/BattlenetWorking3.png');
+    }
+
+    15% {
+        background-image: url('images/loader/BattlenetWorking4.png');
+    }
+
+    18% {
+        background-image: url('images/loader/BattlenetWorking3.png');
+    }
+
+    21% {
+        background-image: url('images/loader/BattlenetWorking2.png');
+    }
+
+   24% {
+        background-image: url('images/loader/BattlenetWorking1.png');
+    }
+
+    27% {
+        background-image: url('images/loader/BattlenetWorking0.png');
+    }
+
+    30% {
+        background-image: url('images/loader/BattlenetWorking28.png');
+    }
+
+    35% {
+        background-image: url('images/loader/BattlenetWorking28.png');
+    }
+
+
+    /* Turn left */
+
+    38% {
+        background-image: url('images/loader/BattlenetWorking10.png');
+    }
+
+    41% {
+        background-image: url('images/loader/BattlenetWorking11.png');
+    }
+
+    44% {
+        background-image: url('images/loader/BattlenetWorking12.png');
+    }
+
+    47% {
+        background-image: url('images/loader/BattlenetWorking13.png');
+    }
+
+    50% {
+        background-image: url('images/loader/BattlenetWorking14.png');
+    }
+
+    53% {
+        background-image: url('images/loader/BattlenetWorking13.png');
+    }
+
+    56% {
+        background-image: url('images/loader/BattlenetWorking12.png');
+    }
+
+    59% {
+        background-image: url('images/loader/BattlenetWorking11.png');
+    }
+
+    62% {
+        background-image: url('images/loader/BattlenetWorking10.png');
+    }
+
+    65% {
+        background-image: url('images/loader/BattlenetWorking28.png');
+    }
+
+    /* Turn right */
+
+    68% {
+        background-image: url('images/loader/BattlenetWorking20.png');
+    }
+
+    71% {
+        background-image: url('images/loader/BattlenetWorking21.png');
+    }
+
+    74% {
+        background-image: url('images/loader/BattlenetWorking22.png');
+    }
+
+    77% {
+        background-image: url('images/loader/BattlenetWorking23.png');
+    }
+
+    80% {
+        background-image: url('images/loader/BattlenetWorking24.png');
+    }
+
+    83% {
+        background-image: url('images/loader/BattlenetWorking23.png');
+    }
+
+    86% {
+        background-image: url('images/loader/BattlenetWorking22.png');
+    }
+
+    89% {
+        background-image: url('images/loader/BattlenetWorking21.png');
+    }
+
+    92% {
+        background-image: url('images/loader/BattlenetWorking20.png');
+    }
+
+    /* End (1) */
+    95% {
+        background-image: url('images/loader/BattlenetWorking28.png');
+    }
+
+    100% {
+        background-image: url('images/loader/BattlenetWorking28.png');
+    }
+}

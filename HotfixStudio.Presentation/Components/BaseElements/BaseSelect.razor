@@ -12,7 +12,10 @@
                 @if (isLoading)
                 {
                     <div class="base-select-dropdown-message text">
-                        Loading
+                        <BaseLoader />
+                        <span>
+                            Looking for datas...
+                        </span>
                     </div>
                 }
                 else if (optionResult?.TotalRows > 0)
