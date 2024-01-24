@@ -7,9 +7,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--color-tertiary);
+    background: #7F0000;
+    border: solid 1px #EDC221;
+    border-radius: 2px;
 }
 
     ::-webkit-scrollbar-thumb:hover {
-        background: var(--color-tertiary-light);
     }

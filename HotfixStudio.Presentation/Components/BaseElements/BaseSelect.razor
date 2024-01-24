@@ -11,11 +11,8 @@
             <div class="base-select-dropdown-content">
                 @if (isLoading)
                 {
-                    <div class="base-select-dropdown-message text">
-                        <BaseLoader />
-                        <span>
-                            Looking for datas...
-                        </span>
+                    <div class="base-select-dropdown-message">
+                        <BaseLoader LoadingMessage="Looking for datas" />
                     </div>
                 }
                 else if (optionResult?.TotalRows > 0)

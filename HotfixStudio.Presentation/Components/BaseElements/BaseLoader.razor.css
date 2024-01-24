@@ -1,10 +1,48 @@
 .base-loader-component {
-    width: 64px;
-    height: 64px;
-    animation: sequence 2s linear infinite;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-@keyframes sequence {
+.loader-animation {
+    width: 64px;
+    height: 64px;
+    animation: imageSequence 2s linear infinite;
+}
+
+.loader-message {
+    text-align: center;
+    line-height: 32px;
+    position: relative;
+}
+
+    .loader-message::after {
+        content: '';
+        position: absolute;
+        left: 100%;
+        line-height: 32px;
+        animation: dotSequence 2s infinite;
+    }
+
+@keyframes dotSequence {
+    0%, 100% {
+        content: '   ';
+    }
+
+    25% {
+        content: '.  ';
+    }
+
+    50% {
+        content: '.. ';
+    }
+
+    75% {
+        content: '...';
+    }
+}
+
+@keyframes imageSequence {
     /* Blink */
     0% {
         background-image: url('images/loader/BattlenetWorking28.png');
@@ -38,7 +76,7 @@
         background-image: url('images/loader/BattlenetWorking2.png');
     }
 
-   24% {
+    24% {
         background-image: url('images/loader/BattlenetWorking1.png');
     }
 
@@ -53,8 +91,6 @@
     35% {
         background-image: url('images/loader/BattlenetWorking28.png');
     }
-
-
     /* Turn left */
 
     38% {
@@ -96,7 +132,6 @@
     65% {
         background-image: url('images/loader/BattlenetWorking28.png');
     }
-
     /* Turn right */
 
     68% {
@@ -134,7 +169,6 @@
     92% {
         background-image: url('images/loader/BattlenetWorking20.png');
     }
-
     /* End (1) */
     95% {
         background-image: url('images/loader/BattlenetWorking28.png');

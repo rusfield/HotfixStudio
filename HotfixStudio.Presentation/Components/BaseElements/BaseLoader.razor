@@ -1,7 +1,11 @@
 ﻿<div class="base-loader-component">
-
+    <div class="loader-animation" />
+    <div class="loader-message text">
+        @LoadingMessage
+    </div>
 </div>
 
 @code {
-
+    [Parameter]
+    public string LoadingMessage { get; set; } = "Loading";
 }

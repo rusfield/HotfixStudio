@@ -37,7 +37,7 @@
 
     async Task<OptionResult<int>> GetOptionsAsync(OptionSearch<int> optionSearch)
     {
-        await Task.Delay(20000, optionSearch.CancellationToken);
+        await Task.Delay(1000, optionSearch.CancellationToken);
 
         var result = new OptionResult<int>();
         result.Options.Add(1, "Apple");
