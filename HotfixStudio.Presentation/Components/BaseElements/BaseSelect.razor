@@ -22,6 +22,7 @@
                         {
                             string selectedClass = GetSelectedClass(option.Key);
                             <div class="base-select-dropdown-results-option @selectedClass" @onclick="(() => SelectValue(option))">
+                                <div class="base-select-dropdown-results-option-checkbox @selectedClass" />
                                 <div class="base-select-dropdown-results-option-label">
                                     @option.Value
                                 </div>

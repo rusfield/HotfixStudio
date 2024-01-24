@@ -59,6 +59,17 @@
     margin-right: 11px;
 }
 
+.base-select-dropdown-results-option-checkbox {
+    width: 16px;
+    height: 16px;
+    background: url('images/checkbox/UI-DropDownRadioChecks-unchecked.png');
+    margin: 0 4px;
+}
+
+    .base-select-dropdown-results-option-checkbox.selected {
+        background: url('images/checkbox/UI-DropDownRadioChecks-checked.png');
+    }
+
 .base-select-dropdown-results-option {
     padding: 5px 15px;
     display: flex;
@@ -124,16 +135,16 @@
         flex-grow: 0;
     }
 
-    ::deep .top-right,
-    ::deep .top, 
-    ::deep .top-left {
-        max-height: 0px;
-    }
+::deep .top-right,
+::deep .top,
+::deep .top-left {
+    max-height: 0px;
+}
 
-    ::deep .base-border-component > .content {
-        border-top: 0px solid rgba(0, 0, 0, 0);
-    }
+::deep .base-border-component > .content {
+    border-top: 0px solid rgba(0, 0, 0, 0);
+}
 
-    ::deep .base-drag-bar-component.horizontal.bottom {
-        bottom: 6px !important;
-    }
+::deep .base-drag-bar-component.horizontal.bottom {
+    bottom: 6px !important;
+}
