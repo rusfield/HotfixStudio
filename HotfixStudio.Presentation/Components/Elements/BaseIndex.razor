@@ -5,7 +5,7 @@
 @using System.Reflection
 
 <div class="base-index-component @GetAnimateResizeClass()" style="@GetSizeStyles()">
-
+    <Toaster @ref="toaster" />
     <div class="base-index-logo-top" @ondblclick="ResetSizes">
         Logo
     </div>
@@ -49,6 +49,8 @@
 
     MainTabs? mainTabs;
     int currentTabIndex = -1;
+
+    Toaster? toaster;
 
     List<MenuObject> menuObjects = new();
 
@@ -189,6 +191,7 @@
                 PageComponent = typeof(TestPage)
             };
         mainTabs?.OpenTab(newTab);
+        toaster?.DisplayToast("New tab opened", menuObjects[random].IconName);
     }
 
     void ToggleMenu()

@@ -1,0 +1,63 @@
+.toaster-component {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    right: 0;
+    z-index: 20;
+    --component-display-timer: 3s;
+}
+
+.toast {
+    background: url('images/toast/LFGDungeonToast.png');
+    width: 340px;
+    height: 72px;
+    display: flex;
+    justify-content: end;
+    animation: display var(--component-display-timer) linear forwards;
+    --component-iteration-icon: url('images/icons/INV_Misc_QuestionMark.png');
+}
+
+    .toast::before {
+        content: '';
+        background: var(--component-iteration-icon);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 48px 48px;
+        position: absolute;
+        height: 68px;
+        width: 72px;
+        top: 4px;
+        left: 0;
+        z-index: -1;
+    }
+
+.toast-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    width: 240px;
+    margin-right: 28px;
+}
+
+@keyframes display {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+
+    5% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

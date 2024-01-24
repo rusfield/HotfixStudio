@@ -1,0 +1,37 @@
+﻿<div class="toaster-component" style="">
+    @foreach(var toast in toasts)
+    {
+        <div @key="toast.Key" class="toast label" style="@GetIconVariable(toast.Value.Item2)">
+            <div class="toast-message">
+                @toast.Value.Item1
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    SortedDictionary<int, (string, string)> toasts = new();
+    int toastTimerInSeconds = 3;
+    int currentId = 0;
+
+    public async void DisplayToast(string message, string iconName)
+    {
+        var id = currentId++;
+        toasts.Add(id, (message, iconName));
+        this.StateHasChanged();
+        await Task.Delay(toastTimerInSeconds * 1000);
+        toasts.Remove(id);
+        this.StateHasChanged();
+    }
+
+
+    string GetIconVariable(string iconName)
+    {
+        return $"--component-iteration-icon:url('images/icons/{iconName}.png'), url('images/icons/INV_Misc_QuestionMark.png');";
+    }
+
+    string GetTimerVariable()
+    {
+        return $"--component-display-timer: {toastTimerInSeconds}s;";
+    }
+}
